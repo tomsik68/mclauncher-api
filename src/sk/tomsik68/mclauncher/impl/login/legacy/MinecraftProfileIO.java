@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.impl.login;
+package sk.tomsik68.mclauncher.impl.login.legacy;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import sk.tomsik68.mclauncher.api.login.IProfileEncryptionProcessor;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.IProfileIO;
-import sk.tomsik68.mclauncher.impl.login.legacy.MinecraftLoginEncryptionProcessor;
 
 public class MinecraftProfileIO implements IProfileIO {
     private IProfileEncryptionProcessor proc;

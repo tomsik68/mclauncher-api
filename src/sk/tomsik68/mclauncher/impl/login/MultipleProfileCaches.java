@@ -51,4 +51,11 @@ public class MultipleProfileCaches extends Observable<IProfile> implements IProf
         return null;
     }
 
+    @Override
+    public void startSearch() {
+        for (IProfileCache cache : activeCaches) {
+            cache.startSearch();
+        }
+    }
+
 }

@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.impl.login;
+package sk.tomsik68.mclauncher.impl.login.legacy;
 
 import sk.tomsik68.mclauncher.api.login.IProfile;
 
@@ -25,6 +25,11 @@ public class MinecraftProfile implements IProfile {
     @Override
     public boolean isRemember() {
         return pass.length() > 0;
+    }
+
+    @Override
+    public String getToken() {
+        return "";
     }
 
 }

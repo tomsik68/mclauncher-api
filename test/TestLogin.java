@@ -3,8 +3,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import sk.tomsik68.mclauncher.api.login.ISession;
-import sk.tomsik68.mclauncher.impl.login.MinecraftProfile;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyLoginService;
+import sk.tomsik68.mclauncher.impl.login.legacy.MinecraftProfile;
 
 
 public class TestLogin {
