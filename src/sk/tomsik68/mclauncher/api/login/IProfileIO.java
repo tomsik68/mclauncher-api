@@ -8,7 +8,7 @@ public interface IProfileIO {
 
     public void write(IProfile profile, OutputStream out) throws Exception;
 
-    public ILoginEncryptionProcessor getEncryptionProcessor();
+    public IProfileEncryptionProcessor getEncryptionProcessor();
 
-    public void setEncryptionProcessor(ILoginEncryptionProcessor proc);
+    public void setEncryptionProcessor(IProfileEncryptionProcessor proc);
 }

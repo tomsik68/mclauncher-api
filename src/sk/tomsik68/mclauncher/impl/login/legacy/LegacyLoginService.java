@@ -7,7 +7,7 @@ import sk.tomsik68.mclauncher.api.login.ISessionFactory;
 
 public class LegacyLoginService implements ILoginService {
     private final ISessionFactory factory;
-
+    private final String LEGACY_LOGIN_URL = "https://login.minecraft.net/";
     public LegacyLoginService() {
         factory = new MinecraftNETSessionFactory();
     }

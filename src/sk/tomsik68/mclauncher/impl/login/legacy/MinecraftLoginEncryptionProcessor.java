@@ -12,9 +12,9 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 
-import sk.tomsik68.mclauncher.api.login.ILoginEncryptionProcessor;
+import sk.tomsik68.mclauncher.api.login.IProfileEncryptionProcessor;
 
-public class MinecraftLoginEncryptionProcessor implements ILoginEncryptionProcessor {
+public class MinecraftLoginEncryptionProcessor implements IProfileEncryptionProcessor {
     private static final int MODE_ENCRYPT = 1;
     private static final int MODE_DECRYPT = 2;
 

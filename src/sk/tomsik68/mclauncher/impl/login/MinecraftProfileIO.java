@@ -5,13 +5,13 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import sk.tomsik68.mclauncher.api.login.ILoginEncryptionProcessor;
+import sk.tomsik68.mclauncher.api.login.IProfileEncryptionProcessor;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.IProfileIO;
 import sk.tomsik68.mclauncher.impl.login.legacy.MinecraftLoginEncryptionProcessor;
 
 public class MinecraftProfileIO implements IProfileIO {
-    private ILoginEncryptionProcessor proc;
+    private IProfileEncryptionProcessor proc;
 
     public MinecraftProfileIO() {
         proc = new MinecraftLoginEncryptionProcessor();
@@ -37,12 +37,12 @@ public class MinecraftProfileIO implements IProfileIO {
     }
 
     @Override
-    public ILoginEncryptionProcessor getEncryptionProcessor() {
+    public IProfileEncryptionProcessor getEncryptionProcessor() {
         return proc;
     }
 
     @Override
-    public void setEncryptionProcessor(ILoginEncryptionProcessor proc) {
+    public void setEncryptionProcessor(IProfileEncryptionProcessor proc) {
         this.proc = proc;
     }
 
