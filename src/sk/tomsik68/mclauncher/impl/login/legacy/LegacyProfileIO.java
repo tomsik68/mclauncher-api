@@ -9,11 +9,11 @@ import sk.tomsik68.mclauncher.api.login.IProfileEncryptionProcessor;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.IProfileIO;
 
-public class MinecraftProfileIO implements IProfileIO {
+public class LegacyProfileIO implements IProfileIO {
     private IProfileEncryptionProcessor proc;
 
-    public MinecraftProfileIO() {
-        proc = new MinecraftLoginEncryptionProcessor();
+    public LegacyProfileIO() {
+        proc = new LegacyLoginEncryptionProcessor();
     }
 
     @Override
@@ -23,7 +23,7 @@ public class MinecraftProfileIO implements IProfileIO {
         user = input.readUTF();
         pass = input.readUTF();
         input.close();
-        return new MinecraftProfile(user, pass);
+        return new LegacyProfile(user, pass);
     }
 
     @Override

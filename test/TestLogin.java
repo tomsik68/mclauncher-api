@@ -4,14 +4,14 @@ import org.junit.Test;
 
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyLoginService;
-import sk.tomsik68.mclauncher.impl.login.legacy.MinecraftProfile;
+import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
 
 
 public class TestLogin {
 
     @Test
     public void test() {
-        MinecraftProfile profile = new MinecraftProfile("Tomsik68@gmail.com", "mypassword");
+        LegacyProfile profile = new LegacyProfile("Tomsik68@gmail.com", "mypassword");
         LegacyLoginService lls = new LegacyLoginService();
         try {
             ISession session = lls.login(profile);

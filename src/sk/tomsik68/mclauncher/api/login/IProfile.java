@@ -5,7 +5,5 @@ public interface IProfile {
 
     public String getPassword();
 
-    public String getToken();
-
     public boolean isRemember();
 }

@@ -2,12 +2,12 @@ package sk.tomsik68.mclauncher.impl.login.legacy;
 
 import sk.tomsik68.mclauncher.api.login.IProfile;
 
-public class MinecraftProfile implements IProfile {
+public class LegacyProfile implements IProfile {
 
     private String pass;
     private String name;
 
-    public MinecraftProfile(String username, String password) {
+    public LegacyProfile(String username, String password) {
         name = username;
         pass = password;
     }
@@ -25,11 +25,6 @@ public class MinecraftProfile implements IProfile {
     @Override
     public boolean isRemember() {
         return pass.length() > 0;
-    }
-
-    @Override
-    public String getToken() {
-        return "";
     }
 
 }
