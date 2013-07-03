@@ -1,9 +1,14 @@
 package sk.tomsik68.mclauncher.api.login;
 
-import java.util.Map;
-
 public interface ISession {
-    public Object getParameter(String key);
+    public String getUsername();
 
-    public Map<String, Object> asMap();
+    public String getSessionID();
+
+    public String getUUID();
+
+    public String getDownloadTicket();
+
+    public String getLastVersion();
+
 }

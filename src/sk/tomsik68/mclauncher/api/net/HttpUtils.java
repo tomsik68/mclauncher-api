@@ -54,7 +54,7 @@ public class HttpUtils {
             }
         }
         DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
-        dos.writeBytes(URLEncoder.encode(parameters, "UTF-8"));
+        dos.writeBytes(parameters);
         dos.flush();
         dos.close();
 
