@@ -1,13 +1,14 @@
-package sk.tomsik68.mclauncher.impl.login.ygdrassil;
+package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
 import sk.tomsik68.mclauncher.api.login.ISession;
 
 public class YDSession implements ISession {
     private final String username, sessid, uuid;
     public YDSession(YDLoginResponse r){
-        username = r.getSelectedProfile();
+        username = r.getSelectedProfile().getName();
         sessid = r.getSessionID();
-        uuid = r.getSelectedProfile();
+        uuid = r.getSelectedProfile().getId();
+        
     }
     @Override
     public String getUsername() {
@@ -21,20 +22,17 @@ public class YDSession implements ISession {
 
     @Override
     public String getUUID() {
-        // TODO Auto-generated method stub
-        return null;
+        return uuid;
     }
 
     @Override
     public String getDownloadTicket() {
-        // TODO Auto-generated method stub
-        return null;
+        return "deprecated";
     }
 
     @Override
     public String getLastVersion() {
-        // TODO Auto-generated method stub
-        return null;
+        return "deprecated";
     }
 
 }

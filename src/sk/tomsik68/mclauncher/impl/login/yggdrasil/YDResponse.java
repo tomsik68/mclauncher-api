@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.impl.login.ygdrassil;
+package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
 import net.minidev.json.JSONObject;
 
@@ -6,8 +6,10 @@ public class YDResponse {
     private String error, message;
 
     public YDResponse(JSONObject json) {
-        setError(json.get("error").toString());
-        setMessage(json.get("errorMessage").toString());
+        if(json.containsKey("error"))
+            setError(json.get("error").toString());
+        if(json.containsKey("errorMessage"))
+            setMessage(json.get("errorMessage").toString());
     }
 
     public String getError() {

@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.impl.login.ygdrassil;
+package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
 import java.io.File;
 import java.io.FileReader;
@@ -15,12 +15,12 @@ import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.net.HttpUtils;
 import sk.tomsik68.mclauncher.api.services.IServicesAvailability;
-import sk.tomsik68.mclauncher.impl.login.legacy.LegacyLoginService;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
 
 public class YDLoginService implements ILoginService {
     private static UUID clientToken = UUID.randomUUID();
     private static String PASSWORD_LOGIN_URL = "https://authserver.mojang.com/authenticate";
+    private String SESSION_LOGIN_URL = "https://authserver.mojang.com/refresh";
 
     public YDLoginService() {
     }
@@ -40,10 +40,17 @@ public class YDLoginService implements ILoginService {
         return new YDSession(response);
     }
 
+    private YDLoginResponse doSessionLogin(IProfile profile) throws Exception {
+        YDSessionLoginRequest request = new YDSessionLoginRequest(profile.getPassword(), clientToken.toString());
+        String result = HttpUtils.doJSONPost(SESSION_LOGIN_URL, request);
+        YDLoginResponse response = new YDLoginResponse((JSONObject) JSONValue.parse(result));
+        return response;
+    }
+
     private YDLoginResponse doPasswordLogin(IProfile profile) throws Exception {
         YDPasswordLoginRequest request = new YDPasswordLoginRequest(profile.getName(), profile.getPassword(), clientToken.toString());
-        String result = HttpUtils.secureJSONPost(PASSWORD_LOGIN_URL, LegacyLoginService.class.getResourceAsStream("minecraft.key"), request);
-        YDLoginResponse response = new YDLoginResponse(JSONValue.parse(result));
+        String result = HttpUtils.doJSONPost(PASSWORD_LOGIN_URL, request);
+        YDLoginResponse response = new YDLoginResponse((JSONObject) JSONValue.parse(result));
         return response;
     }
 

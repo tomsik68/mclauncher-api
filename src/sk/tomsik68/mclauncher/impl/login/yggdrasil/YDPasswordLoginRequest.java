@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.impl.login.ygdrassil;
+package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
@@ -25,7 +25,7 @@ public class YDPasswordLoginRequest implements IJSONSerializable {
         obj.put("clientToken", token);
         obj.put("username", user);
         obj.put("password", pass);
-        return obj.toJSONString(JSONStyle.MAX_COMPRESS);
+        return obj.toJSONString(JSONStyle.NO_COMPRESS);
     }
 
 }

@@ -21,7 +21,7 @@ public class LegacyLoginService implements ILoginService {
     @Override
     public ISession login(IProfile profile) throws Exception {
         // create connection and retrieve the array which represents a session
-        String[] result = HttpUtils.securePost(LEGACY_LOGIN_URL, LegacyLoginService.class.getResourceAsStream("minecraft.key"), "user=" + URLEncoder.encode(profile.getName(), "UTF-8") + "&password=" + URLEncoder.encode(profile.getPassword(), "UTF-8") + "&version=13").split(":");
+        String[] result = HttpUtils.securePostWithKey(LEGACY_LOGIN_URL, LegacyLoginService.class.getResourceAsStream("minecraft.key"), "user=" + URLEncoder.encode(profile.getName(), "UTF-8") + "&password=" + URLEncoder.encode(profile.getPassword(), "UTF-8") + "&version=13").split(":");
         // create session from the array or throw an exception(use factory)
         return factory.createSession(result);
     }

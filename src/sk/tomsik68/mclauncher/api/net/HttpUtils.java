@@ -3,13 +3,17 @@ package sk.tomsik68.mclauncher.api.net;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
+import net.minidev.json.JSONObject;
+
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
+import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDSessionLoginRequest;
 
 import java.security.cert.Certificate;
 
@@ -29,11 +33,7 @@ public class HttpUtils {
         return response.toString();
     }
 
-    public static String secureJSONPost(String url, InputStream key, IJSONSerializable json) throws Exception {
-        return securePost(url, key, json.toJSON());
-    }
-
-    public static String securePost(String url, InputStream keyInput, String parameters) throws Exception {
+    public static String securePostWithKey(String url, InputStream keyInput, String parameters) throws Exception {
         URL u = new URL(url);
         HttpsURLConnection connection = (HttpsURLConnection) u.openConnection();
         connection.setRequestMethod("POST");
@@ -69,6 +69,42 @@ public class HttpUtils {
         br.close();
         connection.disconnect();
         return response.toString();
+    }
+
+    public static String doJSONPost(String url, IJSONSerializable request) throws Exception {
+        URL u = new URL(url);
+        String json = request.toJSON();
+        System.out.println("Request: "+json);
+        byte[] bytes = json.getBytes();
+
+        HttpURLConnection connection = (HttpURLConnection) u.openConnection();
+        connection.setConnectTimeout(15000);
+        connection.setReadTimeout(15000);
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+
+        connection.setRequestProperty("Content-Length", "" + bytes.length);
+        connection.setRequestProperty("Content-Language", "en-US");
+
+        connection.setUseCaches(false);
+        connection.setDoInput(true);
+        connection.setDoOutput(true);
+
+        DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
+        dos.write(bytes);
+        dos.flush();
+        dos.close();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String line;
+        StringBuilder result = new StringBuilder();
+        while ((line = br.readLine()) != null) {
+            result = result.append(line).append('\r');
+        }
+        br.close();
+        connection.disconnect();
+        System.out.println("Response: "+result.toString());
+        return result.toString();
     }
 
 }
