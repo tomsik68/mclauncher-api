@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.impl.login.legacy;
+package sk.tomsik68.mclauncher.impl.login.legacy.io;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,9 +12,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 
-import sk.tomsik68.mclauncher.api.login.IProfileEncryptionProcessor;
-
-public class LegacyLoginEncryptionProcessor implements IProfileEncryptionProcessor {
+public class LegacyLoginEncryptionProcessor {
     private static final int MODE_ENCRYPT = 1;
     private static final int MODE_DECRYPT = 2;
 
@@ -31,7 +29,6 @@ public class LegacyLoginEncryptionProcessor implements IProfileEncryptionProcess
         return cipher;
     }
 
-    @Override
     public InputStream decrypt(InputStream is) throws Exception {
         Cipher cipher = getCipher(MODE_DECRYPT);
         if (cipher == null)
@@ -40,7 +37,6 @@ public class LegacyLoginEncryptionProcessor implements IProfileEncryptionProcess
             return new CipherInputStream(is, cipher);
     }
 
-    @Override
     public OutputStream encrypt(OutputStream os) throws Exception {
         Cipher cipher = getCipher(MODE_ENCRYPT);
         if (cipher == null)

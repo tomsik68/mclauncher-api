@@ -11,6 +11,7 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 import net.minidev.json.JSONObject;
+import net.minidev.json.JSONStyle;
 
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDSessionLoginRequest;
@@ -73,7 +74,7 @@ public class HttpUtils {
 
     public static String doJSONPost(String url, IJSONSerializable request) throws Exception {
         URL u = new URL(url);
-        String json = request.toJSON();
+        String json = request.toJSON().toJSONString(JSONStyle.LT_COMPRESS);
         System.out.println("Request: "+json);
         byte[] bytes = json.getBytes();
 

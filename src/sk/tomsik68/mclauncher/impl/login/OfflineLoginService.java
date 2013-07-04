@@ -1,5 +1,7 @@
 package sk.tomsik68.mclauncher.impl.login;
 
+import java.io.File;
+
 import sk.tomsik68.mclauncher.api.common.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.ILoginService;
 import sk.tomsik68.mclauncher.api.login.IProfile;
@@ -24,11 +26,15 @@ public class OfflineLoginService implements ILoginService {
     }
 
     @Override
-    public void save(IMinecraftInstance mc) {
+    public void save(File mcInstance) throws Exception {
+        // TODO Auto-generated method stub
+        
     }
 
     @Override
-    public void load(IMinecraftInstance mc) {
+    public void load(File mcInstance) throws Exception {
+        // TODO Auto-generated method stub
+        
     }
 
 }

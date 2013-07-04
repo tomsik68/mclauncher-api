@@ -1,7 +1,6 @@
 package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
 import net.minidev.json.JSONObject;
-import net.minidev.json.JSONStyle;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 
 public class YDPartialGameProfile implements IJSONSerializable {
@@ -24,12 +23,7 @@ public class YDPartialGameProfile implements IJSONSerializable {
         return id;
     }
 
-    @Override
-    public String toJSON() {
-        return toJSONObject().toJSONString(JSONStyle.MAX_COMPRESS);
-    }
-
-    public JSONObject toJSONObject() {
+    public JSONObject toJSON() {
         JSONObject obj = new JSONObject();
         obj.put("id", id);
         obj.put("name", name);

@@ -19,13 +19,13 @@ public class YDPasswordLoginRequest implements IJSONSerializable {
     }
 
     @Override
-    public String toJSON() {
+    public JSONObject toJSON() {
         JSONObject obj = new JSONObject();
         obj.put("agent", agentObj);
         obj.put("clientToken", token);
         obj.put("username", user);
         obj.put("password", pass);
-        return obj.toJSONString(JSONStyle.NO_COMPRESS);
+        return obj;
     }
 
 }

@@ -1,5 +1,6 @@
 package sk.tomsik68.mclauncher.impl.login.legacy;
 
+import java.io.File;
 import java.net.URLEncoder;
 
 import sk.tomsik68.mclauncher.api.common.IMinecraftInstance;
@@ -36,12 +37,17 @@ public class LegacyLoginService implements ILoginService {
         return availability.isServiceAvailable("login.minecraft.net");
     }
 
+
     @Override
-    public void save(IMinecraftInstance mc) {
+    public void save(File mcInstance) throws Exception {
+        // TODO Auto-generated method stub
+        
     }
 
     @Override
-    public void load(IMinecraftInstance mc) {
+    public void load(File mcInstance) throws Exception {
+        // TODO Auto-generated method stub
+        
     }
 
 }

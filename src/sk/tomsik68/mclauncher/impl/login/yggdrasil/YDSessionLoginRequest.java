@@ -13,12 +13,12 @@ public class YDSessionLoginRequest implements IJSONSerializable {
     }
 
     @Override
-    public String toJSON() {
+    public JSONObject toJSON() {
         JSONObject json = new JSONObject();
         json.put("clientToken", clientToken);
         json.put("accessToken", sessionID);
         json.put("selectedProfile", null);
-        return json.toJSONString(JSONStyle.LT_COMPRESS);
+        return json;
     }
 
 }
