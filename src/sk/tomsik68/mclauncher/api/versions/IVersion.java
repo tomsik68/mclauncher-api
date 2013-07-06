@@ -4,8 +4,10 @@ public interface IVersion extends Comparable<IVersion> {
     public String getDisplayName();
 
     public String getId();
-    
+
+    public String getUniqueID();
+
     public <V extends IVersion> IVersionInstaller<V> getInstaller();
-    
+
     public <V extends IVersion> IVersionLauncher<V> getLauncher();
 }

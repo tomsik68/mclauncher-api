@@ -2,7 +2,6 @@ package sk.tomsik68.mclauncher.impl.login;
 
 import java.io.File;
 
-import sk.tomsik68.mclauncher.api.common.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.ILoginService;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
