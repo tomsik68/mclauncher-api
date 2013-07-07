@@ -7,6 +7,7 @@ import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
 public class MCAssetsVersion implements IVersion {
     private final String id;
     private static final MCAssetsVersionInstaller installer = new MCAssetsVersionInstaller();
+    private static final MCAssetsVersionLauncher launcher = new MCAssetsVersionLauncher();
     public MCAssetsVersion(String vid) {
         id = vid;
     }
@@ -31,15 +32,14 @@ public class MCAssetsVersion implements IVersion {
         return getId();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public IVersionInstaller<? extends IVersion> getInstaller() {
         return installer;
     }
 
     @Override
-    public <V extends IVersion> IVersionLauncher<V> getLauncher() {
-        return null;
+    public IVersionLauncher<? extends IVersion> getLauncher() {
+        return launcher;
     }
 
 }

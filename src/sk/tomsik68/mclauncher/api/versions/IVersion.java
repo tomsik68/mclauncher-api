@@ -7,7 +7,7 @@ public interface IVersion extends Comparable<IVersion> {
 
     public String getUniqueID();
 
-    public <V extends IVersion> IVersionInstaller<V> getInstaller();
+    public IVersionInstaller<? extends IVersion> getInstaller();
 
-    public <V extends IVersion> IVersionLauncher<V> getLauncher();
+    public IVersionLauncher<? extends IVersion> getLauncher();
 }

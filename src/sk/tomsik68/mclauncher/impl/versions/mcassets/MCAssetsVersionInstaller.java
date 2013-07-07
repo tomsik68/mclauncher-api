@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import sk.tomsik68.mclauncher.api.common.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.net.FileDownload;
-import sk.tomsik68.mclauncher.api.services.EServiceType;
-import sk.tomsik68.mclauncher.api.services.IJarProvider;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstallListener;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;
@@ -20,11 +18,12 @@ public class MCAssetsVersionInstaller implements IVersionInstaller<MCAssetsVersi
     @Override
     public void install(MCAssetsVersion version, IMinecraftInstance mc, IProgressMonitor progress) throws Exception {
         String url = getVersionURL(version.getId());
-        ((IJarProvider) mc.getService(EServiceType.JAR_PROVIDER)).prepareVersionInstallation(version);
-        FileDownload.downloadFileWithProgress(url, ((IJarProvider) mc.getService(EServiceType.JAR_PROVIDER)).getVersionLocation(version.getUniqueID()), progress);
+        mc.getJarProvider().prepareVersionInstallation(version);
+        FileDownload.downloadFileWithProgress(url, mc.getJarProvider().getVersionFile(version.getUniqueID()), progress);
         for (IVersionInstallListener listener : listeners) {
             listener.versionInstalled(version);
         }
+        // TODO install LWJGL if not installed
     }
 
     private String getVersionURL(String id) {
