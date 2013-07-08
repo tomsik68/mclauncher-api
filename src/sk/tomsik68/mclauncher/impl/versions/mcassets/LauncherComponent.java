@@ -89,7 +89,7 @@ public class LauncherComponent extends Applet implements AppletStub {
 
             this.model.addRow(new Object[] { name, "" });
         }
-        return "";
+        return null;
     }
 
     public void setParameter(String k, String v) {

@@ -29,11 +29,9 @@ public class TestMCAssetsLaunch {
         final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
         MCAssetsVersionList list = new MCAssetsVersionList();
         list.addObserver(new IObserver<IVersion>() {
-            private boolean launched = false;
             @Override
             public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
-                if(!launched){
-                    launched = true;
+                if(changed.getId().equalsIgnoreCase("1_5_2")){
                     IProfile profile = new LegacyProfile("Tomsik68@gmail.com", "blahblahblah");
                     LegacyLoginService lls = new LegacyLoginService();
                     ISession session = null;

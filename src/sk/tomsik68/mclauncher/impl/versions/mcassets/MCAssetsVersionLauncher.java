@@ -40,9 +40,13 @@ public class MCAssetsVersionLauncher implements IVersionLauncher<MCAssetsVersion
         command.add(mc.getJarProvider().getVersionFile(version.getUniqueID()).getPath());
         File[] files = mc.getLibraryProvider().getDefaultLWJGLJars();
         command.add("-lib");
+        StringBuilder sb = new StringBuilder();
         for(File file : files){
-            command.add(file.getPath());
+            sb = sb.append(file.getPath()).append(';');
         }
+        if(sb.length() > 0)
+            sb = sb.deleteCharAt(sb.length()-1);
+        command.add(sb.toString());    
         if(settings.getCustomParameters() != null && settings.getCustomParameters().size() > 0){
             JSONObject params = new JSONObject(settings.getCustomParameters());
             command.add("-args");
