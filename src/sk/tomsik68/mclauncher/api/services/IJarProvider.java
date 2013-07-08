@@ -10,5 +10,5 @@ public interface IJarProvider extends IService {
 
     public void prepareVersionInstallation(IVersion version);
 
-    public File getNativesDirectory();
+    public File getBinFolder();
 }

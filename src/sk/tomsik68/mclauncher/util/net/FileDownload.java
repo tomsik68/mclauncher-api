@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.api.net;
+package sk.tomsik68.mclauncher.util.net;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -12,6 +12,7 @@ import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 public class FileDownload {
 
     public static void downloadFileWithProgress(String url, File dest, IProgressMonitor progress) throws Exception {
+        System.out.println("Downloading "+url);
         if (!dest.exists())
             dest.createNewFile();
 
@@ -26,17 +27,22 @@ public class FileDownload {
         progress.setMax(len);
 
         int readBytes = 0;
-        byte[] block = new byte[8192];
+        byte[] block;
 
         while (readBytes < len) {
+            block = new byte[8192];
             int readNow = in.read(block);
-            out.write(block, 0, readNow);
+            if (readNow > 0)
+                out.write(block, 0, readNow);
+
             progress.setProgress(readBytes);
+            readBytes += readNow;
         }
         out.flush();
         out.close();
         in.close();
         progress.finish();
+        System.out.println("Download finished.");
     }
 
 }

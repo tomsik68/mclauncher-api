@@ -19,7 +19,7 @@ public class Macintosh implements IOperatingSystem {
 
     @Override
     public boolean isCurrent() {
-        return System.getProperty("os.name").contains("mac");
+        return System.getProperty("os.name").toLowerCase().contains("mac");
     }
 
     @Override

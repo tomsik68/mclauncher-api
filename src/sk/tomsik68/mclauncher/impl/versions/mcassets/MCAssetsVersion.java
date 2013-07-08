@@ -19,7 +19,10 @@ public class MCAssetsVersion implements IVersion {
 
     @Override
     public String getDisplayName() {
-        return getId();
+        String type = "release";
+        if(MCAssetsVersionList.isSnapshot(this))
+            type = "snapshot";
+        return type.concat(" ").concat(getId());
     }
 
     @Override

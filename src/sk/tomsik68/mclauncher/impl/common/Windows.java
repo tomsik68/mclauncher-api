@@ -19,7 +19,7 @@ public class Windows implements IOperatingSystem {
 
     @Override
     public boolean isCurrent() {
-        return System.getProperty("os.name").contains("win");
+        return System.getProperty("os.name").toLowerCase().contains("win");
     }
 
     @Override

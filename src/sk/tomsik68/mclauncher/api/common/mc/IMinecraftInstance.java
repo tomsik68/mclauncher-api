@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.api.common;
+package sk.tomsik68.mclauncher.api.common.mc;
 
 import java.io.File;
 

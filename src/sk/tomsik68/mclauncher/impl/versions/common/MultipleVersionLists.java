@@ -18,7 +18,7 @@ public class MultipleVersionLists extends Observable<IVersion> implements IVersi
         }
     }
     @Override
-    public void startDownload() {
+    public void startDownload() throws Exception {
         for(IVersionList list : versionLists){
             list.startDownload();
         }

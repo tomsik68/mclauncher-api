@@ -3,13 +3,13 @@ package sk.tomsik68.mclauncher.impl.login.legacy;
 import java.io.File;
 import java.net.URLEncoder;
 
-import sk.tomsik68.mclauncher.api.common.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.ILoginService;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.login.ISessionFactory;
-import sk.tomsik68.mclauncher.api.net.HttpUtils;
 import sk.tomsik68.mclauncher.api.services.IServicesAvailability;
+import sk.tomsik68.mclauncher.util.net.HttpUtils;
 
 public class LegacyLoginService implements ILoginService {
     private final ISessionFactory factory;

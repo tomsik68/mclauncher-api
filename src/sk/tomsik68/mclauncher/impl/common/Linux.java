@@ -19,7 +19,7 @@ public class Linux implements IOperatingSystem {
 
     @Override
     public boolean isCurrent() {
-        String os = System.getProperty("os.name");
+        String os = System.getProperty("os.name").toLowerCase();
         return os.contains("unix") || os.contains("linux");
     }
 

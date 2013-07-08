@@ -19,6 +19,9 @@ import joptsimple.OptionSet;
 
 public class Relauncher {
     public static void main(String[] args) {
+        for(String s : args){
+            System.out.print(s+",");
+        }
         try {
             OptionParser parser = new OptionParser();
             ArgumentAcceptingOptionSpec<String> userNameOption = parser.acceptsAll(Arrays.asList("un", "user-name")).withRequiredArg().ofType(String.class).required();

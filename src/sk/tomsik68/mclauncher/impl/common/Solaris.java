@@ -19,7 +19,7 @@ public class Solaris implements IOperatingSystem {
 
     @Override
     public boolean isCurrent() {
-        String osName = System.getProperty("os.name");
+        String osName = System.getProperty("os.name").toLowerCase();
         return osName.contains("solaris") || osName.contains("sunos");
     }
 
