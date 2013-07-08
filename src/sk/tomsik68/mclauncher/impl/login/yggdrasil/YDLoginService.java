@@ -14,7 +14,7 @@ import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.services.IServicesAvailability;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
-import sk.tomsik68.mclauncher.util.net.HttpUtils;
+import sk.tomsik68.mclauncher.util.HttpUtils;
 
 public class YDLoginService implements ILoginService {
     private static UUID clientToken = UUID.randomUUID();

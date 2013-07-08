@@ -114,6 +114,7 @@ public class Relauncher {
             for(File lib : libraries){
                 loader.addJAR(lib.toURI().toURL());
             }
+            // TODO argument for natives directory. This is ugly. 
             System.setProperty("org.lwjgl.librarypath", new File(gameDir,"bin"+File.separator+"natives").getAbsolutePath());
             System.setProperty("net.java.games.input.librarypath", new File(gameDir,"bin"+File.separator+"natives").getAbsolutePath());
             LauncherComponent launcher = new LauncherComponent(loader);

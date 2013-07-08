@@ -4,7 +4,7 @@ import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
 
 public class Platform {
     private final static IOperatingSystem[] oss = new IOperatingSystem[] { new Linux(), new Solaris(), new Windows(), new Macintosh() };
-    private static IOperatingSystem currentOS;
+    private static IOperatingSystem currentOS = null;
 
     public static IOperatingSystem getCurrentPlatform() {
         if (currentOS != null)

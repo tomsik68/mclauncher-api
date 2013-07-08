@@ -31,7 +31,7 @@ public class TestMCAssetsLaunch {
         list.addObserver(new IObserver<IVersion>() {
             @Override
             public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
-                if(changed.getId().equalsIgnoreCase("1_5_2")){
+                if(changed.getId().equalsIgnoreCase("11w47a")){
                     IProfile profile = new LegacyProfile("Tomsik68@gmail.com", "blahblahblah");
                     LegacyLoginService lls = new LegacyLoginService();
                     ISession session = null;

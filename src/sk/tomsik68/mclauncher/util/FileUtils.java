@@ -1,15 +1,17 @@
-package sk.tomsik68.mclauncher.util.net;
+package sk.tomsik68.mclauncher.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 
-public class FileDownload {
+public class FileUtils {
 
     public static void downloadFileWithProgress(String url, File dest, IProgressMonitor progress) throws Exception {
         System.out.println("Downloading "+url);
@@ -43,6 +45,26 @@ public class FileDownload {
         in.close();
         progress.finish();
         System.out.println("Download finished.");
+    }
+
+    public static void copyFile(File from, File to) throws Exception {
+        System.out.println(from.getPath()+" ---> "+to.getPath());
+        if(!to.exists()){
+            to.mkdirs();
+            to.delete();
+            to.createNewFile();
+        }
+        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(from));
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(to));
+        byte[] block;
+        while(bis.available() > 0){
+            block = new byte[8192];
+            final int readNow = bis.read(block);
+            bos.write(block, 0, readNow);
+        }
+        bos.flush();
+        bos.close();
+        bis.close();
     }
 
 }

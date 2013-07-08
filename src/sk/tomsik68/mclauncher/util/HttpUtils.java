@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.util.net;
+package sk.tomsik68.mclauncher.util;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;

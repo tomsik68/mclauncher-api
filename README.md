@@ -9,9 +9,4 @@ Adds compatibility with offline mode, newer &amp; older versions of minecraft. C
 + Create an up-to-date wiki full of minecraft launcher system documentation
 
 ## License ##
-+ You can redistribute the launcher, but you have to credit the original author and link to this page.
-+ You can't use any services that pay you for link clicks(such as adfly) to redirect people this page or the launcher download.
-+ You can use source code or its parts in your own projects as long as your projects are free(don't have to be open-source) and you give credit to the original author of the source.
-+ Commercial usage of the source code without author's permission is strictly forbidden.
-+ Author doesn't take any responsibility for device damage after installing the software.
-+ Author doesn't guarantee virus-free redistributed binaries. If you want virus-free, compile it yourself or download an official binary from releases section.
+This project is under CC BY-NC-SA License v3.0. Details can be found here: http://creativecommons.org/licenses/by-nc-sa/3.0/

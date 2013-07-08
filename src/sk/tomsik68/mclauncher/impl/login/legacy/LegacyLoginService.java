@@ -9,7 +9,7 @@ import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.login.ISessionFactory;
 import sk.tomsik68.mclauncher.api.services.IServicesAvailability;
-import sk.tomsik68.mclauncher.util.net.HttpUtils;
+import sk.tomsik68.mclauncher.util.HttpUtils;
 
 public class LegacyLoginService implements ILoginService {
     private final ISessionFactory factory;
