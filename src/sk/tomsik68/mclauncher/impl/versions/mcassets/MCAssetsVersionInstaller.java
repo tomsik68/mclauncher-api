@@ -1,17 +1,13 @@
 package sk.tomsik68.mclauncher.impl.versions.mcassets;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URLEncoder;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
-
 import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstallListener;
@@ -23,7 +19,8 @@ import sk.tomsik68.mclauncher.util.FileUtils;
 public class MCAssetsVersionInstaller implements IVersionInstaller<MCAssetsVersion> {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
     private static final String LWJGL_DOWNLOAD_URL = "http://kent.dl.sourceforge.net/project/java-game-lib/Official%20Releases/LWJGL%202.9.0/lwjgl-2.9.0.zip";
-
+    private static final String RESOURCES_DOWNLOAD_URL = "http://s3.amazonaws.com/MinecraftResources/";
+    
     public MCAssetsVersionInstaller() {
 
     }
@@ -52,18 +49,19 @@ public class MCAssetsVersionInstaller implements IVersionInstaller<MCAssetsVersi
     }
 
     private void updateResources(File mcLocation, IProgressMonitor progress) throws Exception {
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse("http://s3.amazonaws.com/MinecraftDownload/");
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(RESOURCES_DOWNLOAD_URL);
         for (int i = 0; i < doc.getElementsByTagName("ListBucketResult").item(0).getChildNodes().getLength(); i++) {
             Node node = doc.getElementsByTagName("ListBucketResult").item(0).getChildNodes().item(i);
             if ((node != null) && ("Contents".equalsIgnoreCase(node.getNodeName())) && (node.getChildNodes().getLength() > 0))
-                if (("Key".equals(node.getFirstChild().getNodeName())) && (node.getFirstChild().getTextContent().contains("resources/"))) {
+                if (("Key".equals(node.getFirstChild().getNodeName()))) {
                     String toDL = node.getFirstChild().getTextContent();
-                    File dest = new File(mcLocation, toDL.replace('/', File.separatorChar));
+                    System.out.println(toDL);
+                    File dest = new File(mcLocation, "resources"+File.separator+toDL.replace('/', File.separatorChar));
                     if (!dest.exists()) {
                         dest.mkdirs();
                         if (!toDL.endsWith("/")) {
                             dest.delete();
-                            FileUtils.downloadFileWithProgress("http://s3.amazonaws.com/MinecraftDownload/" + toDL.replace(" ", "%20"), dest, progress);
+                            FileUtils.downloadFileWithProgress(RESOURCES_DOWNLOAD_URL + toDL.replace(" ", "%20"), dest, progress);
                         }
                     }
                 }
