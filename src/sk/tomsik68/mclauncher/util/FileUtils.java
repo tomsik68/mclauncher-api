@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -14,7 +13,7 @@ import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 public class FileUtils {
 
     public static void downloadFileWithProgress(String url, File dest, IProgressMonitor progress) throws Exception {
-        System.out.println("Downloading "+url);
+        //System.out.println("Downloading "+url);
         if (!dest.exists())
             dest.createNewFile();
 
@@ -44,11 +43,11 @@ public class FileUtils {
         out.close();
         in.close();
         progress.finish();
-        System.out.println("Download finished.");
+        //System.out.println("Download finished.");
     }
 
     public static void copyFile(File from, File to) throws Exception {
-        System.out.println(from.getPath()+" ---> "+to.getPath());
+        //System.out.println(from.getPath()+" ---> "+to.getPath());
         if(!to.exists()){
             to.mkdirs();
             to.delete();

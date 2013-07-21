@@ -55,7 +55,6 @@ public class MCAssetsVersionInstaller implements IVersionInstaller<MCAssetsVersi
             if ((node != null) && ("Contents".equalsIgnoreCase(node.getNodeName())) && (node.getChildNodes().getLength() > 0))
                 if (("Key".equals(node.getFirstChild().getNodeName()))) {
                     String toDL = node.getFirstChild().getTextContent();
-                    System.out.println(toDL);
                     File dest = new File(mcLocation, "resources"+File.separator+toDL.replace('/', File.separatorChar));
                     if (!dest.exists()) {
                         dest.mkdirs();

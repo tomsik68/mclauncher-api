@@ -71,7 +71,6 @@ public class HttpUtils {
     public static String doJSONPost(String url, IJSONSerializable request) throws Exception {
         URL u = new URL(url);
         String json = request.toJSON().toJSONString(JSONStyle.LT_COMPRESS);
-        System.out.println("Request: "+json);
         byte[] bytes = json.getBytes();
 
         HttpURLConnection connection = (HttpURLConnection) u.openConnection();
@@ -100,7 +99,6 @@ public class HttpUtils {
         }
         br.close();
         connection.disconnect();
-        System.out.println("Response: "+result.toString());
         return result.toString();
     }
 

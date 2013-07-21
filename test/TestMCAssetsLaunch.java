@@ -83,7 +83,7 @@ public class TestMCAssetsLaunch {
                         });
                         BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
                         String line;
-                        while(true){
+                        while(isProcessAlive(proc)){
                             line = br.readLine();
                             if(line != null && line.length() > 0)
                                 System.out.println(line);
@@ -100,6 +100,15 @@ public class TestMCAssetsLaunch {
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
+        }
+    }
+
+    protected boolean isProcessAlive(Process proc) {
+        try{
+            proc.exitValue();
+            return true;
+        }catch(Exception e){
+            return false;
         }
     }
 
