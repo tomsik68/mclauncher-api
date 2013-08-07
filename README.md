@@ -1,11 +1,12 @@
-Tomsik68's Custom Minecraft Launcher
+Tomsik68's MCLauncher-API
 =================
 
-Adds compatibility with offline mode, newer &amp; older versions of minecraft. Currently it can only run older versions. Compatibility with new system incoming...
+An API for custom minecraft launchers which is aimed to be easy to work with.
 
 =================
 ## Aim of the project ##
-+ Create a functional minecraft launcher
++ Make people able to create custom minecraft launchers with ease.
++ Create a functional framework that interacts with minecraft & services around it
 + Create an up-to-date wiki full of minecraft launcher system documentation
 
 ## License ##
