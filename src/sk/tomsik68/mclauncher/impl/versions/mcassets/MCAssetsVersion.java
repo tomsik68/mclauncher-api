@@ -8,6 +8,7 @@ public class MCAssetsVersion implements IVersion {
     private final String id;
     private static final MCAssetsVersionInstaller installer = new MCAssetsVersionInstaller();
     private static final MCAssetsVersionLauncher launcher = new MCAssetsVersionLauncher();
+
     public MCAssetsVersion(String vid) {
         id = vid;
     }
@@ -20,7 +21,7 @@ public class MCAssetsVersion implements IVersion {
     @Override
     public String getDisplayName() {
         String type = "release";
-        if(MCAssetsVersionList.isSnapshot(this))
+        if (MCAssetsVersionList.isSnapshot(this))
             type = "snapshot";
         return type.concat(" ").concat(getId());
     }
@@ -36,13 +37,23 @@ public class MCAssetsVersion implements IVersion {
     }
 
     @Override
-    public IVersionInstaller<? extends IVersion> getInstaller() {
+    public IVersionInstaller getInstaller() {
         return installer;
     }
 
     @Override
-    public IVersionLauncher<? extends IVersion> getLauncher() {
+    public IVersionLauncher getLauncher() {
         return launcher;
+    }
+
+    @Override
+    public boolean isCompatible() {
+        return true;
+    }
+
+    @Override
+    public String getIncompatibilityReason() {
+        return null;
     }
 
 }

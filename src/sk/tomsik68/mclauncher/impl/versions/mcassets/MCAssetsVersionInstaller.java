@@ -1,8 +1,6 @@
 package sk.tomsik68.mclauncher.impl.versions.mcassets;
 
 import java.io.File;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,13 +8,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
+import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstallListener;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;
 import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.util.ExtractUtils;
 import sk.tomsik68.mclauncher.util.FileUtils;
 
-public class MCAssetsVersionInstaller implements IVersionInstaller<MCAssetsVersion> {
+public class MCAssetsVersionInstaller implements IVersionInstaller {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
     private static final String LWJGL_DOWNLOAD_URL = "http://kent.dl.sourceforge.net/project/java-game-lib/Official%20Releases/LWJGL%202.9.0/lwjgl-2.9.0.zip";
     private static final String RESOURCES_DOWNLOAD_URL = "http://s3.amazonaws.com/MinecraftResources/";
@@ -26,7 +25,7 @@ public class MCAssetsVersionInstaller implements IVersionInstaller<MCAssetsVersi
     }
 
     @Override
-    public void install(MCAssetsVersion version, IMinecraftInstance mc, IProgressMonitor progress) throws Exception {
+    public void install(IVersion version, IMinecraftInstance mc, IProgressMonitor progress) throws Exception {
         String url = getVersionURL(version.getId());
         mc.getJarProvider().prepareVersionInstallation(version);
         if (!mc.getJarProvider().getVersionFile(version.getUniqueID()).exists())

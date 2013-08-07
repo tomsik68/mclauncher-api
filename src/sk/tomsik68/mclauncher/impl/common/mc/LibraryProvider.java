@@ -4,6 +4,7 @@ import java.io.File;
 
 import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.services.ILibraryProvider;
+import sk.tomsik68.mclauncher.impl.versions.mcdownload.Library;
 
 public class LibraryProvider implements ILibraryProvider {
     private final File libsFolder, binFolder, natives;
@@ -11,7 +12,7 @@ public class LibraryProvider implements ILibraryProvider {
     public LibraryProvider(IMinecraftInstance mc) {
         binFolder = mc.getJarProvider().getBinFolder();
         libsFolder = new File(mc.getLocation(), "libraries");
-        natives = new File(binFolder,"natives");
+        natives = new File(binFolder, "natives");
     }
 
     @Override
@@ -25,14 +26,24 @@ public class LibraryProvider implements ILibraryProvider {
     }
 
     @Override
-    public File getLibrary(String name) {
-        // TODO
-        return null;
+    public File getLibrary(Library library) {
+        String path = library.getPath();
+        return new File(libsFolder,path);
     }
 
     @Override
     public File getNativesDirectory() {
         return natives;
+    }
+
+    @Override
+    public boolean isInstalled(Library library) {
+        return getLibrary(library).exists();
+    }
+
+    @Override
+    public File getLibrariesDirectory() {
+        return libsFolder;
     }
 
 }

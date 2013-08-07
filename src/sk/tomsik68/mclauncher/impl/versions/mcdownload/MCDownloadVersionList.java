@@ -19,10 +19,10 @@ public class MCDownloadVersionList extends Observable<IVersion> implements IVers
         JSONArray versions = (JSONArray) versionInformation.get("versions");
         for (Object object : versions) {
             JSONObject versionObject = (JSONObject) object;
-            JSONObject fullVersionObject = (JSONObject) JSONValue.parse(HttpUtils.httpGet(VERSION_URL.replace("<VERSION>", versionObject.get("id").toString())));
+            String fullVersionString = HttpUtils.httpGet(VERSION_URL.replace("<VERSION>", versionObject.get("id").toString()));
+            JSONObject fullVersionObject = (JSONObject) JSONValue.parse(fullVersionString);
             MCDownloadVersion version = new MCDownloadVersion(fullVersionObject);
             notifyObservers(version);
         }
     }
-
 }

@@ -9,13 +9,24 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class ExtractUtils {
+    private static final IExtractRules acceptAll = new IExtractRules() {
+        @Override
+        public boolean accepts(ZipEntry entry) {
+            return true;
+        }
+    };
 
     public static void extractZipWithoutRules(File jar, File dir) throws Exception {
+        extractZipWithRules(jar, dir, acceptAll);
+    }
+
+    public static void extractZipWithRules(File jar, File dir, IExtractRules rules) throws Exception {
         ZipFile zf = new ZipFile(jar);
         Enumeration<? extends ZipEntry> entries = zf.entries();
         while (entries.hasMoreElements()) {
             ZipEntry zipEntry = (ZipEntry) entries.nextElement();
-            extractZipEntry(zf, zipEntry, dir);
+            if (rules.accepts(zipEntry))
+                extractZipEntry(zf, zipEntry, dir);
         }
     }
 

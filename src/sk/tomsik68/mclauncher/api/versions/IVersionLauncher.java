@@ -6,7 +6,7 @@ import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.servers.ISavedServer;
 import sk.tomsik68.mclauncher.impl.versions.mcassets.MCAssetsVersion;
 
-public interface IVersionLauncher<V extends IVersion> {
+public interface IVersionLauncher {
 
-    public Process launch(ISession session, IMinecraftInstance mc, ISavedServer server, MCAssetsVersion version, ILaunchSettings settings) throws Exception;
+    public Process launch(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion version, ILaunchSettings settings) throws Exception;
 }

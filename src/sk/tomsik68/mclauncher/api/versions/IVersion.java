@@ -7,7 +7,15 @@ public interface IVersion extends Comparable<IVersion> {
 
     public String getUniqueID();
 
-    public IVersionInstaller<? extends IVersion> getInstaller();
+    public IVersionInstaller getInstaller();
 
-    public IVersionLauncher<? extends IVersion> getLauncher();
+    public IVersionLauncher getLauncher();
+
+    /**
+     * 
+     * @return if this version is compatible with current runtime.
+     */
+    public boolean isCompatible();
+
+    public String getIncompatibilityReason();
 }
