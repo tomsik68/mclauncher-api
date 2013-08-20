@@ -9,6 +9,6 @@ public interface IMinecraftInstance {
     public File getLocation();
 
     public IJarProvider getJarProvider();
-    
+
     public ILibraryProvider getLibraryProvider();
 }

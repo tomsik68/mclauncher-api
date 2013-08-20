@@ -1,7 +1,9 @@
 package sk.tomsik68.mclauncher.impl.versions.mcassets;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -12,6 +14,7 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstallListener;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;
 import sk.tomsik68.mclauncher.impl.common.Platform;
+import sk.tomsik68.mclauncher.resources.ResourcesXMLParser;
 import sk.tomsik68.mclauncher.util.ExtractUtils;
 import sk.tomsik68.mclauncher.util.FileUtils;
 
@@ -19,7 +22,7 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
     private static final String LWJGL_DOWNLOAD_URL = "http://kent.dl.sourceforge.net/project/java-game-lib/Official%20Releases/LWJGL%202.9.0/lwjgl-2.9.0.zip";
     private static final String RESOURCES_DOWNLOAD_URL = "http://s3.amazonaws.com/MinecraftResources/";
-    
+
     public MCAssetsVersionInstaller() {
 
     }
@@ -48,22 +51,24 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
     }
 
     private void updateResources(File mcLocation, IProgressMonitor progress) throws Exception {
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(RESOURCES_DOWNLOAD_URL);
-        for (int i = 0; i < doc.getElementsByTagName("ListBucketResult").item(0).getChildNodes().getLength(); i++) {
-            Node node = doc.getElementsByTagName("ListBucketResult").item(0).getChildNodes().item(i);
-            if ((node != null) && ("Contents".equalsIgnoreCase(node.getNodeName())) && (node.getChildNodes().getLength() > 0))
-                if (("Key".equals(node.getFirstChild().getNodeName()))) {
-                    String toDL = node.getFirstChild().getTextContent();
-                    File dest = new File(mcLocation, "resources"+File.separator+toDL.replace('/', File.separatorChar));
-                    if (!dest.exists()) {
-                        dest.mkdirs();
-                        if (!toDL.endsWith("/")) {
-                            dest.delete();
-                            FileUtils.downloadFileWithProgress(RESOURCES_DOWNLOAD_URL + toDL.replace(" ", "%20"), dest, progress);
-                        }
-                    }
+        ResourcesXMLParser parser = new ResourcesXMLParser(RESOURCES_DOWNLOAD_URL);
+        List<String> resources = parser.parse();
+        for (String resource : resources) {
+            File dest = getResourceLocation(mcLocation, resource);
+            if (!dest.exists()) {
+                dest.mkdirs();
+                if (!resource.endsWith("/")) {
+                    dest.delete();
+                    FileUtils.downloadFileWithProgress(RESOURCES_DOWNLOAD_URL + URLEncoder.encode(resource, "UTF-8"), dest, progress);
                 }
+            }
         }
+
+    }
+
+    private File getResourceLocation(File mcLocation, String resource) {
+        File file = new File(mcLocation, "resources" + File.separator + resource.replace('/', File.separatorChar));
+        return file;
     }
 
     private void updateJARs(IMinecraftInstance mc, IProgressMonitor progress) throws Exception {
