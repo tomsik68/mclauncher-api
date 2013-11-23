@@ -21,7 +21,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
     private static final String JAR_DOWNLOAD_URL = "https://s3.amazonaws.com/Minecraft.Download/versions/<VERSION>/<VERSION>.jar";
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
     private final String LIBRARY_BASE_URL = "https://s3.amazonaws.com/Minecraft.Download/libraries/";
-    private final String RESOURCES_URL = "http://s3.amazonaws.com/Minecraft.Resources/";
+    private final String RESOURCES_URL = "http://resources.download.minecraft.net/";
 
     @Override
     public void addVersionInstallListener(IVersionInstallListener listener) {
@@ -44,6 +44,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
                 try {
                     installLibrary(lib, mc, progress);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     log.info("Failed to install " + lib.getName());
                 }
             } else {
@@ -56,8 +57,14 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
         File jsonDest = new File(jarDest.getParentFile(), "info.json");
         if (!jsonDest.exists())
             FileUtils.writeFile(jsonDest, version.toJSON().toJSONString(JSONStyle.LT_COMPRESS));
-        if (!jarDest.exists())
-            FileUtils.downloadFileWithProgress(JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
+        if (!jarDest.exists()) {
+            try {
+                FileUtils.downloadFileWithProgress(JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        notifyListeners(version);
     }
 
     private void updateResources(IMinecraftInstance mc, IProgressMonitor progress) throws Exception {
@@ -73,7 +80,11 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
                 dest.mkdirs();
                 if (!resource.endsWith("/")) {
                     dest.delete();
-                    FileUtils.downloadFileWithProgress(RESOURCES_URL + URLEncoder.encode(resource, "UTF-8"), dest, progress);
+                    try {
+                        FileUtils.downloadFileWithProgress(RESOURCES_URL + URLEncoder.encode(resource, "UTF-8"), dest, progress);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -90,6 +101,12 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
         dest.mkdirs();
         dest.delete();
         FileUtils.downloadFileWithProgress(url, dest, p);
+    }
+
+    private void notifyListeners(IVersion version) {
+        for (IVersionInstallListener listener : listeners) {
+            listener.versionInstalled(version);
+        }
     }
 
 }

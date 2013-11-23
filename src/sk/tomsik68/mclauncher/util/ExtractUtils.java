@@ -9,7 +9,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class ExtractUtils {
-    private static final IExtractRules acceptAll = new IExtractRules() {
+    private static final IExtractRules anarchy = new IExtractRules() {
         @Override
         public boolean accepts(ZipEntry entry) {
             return true;
@@ -17,7 +17,7 @@ public class ExtractUtils {
     };
 
     public static void extractZipWithoutRules(File jar, File dir) throws Exception {
-        extractZipWithRules(jar, dir, acceptAll);
+        extractZipWithRules(jar, dir, anarchy);
     }
 
     public static void extractZipWithRules(File jar, File dir, IExtractRules rules) throws Exception {

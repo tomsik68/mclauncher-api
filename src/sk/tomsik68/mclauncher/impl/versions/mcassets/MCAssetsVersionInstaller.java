@@ -44,10 +44,14 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
             updateJARs(mc, progress);
         }
         updateResources(mc.getLocation(), progress);
+        notifyListeners(version);
+
+    }
+
+    private void notifyListeners(IVersion version) {
         for (IVersionInstallListener listener : listeners) {
             listener.versionInstalled(version);
         }
-
     }
 
     private void updateResources(File mcLocation, IProgressMonitor progress) throws Exception {
