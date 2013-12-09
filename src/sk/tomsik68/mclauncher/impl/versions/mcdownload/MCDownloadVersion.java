@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;

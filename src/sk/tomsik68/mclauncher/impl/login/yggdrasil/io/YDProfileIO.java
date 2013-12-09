@@ -1,20 +1,22 @@
 package sk.tomsik68.mclauncher.impl.login.yggdrasil.io;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Map;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
 
+import sk.tomsik68.mclauncher.api.gameprefs.GamePrefs;
+import sk.tomsik68.mclauncher.api.gameprefs.IGamePrefsCache;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.IProfileIO;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfile;
 
-public class YDProfileIO implements IProfileIO {
+public class YDProfileIO implements IProfileIO, IGamePrefsCache {
     private final File dest;
     private String selected = "(Default)";
 
@@ -25,6 +27,7 @@ public class YDProfileIO implements IProfileIO {
     @Override
     public IProfile[] read() throws Exception {
         JSONObject root = (JSONObject) JSONValue.parse(new FileReader(dest));
+
         JSONObject profiles = (JSONObject) root.get("profiles");
         IProfile[] result = new IProfile[profiles.size()];
         int i = 0;
@@ -58,6 +61,21 @@ public class YDProfileIO implements IProfileIO {
 
     public void setSelected(String selected) {
         this.selected = selected;
+    }
+
+    @Override
+    public void clearCache() {
+
+    }
+
+    @Override
+    public Map<String, GamePrefs> load() throws Exception {
+        return null;
+    }
+
+    @Override
+    public void save(GamePrefs prefs) throws Exception {
+
     }
 
 }

@@ -5,9 +5,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersion;

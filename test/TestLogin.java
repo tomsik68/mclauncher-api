@@ -12,7 +12,7 @@ public class TestLogin {
 
     @Test
     public void test() {
-        IProfile profile = new LegacyProfile("Tomsik68@gmail.com", "blahblahblah");
+        IProfile profile = new LegacyProfile("Tomsik68@gmail.com", "");
         LegacyLoginService lls = new LegacyLoginService();
         try {
             ISession session = lls.login(profile);

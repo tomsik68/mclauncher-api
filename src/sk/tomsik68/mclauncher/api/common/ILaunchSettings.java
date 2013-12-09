@@ -1,5 +1,6 @@
 package sk.tomsik68.mclauncher.api.common;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -15,8 +16,6 @@ public interface ILaunchSettings {
      * @return how much RAM to allocate (-Xmx argument)
      */
     public String getHeap();
-
-    public String getWorkingDirectory();
 
     /**
      * 
@@ -45,4 +44,9 @@ public interface ILaunchSettings {
      *         unsure.
      */
     public boolean isModifyAppletOptions();
+    /**
+     * 
+     * @return Java executable location (e.g. C:\Program Files\java\jre\bin\java.exe). If null, default java will be used
+     */
+    public File getJavaLocation();
 }

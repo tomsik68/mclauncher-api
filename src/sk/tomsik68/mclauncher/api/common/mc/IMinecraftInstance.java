@@ -11,4 +11,5 @@ public interface IMinecraftInstance {
     public IJarProvider getJarProvider();
 
     public ILibraryProvider getLibraryProvider();
+
 }

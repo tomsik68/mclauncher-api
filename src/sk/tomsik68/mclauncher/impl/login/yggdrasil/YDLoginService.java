@@ -58,7 +58,6 @@ public class YDLoginService implements ILoginService {
         return availability.isServiceAvailable("auth.mojang.com");
     }
 
-    @Override
     public void save(File mcInstance) throws Exception {
         File file = new File(mcInstance, "launcher_profiles.json");
         JSONObject obj = new JSONObject();
@@ -73,7 +72,6 @@ public class YDLoginService implements ILoginService {
         obj.writeJSONString(new FileWriter(file), JSONStyle.NO_COMPRESS);
     }
 
-    @Override
     public void load(File mcInstance) throws Exception {
         File file = new File(mcInstance, "launcher_profiles.json");
         if (file.exists()) {

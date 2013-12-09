@@ -57,11 +57,6 @@ public class TestMCAssetsLaunch {
                             }
                             
                             @Override
-                            public String getWorkingDirectory() {
-                                return null;
-                            }
-                            
-                            @Override
                             public String getInitHeap() {
                                 return "2G";
                             }
@@ -79,6 +74,12 @@ public class TestMCAssetsLaunch {
                             @Override
                             public List<String> getCommandPrefix() {
                                 return Collections.emptyList();
+                            }
+
+                            @Override
+                            public File getJavaLocation() {
+                                // TODO Auto-generated method stub
+                                return null;
                             }
                         });
                         BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));

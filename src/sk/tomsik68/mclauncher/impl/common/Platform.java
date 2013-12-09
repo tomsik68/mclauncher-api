@@ -10,7 +10,7 @@ public class Platform {
     // macos was renamed to osx in 1.6, so I've created a map of changed OSs
     private static final HashMap<String, String> minecraftOsWrapper = new HashMap<String, String>();
     static {
-        minecraftOsWrapper.put("osx", "macos");
+        minecraftOsWrapper.put("macos", "osx");
     }
 
     public static IOperatingSystem getCurrentPlatform() {

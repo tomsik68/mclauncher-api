@@ -36,7 +36,7 @@ public class Rule {
         if (restrictedOs == null || restrictedOsVersionPattern == null) {
             return action == Action.ALLOW;
         }
-        if (getRestrictedOs().isCurrent() && !Pattern.matches(restrictedOsVersionPattern, System.getProperty("os.version"))) {
+        if (getRestrictedOs().isCurrent() && Pattern.matches(restrictedOsVersionPattern, System.getProperty("os.version"))) {
             return action == Action.ALLOW;
         } else
             return true;

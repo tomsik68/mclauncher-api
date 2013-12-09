@@ -22,10 +22,6 @@ public class Library {
             for (String nativeKey : nativesObj.keySet()) {
                 natives.put(nativeKey, nativesObj.get(nativeKey).toString());
             }
-            // ugly fix for ugly rename of macos to osx
-            if (natives.containsKey("osx")) {
-                natives.put("macos", natives.get("osx"));
-            }
         }
         if (json.containsKey("rules")) {
             JSONArray rulz = (JSONArray) json.get("rules");
@@ -40,6 +36,8 @@ public class Library {
     }
 
     public String getNatives(IOperatingSystem os) {
+        if(!natives.containsKey(os.getMinecraftName()))
+            return natives.get(Platform.wrapName(os.getMinecraftName()));
         return natives.get(os.getMinecraftName());
     }
 
