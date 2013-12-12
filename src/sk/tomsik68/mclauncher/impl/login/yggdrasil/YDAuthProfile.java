@@ -4,36 +4,35 @@ import net.minidev.json.JSONObject;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 
-public class YDProfile implements IProfile, IJSONSerializable {
-    private final String userName, accessToken, uuid, displayName;
+public class YDAuthProfile implements IProfile, IJSONSerializable {
+    private final String userName, accessToken, uuid, displayName, userId;
     private String profileName = "(Default)";
 
-    public YDProfile(String name, String displayName, String sessid, String uuid) {
+    public YDAuthProfile(String name, String displayName, String sessid, String uuid, String userId) {
         this.userName = name;
         this.accessToken = sessid;
         this.uuid = uuid;
         this.displayName = displayName;
+        this.userId = userId;
     }
 
-    public YDProfile(JSONObject json) {
-        JSONObject authObj = (JSONObject) json.get("authentication");
-        this.userName = authObj.get("username").toString();
-        this.accessToken = authObj.get("accessToken").toString();
-        this.uuid = authObj.get("uuid").toString();
-        this.displayName = authObj.get("displayName").toString();
-        profileName = json.get("name").toString();
+    public YDAuthProfile(JSONObject json) {
+        this.userName = json.get("username").toString();
+        this.accessToken = json.get("accessToken").toString();
+        this.uuid = json.get("uuid").toString();
+        this.displayName = json.get("displayName").toString();
+        this.userId = json.get("userid").toString();
+
     }
 
     @Override
     public JSONObject toJSON() {
         JSONObject json = new JSONObject();
-        JSONObject auth = new JSONObject();
-        auth.put("username", userName);
-        auth.put("accessToken", accessToken);
-        auth.put("uuid", uuid);
-        auth.put("displayName", displayName);
-        json.put("name", profileName);
-        json.put("authentication", auth);
+        json.put("username", userName);
+        json.put("accessToken", accessToken);
+        json.put("uuid", uuid);
+        json.put("userid", userId);
+        json.put("displayName", displayName);
         return json;
     }
 
@@ -71,6 +70,10 @@ public class YDProfile implements IProfile, IJSONSerializable {
     public YDPartialGameProfile getYDGameProfile() {
         YDPartialGameProfile result = new YDPartialGameProfile(userName, uuid);
         return result;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
 }

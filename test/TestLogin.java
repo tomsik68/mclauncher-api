@@ -5,8 +5,7 @@ import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyLoginService;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfile;
+import sk.tomsik68.mclauncher.impl.login.yggdrasil.io.YDProfileIO;
 
 public class TestLogin {
 
@@ -20,21 +19,13 @@ public class TestLogin {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        YDLoginService yls = new YDLoginService();
-        ISession session = null;
+        YDProfileIO ypi = new YDProfileIO(Platform.getCurrentPlatform().getWorkingDirectory());
         try {
-            yls.load(Platform.getCurrentPlatform().getWorkingDirectory());
-            session = yls.login(profile);
-            System.out.println("YD password login: " + session.getSessionID());
+            IProfile[] profiles = ypi.read();
+            for (IProfile p : profiles) {
+                System.out.println(p.getName()+" "+p.getPassword());
+            }
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            profile = new YDProfile("Tomsik68@gmail.com", "Tomsik68", session.getSessionID(), session.getUUID());
-            session = yls.login(profile);
-            System.out.println("YD session ID login: " + session.getSessionID());
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
     }

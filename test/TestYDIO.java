@@ -5,7 +5,7 @@ import java.io.File;
 import org.junit.Test;
 
 import sk.tomsik68.mclauncher.api.login.IProfile;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfile;
+import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDAuthProfile;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.io.YDProfileIO;
 
 public class TestYDIO {
@@ -14,7 +14,7 @@ public class TestYDIO {
     public void test() {
         new File("savetest-json").mkdir();
         YDProfileIO io = new YDProfileIO(new File("savetest-json"));
-        YDProfile profile = new YDProfile("Tomsik68@gmail.com", "Tomsik68", "blahblahblahsessionID", "blahblahblahblahyuuid");
+        YDAuthProfile profile = new YDAuthProfile("Tomsik68@gmail.com", "Tomsik68", "blahblahblahsessionID", "blahblahblahblahyuuid");
         IProfile[] profiles = null;
         try {
             io.write(new IProfile[] { profile });
