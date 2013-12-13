@@ -1,24 +1,20 @@
 package sk.tomsik68.mclauncher.impl.login.yggdrasil.io;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.Map;
-
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
 
-import sk.tomsik68.mclauncher.api.gameprefs.GamePrefs;
-import sk.tomsik68.mclauncher.api.gameprefs.IGamePrefsCache;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.IProfileIO;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDAuthProfile;
 
-public class YDProfileIO implements IProfileIO, IGamePrefsCache {
+public class YDProfileIO implements IProfileIO {
     private final File dest;
-    private String selected = "(Default)";
 
     public YDProfileIO(File mcInstance) {
         dest = new File(mcInstance, "launcher_profiles.json");
@@ -40,43 +36,24 @@ public class YDProfileIO implements IProfileIO, IGamePrefsCache {
 
     @Override
     public void write(IProfile[] profiles) throws Exception {
-        if (!dest.exists())
+        JSONObject jRoot, authDb;
+        if (!dest.exists()) {
             dest.createNewFile();
-        JSONObject jRoot = new JSONObject();
-        JSONObject authDb = new JSONObject();
+            jRoot = new JSONObject();
+            authDb = new JSONObject();
+        } else {
+            jRoot = (JSONObject) JSONValue.parse(new FileInputStream(dest));
+            authDb = (JSONObject) jRoot.get("authenticationDatabase");
+        }
+
         for (IProfile profile : profiles) {
             authDb.put(((YDAuthProfile) profile).getUuid(), ((IJSONSerializable) profile).toJSON());
         }
-        jRoot.put("selectedProfile", selected);
         jRoot.put("authenticationDatabase", authDb);
         FileWriter fw = new FileWriter(dest);
         jRoot.writeJSONString(fw, JSONStyle.NO_COMPRESS);
         fw.flush();
         fw.close();
-    }
-
-    public String getSelected() {
-        return selected;
-    }
-
-    public void setSelected(String selected) {
-        this.selected = selected;
-    }
-
-    @Override
-    public void clearCache() {
-
-    }
-
-    @Override
-    public Map<String, GamePrefs> load() throws Exception {
-        // TODO
-        return null;
-    }
-
-    @Override
-    public void save(GamePrefs prefs) throws Exception {
-        // TODO
     }
 
 }

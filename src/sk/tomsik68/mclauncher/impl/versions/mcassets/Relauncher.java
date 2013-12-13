@@ -23,7 +23,6 @@ public class Relauncher {
             arguments.put("-m", "false");
             arguments.put("-w", "800");
             arguments.put("-h", "600");
-            arguments.put("-dir", Platform.getCurrentPlatform().getWorkingDirectory().getAbsolutePath());
             for(int i = 0;i<args.length;++i){
                 if((args[i].equalsIgnoreCase("--user-name") || args[i].equalsIgnoreCase("-un")) && (i+1) < args.length){
                     arguments.put("-un", args[i+1]);
@@ -53,6 +52,10 @@ public class Relauncher {
                     arguments.put("-h", args[i+1]);
                 }else if(args[i].equalsIgnoreCase("-m")){
                     arguments.put("-m", "true");
+                }else if(args[i].equalsIgnoreCase("-lwjgl") && (i+1) < args.length){
+                    arguments.put("-lwjgl", args[i+1]);
+                }else if(args[i].equalsIgnoreCase("-jlibpath") && (i+1) < args.length){
+                    arguments.put("-jlibpath", args[i+1]);
                 }else if(args[i].equalsIgnoreCase("-args") && (i+1) < args.length){
                     arguments.put("-args", args[i+1]);
                 }
@@ -113,9 +116,8 @@ public class Relauncher {
             for(File lib : libraries){
                 loader.addJAR(lib.toURI().toURL());
             }
-            // TODO argument for natives directory. This is ugly. 
-            System.setProperty("org.lwjgl.librarypath", new File(gameDir,"bin"+File.separator+"natives").getAbsolutePath());
-            System.setProperty("net.java.games.input.librarypath", new File(gameDir,"bin"+File.separator+"natives").getAbsolutePath());
+            System.setProperty("org.lwjgl.librarypath", new File(arguments.get("-lwjgl")).getAbsolutePath());
+            System.setProperty("net.java.games.input.librarypath", new File(arguments.get("-jlibpath")).getAbsolutePath());
             LauncherComponent launcher = new LauncherComponent(loader);
             launcher.setParameter("username", userName);
             launcher.setParameter("sessionid", sessionID);

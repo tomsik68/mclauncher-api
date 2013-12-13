@@ -16,7 +16,10 @@ public class Rule {
         if (json.containsKey("os")) {
             JSONObject os = (JSONObject) json.get("os");
             restrictedOs = Platform.osByName(os.get("name").toString());
-            restrictedOsVersionPattern = os.get("version").toString();
+            if (json.containsKey("version"))
+                restrictedOsVersionPattern = os.get("version").toString();
+            else
+                restrictedOsVersionPattern = "\\*";
         }
     }
 

@@ -40,7 +40,7 @@ public interface ILaunchSettings {
 
     /**
      * 
-     * @return If applet should open a table with options to change. False if
+     * @return If applet should open a table with options to change(only works with older MC versions). False if
      *         unsure.
      */
     public boolean isModifyAppletOptions();
