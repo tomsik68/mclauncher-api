@@ -2,7 +2,7 @@ package sk.tomsik68.mclauncher.api.gameprefs;
 
 import java.io.File;
 
-public class GamePrefs {
+public class GamePrefs{
     public class Resolution {
         private int width, height;
 

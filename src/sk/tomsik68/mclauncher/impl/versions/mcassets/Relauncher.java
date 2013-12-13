@@ -153,12 +153,15 @@ public class Relauncher {
             //}
             /*if(options.has(argsOption)){
                 JSONObject params = (JSONObject) JSONValue.parse(options.valueOf(argsOption));*/
+            JSONObject params = null;
             if(arguments.containsKey("-args")){
-                JSONObject params = (JSONObject) JSONValue.parse(arguments.get("-args"));
+                params = (JSONObject) JSONValue.parse(arguments.get("-args"));
                 launcher.setAll(params);
             }
             JFrame frame = new JFrame();
             frame.setSize(w, h);
+            // TODO change title feature
+            frame.setTitle(gameFile.getName()+" running via MCLauncherAPI");
             launcher.setSize(w,h);
             if (maximize)
                 frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -171,7 +174,7 @@ public class Relauncher {
             }else
                 launcher.startMinecraft();
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+            e.printStackTrace();
             System.exit(1);
         }
     }

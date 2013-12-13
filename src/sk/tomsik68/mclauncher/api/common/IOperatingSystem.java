@@ -10,4 +10,6 @@ public interface IOperatingSystem {
     public boolean isCurrent();
 
     public File getWorkingDirectory();
+
+    public boolean is32Bit();
 }

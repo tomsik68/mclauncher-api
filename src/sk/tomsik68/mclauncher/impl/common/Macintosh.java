@@ -30,4 +30,9 @@ public class Macintosh implements IOperatingSystem {
         return workDir;
     }
 
+    @Override
+    public boolean is32Bit() {
+        return "32".equals(System.getProperty("sun.arch.data.model"));
+    }
+
 }

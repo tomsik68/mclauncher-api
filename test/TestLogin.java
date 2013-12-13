@@ -1,17 +1,19 @@
+import javax.swing.JOptionPane;
+
 import org.junit.Test;
 
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
-import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyLoginService;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.io.YDProfileIO;
+import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
 
 public class TestLogin {
 
     @Test
     public void test() {
-        IProfile profile = new LegacyProfile("Tomsik68@gmail.com", "");
+        String password = JOptionPane.showInputDialog("Enter your password to try the login system");
+        IProfile profile = new LegacyProfile("tomsik68@gmail.com", password);
         LegacyLoginService lls = new LegacyLoginService();
         try {
             ISession session = lls.login(profile);
@@ -19,13 +21,13 @@ public class TestLogin {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        YDProfileIO ypi = new YDProfileIO(Platform.getCurrentPlatform().getWorkingDirectory());
+        YDLoginService yls = new YDLoginService();
+        ISession session;
         try {
-            IProfile[] profiles = ypi.read();
-            for (IProfile p : profiles) {
-                System.out.println(p.getName()+" "+p.getPassword());
-            }
+            session = yls.login(profile);
+            System.out.println("YD Login: " + session.getSessionID());
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

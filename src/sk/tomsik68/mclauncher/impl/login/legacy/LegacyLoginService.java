@@ -1,5 +1,8 @@
 package sk.tomsik68.mclauncher.impl.login.legacy;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import sk.tomsik68.mclauncher.api.login.ILoginService;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
@@ -22,10 +25,12 @@ public class LegacyLoginService implements ILoginService {
     public boolean isAvailable(IServicesAvailability availability) {
         return availability.isServiceAvailable("login.minecraft.net");
     }
-
+    private static String encode(String s) throws UnsupportedEncodingException{
+        return URLEncoder.encode(s, "utf-8");
+    }
     @Override
     public ISession login(IProfile profile) throws Exception {
-        String loginResponse = HttpUtils.securePostWithKey(LOGIN_URL, LegacyLoginService.class.getResourceAsStream("minecraft.key"), "user="+profile.getName()+"&password="+profile.getPassword()+"&version=13");
+        String loginResponse = HttpUtils.securePostWithKey(LOGIN_URL, LegacyLoginService.class.getResourceAsStream("minecraft.key"), "user="+encode(profile.getName())+"&password="+encode(profile.getPassword())+"&version=13");
         return factory.createSession(loginResponse.split(":"));
     }
 

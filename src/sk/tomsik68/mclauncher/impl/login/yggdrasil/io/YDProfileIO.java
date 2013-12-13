@@ -47,6 +47,8 @@ public class YDProfileIO implements IProfileIO {
         }
 
         for (IProfile profile : profiles) {
+            if(!(profile instanceof YDAuthProfile))
+                throw new IllegalArgumentException("You can only save YDAuthProfile with this system!");
             authDb.put(((YDAuthProfile) profile).getUuid(), ((IJSONSerializable) profile).toJSON());
         }
         jRoot.put("authenticationDatabase", authDb);

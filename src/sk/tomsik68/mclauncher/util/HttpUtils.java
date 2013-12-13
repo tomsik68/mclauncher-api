@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+
 import javax.net.ssl.HttpsURLConnection;
 
 import net.minidev.json.JSONStyle;
@@ -53,7 +55,7 @@ public class HttpUtils {
             }
         }
         DataOutputStream dos = new DataOutputStream(connection.getOutputStream());
-        dos.writeBytes(parameters);
+        dos.writeBytes(URLEncoder.encode(parameters,"utf-8"));
         dos.flush();
         dos.close();
 

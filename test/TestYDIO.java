@@ -14,7 +14,7 @@ public class TestYDIO {
     public void test() {
         new File("savetest-json").mkdir();
         YDProfileIO io = new YDProfileIO(new File("savetest-json"));
-        YDAuthProfile profile = new YDAuthProfile("Tomsik68@gmail.com", "Tomsik68", "blahblahblahsessionID", "blahblahblahblahyuuid");
+        YDAuthProfile profile = new YDAuthProfile("Tomsik68@gmail.com", "Tomsik68", "blahblahblahsessionID", "blahblahblahblahyuuid", "blahblahblahuserid");
         IProfile[] profiles = null;
         try {
             io.write(new IProfile[] { profile });
