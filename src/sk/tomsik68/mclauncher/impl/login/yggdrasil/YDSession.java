@@ -1,15 +1,18 @@
 package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
+import sk.tomsik68.mclauncher.api.login.ESessionType;
 import sk.tomsik68.mclauncher.api.login.ISession;
 
 public class YDSession implements ISession {
     private final String username, sessid, uuid;
-    public YDSession(YDLoginResponse r){
+
+    public YDSession(YDLoginResponse r) {
         username = r.getSelectedProfile().getName();
         sessid = r.getSessionID();
         uuid = r.getSelectedProfile().getId();
-        
+
     }
+
     @Override
     public String getUsername() {
         return username;
@@ -26,13 +29,9 @@ public class YDSession implements ISession {
     }
 
     @Override
-    public String getDownloadTicket() {
-        return "deprecated";
-    }
-
-    @Override
-    public String getLastVersion() {
-        return "deprecated";
+    public ESessionType getType() {
+        // TODO it doesn't have to be mojang
+        return ESessionType.MOJANG;
     }
 
 }

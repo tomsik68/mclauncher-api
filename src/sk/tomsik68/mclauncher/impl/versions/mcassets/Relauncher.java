@@ -23,17 +23,13 @@ public class Relauncher {
             arguments.put("-m", "false");
             arguments.put("-w", "800");
             arguments.put("-h", "600");
+            arguments.put("-dlt", "deprecated");
+            arguments.put("-lv", "deprecated");
             for(int i = 0;i<args.length;++i){
                 if((args[i].equalsIgnoreCase("--user-name") || args[i].equalsIgnoreCase("-un")) && (i+1) < args.length){
                     arguments.put("-un", args[i+1]);
                 }else if(args[i].equalsIgnoreCase("-sid") && (i+1) < args.length){
                     arguments.put("-sid", args[i+1]);
-                }else if(args[i].equalsIgnoreCase("-dlt") && (i+1) < args.length){
-                    arguments.put("-dlt", args[i+1]);
-                }else if(args[i].equalsIgnoreCase("-lv") && (i+1) < args.length){
-                    arguments.put("-lv", args[i+1]);
-                }else if(args[i].equalsIgnoreCase("-dlt") && (i+1) < args.length){
-                    arguments.put("-dlt", args[i+1]);
                 }else if(args[i].equalsIgnoreCase("-dm")){
                     arguments.put("-dm", "true");
                 }else if(args[i].equalsIgnoreCase("-ap")){

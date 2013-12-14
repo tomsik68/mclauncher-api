@@ -22,14 +22,15 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         String[] args = version.getMinecraftArgs().split(" ");
         StringSubstitutor subst = new StringSubstitutor("${%s}");
         subst.setVariable("auth_session", session.getSessionID());
-        subst.setVariable("auth_access_token", "cant_figure_out_this_one"); // NOT_SURE
+        subst.setVariable("auth_access_token", session.getSessionID());
         subst.setVariable("auth_player_name", session.getUsername());
         subst.setVariable("auth_uuid", session.getUUID());
         subst.setVariable("version_name", version.getDisplayName());
         subst.setVariable("game_directory", mc.getLocation().getAbsolutePath());
-        subst.setVariable("game_assets", "assets directory here"); // NOT_SURE
+        subst.setVariable("game_assets", "assets directory here");
         subst.setVariable("assets_root", "assets directory here probably aswell"); // NOT_SURE
         subst.setVariable("assets_index_name", "legacy"); // NOT_SURE
+        subst.setVariable("user_type", "mojang"); // type of user (mojang/legacy)
 
         for (int i = 0; i < args.length; i++) {
             args[i] = subst.substitute(args[i]);

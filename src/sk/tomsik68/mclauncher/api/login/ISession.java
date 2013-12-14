@@ -7,8 +7,5 @@ public interface ISession {
 
     public String getUUID();
 
-    public String getDownloadTicket();
-
-    public String getLastVersion();
-
+    public ESessionType getType();
 }

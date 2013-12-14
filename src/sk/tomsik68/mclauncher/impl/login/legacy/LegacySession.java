@@ -1,5 +1,6 @@
 package sk.tomsik68.mclauncher.impl.login.legacy;
 
+import sk.tomsik68.mclauncher.api.login.ESessionType;
 import sk.tomsik68.mclauncher.api.login.ISession;
 
 public class LegacySession implements ISession {
@@ -28,14 +29,17 @@ public class LegacySession implements ISession {
         return uuid;
     }
 
-    @Override
     public String getDownloadTicket() {
         return downloadTicket;
     }
 
-    @Override
     public String getLastVersion() {
         return lastVersion;
+    }
+
+    @Override
+    public ESessionType getType() {
+        return ESessionType.LEGACY;
     }
 
 }

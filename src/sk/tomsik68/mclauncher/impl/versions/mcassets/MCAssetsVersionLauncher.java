@@ -34,10 +34,6 @@ public class MCAssetsVersionLauncher implements IVersionLauncher {
         command.add(session.getUsername());
         command.add("-sid");
         command.add(session.getSessionID());
-        command.add("-dlt");
-        command.add(session.getDownloadTicket());
-        command.add("-lv");
-        command.add(session.getLastVersion());
         command.add("-dir");
         command.add(mc.getLocation().toString());
         command.add("-jar");
