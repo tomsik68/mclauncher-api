@@ -3,6 +3,7 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
@@ -30,8 +31,8 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         subst.setVariable("game_assets", "assets directory here");
         subst.setVariable("assets_root", "assets directory here probably aswell"); // NOT_SURE
         subst.setVariable("assets_index_name", "legacy"); // NOT_SURE
-        subst.setVariable("user_type", "mojang"); // type of user (mojang/legacy)
-
+        subst.setVariable("user_type", "mojang"); // type of user
+                                                  // (mojang/legacy)
         for (int i = 0; i < args.length; i++) {
             args[i] = subst.substitute(args[i]);
         }
@@ -55,8 +56,40 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         if (version.getMinimumLauncherVersion() > MCLauncherAPI.MC_LAUNCHER) {
             throw new RuntimeException("You need to update MCLauncher-API to run this minecraft version!");
         }
+        ArrayList<String> command = new ArrayList<String>();
+        if (settings.getJavaLocation() != null)
+            command.add(settings.getJavaLocation().getAbsolutePath());
+        else
+            command.add("java");
+        command.add("-Xms".concat(settings.getInitHeap()));
+        command.add("-Xmx".concat(settings.getHeap()));
+        if (settings.getJavaArguments() != null && !settings.getJavaArguments().isEmpty()) {
+            command.addAll(settings.getJavaArguments());
+        }
+        // TODO minecraft natives
 
-        return null;
+        command.add("Djava.library.path=");
+        command.add("-cp");
+        StringBuilder sb = new StringBuilder();
+        for (Library lib : version.getLibraries()) {
+            sb = sb.append(mc.getLibraryProvider().getLibrary(lib)).append(':');
+        }
+        if (sb.length() > 0)
+            sb = sb.deleteCharAt(sb.length() - 1);
+        command.add(sb.toString());
+        command.add(version.getMainClass());
+
+        String[] arguments = getMinecraftArguments(mc, session, settings, version);
+        sb = new StringBuilder();
+        for (String arg : arguments) {
+            sb = sb.append(arg).append(' ');
+        }
+        if (sb.length() > 0)
+            sb = sb.deleteCharAt(sb.length() - 1);
+        command.add(sb.toString());
+        ProcessBuilder pb = new ProcessBuilder(command);
+        pb.directory(mc.getLocation());
+        return pb.start();
     }
 
 }

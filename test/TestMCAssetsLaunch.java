@@ -81,6 +81,11 @@ public class TestMCAssetsLaunch {
                             public File getJavaLocation() {
                                 return null;
                             }
+
+                            @Override
+                            public List<String> getJavaArguments() {
+                                return null;
+                            }
                         });
                         BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
                         String line;

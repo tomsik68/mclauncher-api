@@ -40,13 +40,20 @@ public interface ILaunchSettings {
 
     /**
      * 
-     * @return If applet should open a table with options to change(only works with older MC versions). False if
-     *         unsure.
+     * @return If applet should open a table with options to change(only works
+     *         with MCAssetsVersion). False if unsure.
      */
     public boolean isModifyAppletOptions();
+
     /**
      * 
-     * @return Java executable location (e.g. C:\Program Files\java\jre\bin\java.exe). If null, default java will be used
+     * @return Java executable location (e.g. C:\Program
+     *         Files\java\jre\bin\java.exe). If null, default java will be used
      */
     public File getJavaLocation();
+    /**
+     * 
+     * @return Additional arguments for java process
+     */
+    public List<String> getJavaArguments();
 }

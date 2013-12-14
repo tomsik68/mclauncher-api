@@ -20,11 +20,14 @@ public class MCAssetsVersionLauncher implements IVersionLauncher {
     public Process launch(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion version, ILaunchSettings settings) throws Exception {
         String pathToJar = Relauncher.class.getProtectionDomain().getCodeSource().getLocation().getFile();
         List<String> command = new ArrayList<String>();
-        command.addAll(settings.getCommandPrefix());
-        if(settings.getJavaLocation() == null)
+        if (settings.getCommandPrefix() != null && !settings.getCommandPrefix().isEmpty())
+            command.addAll(settings.getCommandPrefix());
+        if (settings.getJavaLocation() == null)
             command.add("java");
         else
             command.add(settings.getJavaLocation().getAbsolutePath());
+        if(settings.getJavaArguments() != null && !settings.getJavaArguments().isEmpty())
+            command.addAll(settings.getJavaArguments());
         command.add("-Xms".concat(settings.getInitHeap()));
         command.add("-Xmx".concat(settings.getHeap()));
         command.add("-cp");
