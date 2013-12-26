@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
@@ -17,8 +18,7 @@ import sk.tomsik68.mclauncher.util.FileUtils;
 
 public class MCAssetsVersionInstaller implements IVersionInstaller {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
-    private static final String LWJGL_DOWNLOAD_URL = "http://kent.dl.sourceforge.net/project/java-game-lib/Official%20Releases/LWJGL%202.9.0/lwjgl-2.9.0.zip";
-    private static final String RESOURCES_DOWNLOAD_URL = "http://s3.amazonaws.com/MinecraftResources/";
+    
 
     public MCAssetsVersionInstaller() {
 
@@ -52,7 +52,7 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
     }
 
     private void updateResources(File mcLocation, IProgressMonitor progress) throws Exception {
-        ResourcesXMLParser parser = new ResourcesXMLParser(RESOURCES_DOWNLOAD_URL);
+        ResourcesXMLParser parser = new ResourcesXMLParser(MCLauncherAPI.URLS.RESOURCES_DOWNLOAD_URL);
         List<String> resources = parser.parse();
         for (String resource : resources) {
             File dest = getResourceLocation(mcLocation, resource);
@@ -60,7 +60,7 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
                 dest.mkdirs();
                 if (!resource.endsWith("/")) {
                     dest.delete();
-                    FileUtils.downloadFileWithProgress(RESOURCES_DOWNLOAD_URL + URLEncoder.encode(resource, "UTF-8"), dest, progress);
+                    FileUtils.downloadFileWithProgress(MCLauncherAPI.URLS.RESOURCES_DOWNLOAD_URL + URLEncoder.encode(resource, "UTF-8"), dest, progress);
                 }
             }
         }
@@ -76,7 +76,7 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
         File lwjglDir = new File(mc.getLocation(), "lwjgl-2.9.0");
         lwjglDir.deleteOnExit();
         File dest = new File(mc.getJarProvider().getBinFolder(), "lwjgl.zip");
-        FileUtils.downloadFileWithProgress(LWJGL_DOWNLOAD_URL, dest, progress);
+        FileUtils.downloadFileWithProgress(MCLauncherAPI.URLS.LWJGL_DOWNLOAD_URL, dest, progress);
         mc.getLibraryProvider().getNativesDirectory().mkdirs();
         dest.deleteOnExit();
         ExtractUtils.extractZipWithoutRules(dest, mc.getLocation());

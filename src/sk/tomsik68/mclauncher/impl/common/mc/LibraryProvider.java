@@ -16,18 +16,13 @@ public class LibraryProvider implements ILibraryProvider {
     }
 
     @Override
-    public String getBranding() {
-        return "custom";
-    }
-
-    @Override
     public File[] getDefaultLWJGLJars() {
         return new File[] { new File(binFolder, "lwjgl.jar"), new File(binFolder, "lwjgl_util.jar"), new File(binFolder, "jinput.jar") };
     }
 
     @Override
     public File getLibrary(Library library) {
-        String path = library.getPath();
+        String path = library.getPath().replace('/', File.separatorChar);
         return new File(libsFolder,path);
     }
 

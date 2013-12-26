@@ -112,9 +112,9 @@ public class TestMCAssetsLaunch {
     protected boolean isProcessAlive(Process proc) {
         try {
             proc.exitValue();
-            return true;
-        } catch (Exception e) {
             return false;
+        } catch (Exception e) {
+            return true;
         }
     }
 

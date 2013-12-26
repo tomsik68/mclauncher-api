@@ -12,4 +12,6 @@ public interface IMinecraftInstance {
 
     public ILibraryProvider getLibraryProvider();
 
+    public File getAssetsDirectory();
+
 }

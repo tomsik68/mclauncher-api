@@ -4,7 +4,7 @@ import java.io.File;
 
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 
-public interface IJarProvider extends IService {
+public interface IJarProvider {
 
     public File getVersionFile(String uniqueID);
 

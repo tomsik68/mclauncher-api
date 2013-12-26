@@ -1,7 +1,6 @@
 package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
 import net.minidev.json.JSONObject;
-import net.minidev.json.JSONStyle;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 
 public class YDPasswordLoginRequest implements IJSONSerializable {

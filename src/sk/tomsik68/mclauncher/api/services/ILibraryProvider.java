@@ -4,7 +4,7 @@ import java.io.File;
 
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.Library;
 
-public interface ILibraryProvider extends IService {
+public interface ILibraryProvider {
     /**
      * 
      * @param name

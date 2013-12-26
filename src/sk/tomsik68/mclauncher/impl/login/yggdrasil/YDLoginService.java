@@ -25,11 +25,6 @@ public class YDLoginService implements ILoginService {
     }
 
     @Override
-    public String getBranding() {
-        return "Yggdrasil";
-    }
-
-    @Override
     public ISession login(IProfile profile) throws Exception {
         YDLoginResponse response;
         if (profile instanceof LegacyProfile) {
@@ -77,7 +72,7 @@ public class YDLoginService implements ILoginService {
         if (file.exists()) {
             JSONObject obj = (JSONObject) JSONValue.parse(new FileReader(file));
             clientToken = UUID.fromString(obj.get("clientToken").toString());
-            System.out.println("Loaded client token: "+clientToken.toString());
+            System.out.println("Loaded client token: " + clientToken.toString());
         }
     }
 

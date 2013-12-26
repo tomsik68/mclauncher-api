@@ -13,11 +13,6 @@ public class JarProvider implements IJarProvider {
     }
 
     @Override
-    public String getBranding() {
-        return "custom";
-    }
-
-    @Override
     public File getVersionFile(String uniqueID) {
         return new File(binFolder, uniqueID.concat(File.separator).concat("minecraft.jar"));
     }

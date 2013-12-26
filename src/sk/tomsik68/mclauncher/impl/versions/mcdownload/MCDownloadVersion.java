@@ -5,22 +5,24 @@ import java.util.List;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
-import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;
 import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
+import sk.tomsik68.mclauncher.impl.versions.mcdownload.Rule.Action;
 
 public class MCDownloadVersion implements IVersion, IJSONSerializable {
     private static final MCDownloadVersionInstaller installer = new MCDownloadVersionInstaller();
-
+    private static final IVersionLauncher launcher = new MCDownloadVersionLauncher();
+    
     private final String id, time, releaseTime, type, minecraftArgs, mainClass;
-    private String incompatibilityReason, processArgs;
+    private String incompatibilityReason, processArgs, assets;
     private final int minimumLauncherVersion;
     private ArrayList<Rule> rules = new ArrayList<Rule>();
     private ArrayList<Library> libraries = new ArrayList<Library>();
     private final JSONObject json;
-    private static final IVersionLauncher launcher = null;
+    
+    private static final String DEFAULT_ASSETS_INDEX = "legacy";
 
     public MCDownloadVersion(JSONObject json) {
         this.json = json;
@@ -33,6 +35,10 @@ public class MCDownloadVersion implements IVersion, IJSONSerializable {
         minecraftArgs = json.get("minecraftArguments").toString();
         minimumLauncherVersion = Integer.parseInt(json.get("minimumLauncherVersion").toString());
         mainClass = json.get("mainClass").toString();
+        if (json.containsKey("assets"))
+            assets = json.get("assets").toString();
+        else
+            assets = DEFAULT_ASSETS_INDEX;
         if (json.containsKey("rules")) {
             JSONArray rulesArray = (JSONArray) json.get("rules");
             for (Object o : rulesArray) {
@@ -117,13 +123,13 @@ public class MCDownloadVersion implements IVersion, IJSONSerializable {
         return libraries;
     }
 
-    @Override
     public boolean isCompatible() {
-        boolean compat = true;
+        Action action = null;
         for (Rule rule : rules) {
-            compat = compat && rule.allows();
+            if(rule.applies())
+                action = rule.getAction();
         }
-        return compat;
+        return rules.isEmpty() || action == Action.ALLOW;
     }
 
     @Override
@@ -131,4 +137,7 @@ public class MCDownloadVersion implements IVersion, IJSONSerializable {
         return json;
     }
 
+    public String getAssetsIndexName() {
+        return assets;
+    }
 }

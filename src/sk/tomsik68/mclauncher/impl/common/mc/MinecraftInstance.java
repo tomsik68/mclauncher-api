@@ -9,14 +9,15 @@ import sk.tomsik68.mclauncher.api.services.ILibraryProvider;
 public class MinecraftInstance implements IMinecraftInstance {
     private final IJarProvider jars;
     private final ILibraryProvider libs;
-    private final File dir;
+    private final File dir, assets;
 
     public MinecraftInstance(File dir) {
         this.dir = dir;
-        if(!dir.exists())
+        if (!dir.exists())
             dir.mkdirs();
         jars = new JarProvider(this.dir);
         libs = new LibraryProvider(this);
+        assets = new File(dir, "assets");
     }
 
     @Override
@@ -32,6 +33,11 @@ public class MinecraftInstance implements IMinecraftInstance {
     @Override
     public ILibraryProvider getLibraryProvider() {
         return libs;
+    }
+
+    @Override
+    public File getAssetsDirectory() {
+        return assets;
     }
 
 }

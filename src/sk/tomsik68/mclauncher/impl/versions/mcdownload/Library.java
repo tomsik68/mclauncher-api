@@ -1,11 +1,15 @@
 package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
 import sk.tomsik68.mclauncher.impl.common.Platform;
+import sk.tomsik68.mclauncher.impl.versions.mcdownload.Rule.Action;
+import sk.tomsik68.mclauncher.util.FilePathBuilder;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -13,7 +17,7 @@ import net.minidev.json.JSONObject;
 public class Library {
     private final String name;
     private final HashMap<String, String> natives = new HashMap<String, String>();
-    private final Set<Rule> rules = new HashSet<Rule>();
+    private final ArrayList<Rule> rules = new ArrayList<Rule>();
 
     public Library(JSONObject json) {
         name = json.get("name").toString();
@@ -36,14 +40,15 @@ public class Library {
     }
 
     public String getNatives(IOperatingSystem os) {
-        if(!natives.containsKey(os.getMinecraftName()))
+        if (!natives.containsKey(os.getMinecraftName()))
             return natives.get(Platform.wrapName(os.getMinecraftName()));
-        return natives.get(os.getMinecraftName());
+        return natives.get(os.getMinecraftName()).replace("${arch}", System.getProperty("sun.arch.data.model"));
     }
 
     public String getPath() {
         String[] split = name.split(":");
         StringBuilder result = new StringBuilder();
+        
         result = result.append(split[0].replace('.', '/'));// net/sf/jopt-simple
         result = result.append('/').append(split[1]).append('/').append(split[2]).append('/'); // /jopt-simple/4.4/
         result = result.append(split[1]).append('-').append(split[2]); // jopt-simple-4.4
@@ -57,10 +62,12 @@ public class Library {
     }
 
     public boolean isCompatible() {
-        boolean compat = true;
+        Action action = null;
         for (Rule rule : rules) {
-            compat = compat && rule.allows();
+            if (rule.applies()){
+                action = rule.getAction();
+            }
         }
-        return compat;
+        return action == Action.ALLOW;
     }
 }

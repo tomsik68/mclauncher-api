@@ -16,11 +16,10 @@ import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 
 public class FileUtils {
     public static void createFileSafely(File file) throws Exception {
-        if (!file.exists()) {
-            file.mkdirs();
-            file.delete();
+        if (!file.getParentFile().exists())
+            file.getParentFile().mkdirs();
+        if (!file.exists())
             file.createNewFile();
-        }
     }
 
     public static void downloadFileWithProgress(String url, File dest, IProgressMonitor progress) throws Exception {
@@ -41,7 +40,8 @@ public class FileUtils {
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dest));
 
         final int len = connection.getContentLength();
-        progress.setMax(len);
+        if (progress != null)
+            progress.setMax(len);
 
         int readBytes = 0;
         byte[] block;
@@ -51,19 +51,18 @@ public class FileUtils {
             int readNow = in.read(block);
             if (readNow > 0)
                 out.write(block, 0, readNow);
-
-            progress.setProgress(readBytes);
+            if (progress != null)
+                progress.setProgress(readBytes);
             readBytes += readNow;
         }
         out.flush();
         out.close();
         in.close();
-        progress.finish();
-        // System.out.println("Download finished.");
+        if (progress != null)
+            progress.finish();
     }
 
     public static void copyFile(File from, File to) throws Exception {
-        // System.out.println(from.getPath()+" ---> "+to.getPath());
         createFileSafely(to);
         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(from));
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(to));

@@ -18,8 +18,6 @@ public class Rule {
             restrictedOs = Platform.osByName(os.get("name").toString());
             if (json.containsKey("version"))
                 restrictedOsVersionPattern = os.get("version").toString();
-            else
-                restrictedOsVersionPattern = "\\*";
         }
     }
 
@@ -35,18 +33,37 @@ public class Rule {
         return restrictedOsVersionPattern;
     }
 
-    public boolean allows() {
-        if (restrictedOs == null || restrictedOsVersionPattern == null) {
-            return action == Action.ALLOW;
-        }
-        if (getRestrictedOs().isCurrent() && Pattern.matches(restrictedOsVersionPattern, System.getProperty("os.version"))) {
-            return action == Action.ALLOW;
-        } else
-            return true;
-    }
-
     public static enum Action {
         ALLOW, DISALLOW
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Rule:{");
+        sb.append("Action:").append(action).append(',');
+        if (restrictedOs != null)
+            sb.append("OS:").append(restrictedOs).append(',');
+        if (restrictedOsVersionPattern != null)
+            sb.append("version:").append(restrictedOsVersionPattern);
+        return sb.toString();
+    }
+
+    public boolean applies() {
+
+        if (getRestrictedOs() == null) {
+            return true;
+        } else {
+            if (getRestrictedOs().isCurrent()) {
+                if (restrictedOsVersionPattern == null) {
+                    return true;
+                } else {
+                    boolean result = Pattern.matches(restrictedOsVersionPattern, System.getProperty("os.version"));
+                    System.out.println(result);
+                    return result;
+                }
+            } else {
+                return false;
+            }
+        }
+    }
 }

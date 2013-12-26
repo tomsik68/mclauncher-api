@@ -17,20 +17,17 @@ public class LegacyLoginService implements ILoginService {
     }
 
     @Override
-    public String getBranding() {
-        return "minecraft.net";
-    }
-
-    @Override
     public boolean isAvailable(IServicesAvailability availability) {
         return availability.isServiceAvailable("login.minecraft.net");
     }
-    private static String encode(String s) throws UnsupportedEncodingException{
+
+    private static String encode(String s) throws UnsupportedEncodingException {
         return URLEncoder.encode(s, "utf-8");
     }
+
     @Override
     public ISession login(IProfile profile) throws Exception {
-        String loginResponse = HttpUtils.securePostWithKey(LOGIN_URL, LegacyLoginService.class.getResourceAsStream("minecraft.key"), "user="+encode(profile.getName())+"&password="+encode(profile.getPassword())+"&version=13");
+        String loginResponse = HttpUtils.securePostWithKey(LOGIN_URL, LegacyLoginService.class.getResourceAsStream("minecraft.key"), "user=" + encode(profile.getName()) + "&password=" + encode(profile.getPassword()) + "&version=13");
         return factory.createSession(loginResponse.split(":"));
     }
 

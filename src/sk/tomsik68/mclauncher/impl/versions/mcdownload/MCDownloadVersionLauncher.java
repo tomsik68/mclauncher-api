@@ -3,8 +3,6 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 
@@ -26,13 +24,13 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         subst.setVariable("auth_access_token", session.getSessionID());
         subst.setVariable("auth_player_name", session.getUsername());
         subst.setVariable("auth_uuid", session.getUUID());
-        subst.setVariable("version_name", version.getDisplayName());
+        subst.setVariable("version_name", version.getId());
         subst.setVariable("game_directory", mc.getLocation().getAbsolutePath());
-        subst.setVariable("game_assets", "assets directory here");
-        subst.setVariable("assets_root", "assets directory here probably aswell"); // NOT_SURE
-        subst.setVariable("assets_index_name", "legacy"); // NOT_SURE
-        subst.setVariable("user_type", "mojang"); // type of user
-                                                  // (mojang/legacy)
+        subst.setVariable("game_assets", "/home/jasku/.minecraft/assets");
+        subst.setVariable("assets_root", "/home/jasku/.minecraft/assets");
+        subst.setVariable("assets_index_name", "1.7.3"); // NOT_SURE
+        subst.setVariable("user_type", "mojang");
+        subst.setVariable("user_properties", "{\"twitch_access_token\":[\"123456789123456789123456789\"]}");
         for (int i = 0; i < args.length; i++) {
             args[i] = subst.substitute(args[i]);
         }
@@ -46,39 +44,39 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         if (!jsonFile.exists()) {
             throw new FileNotFoundException("You need to download the version at first! (JSON description file not found!)");
         }
-
         MCDownloadVersion version = new MCDownloadVersion((JSONObject) JSONValue.parse(new FileInputStream(jsonFile)));
         File jarFile = mc.getJarProvider().getVersionFile(version.getUniqueID());
-
         if (!version.isCompatible()) {
             throw new VersionIncompatibleException(version);
         }
         if (version.getMinimumLauncherVersion() > MCLauncherAPI.MC_LAUNCHER) {
-            throw new RuntimeException("You need to update MCLauncher-API to run this minecraft version!");
+            throw new RuntimeException("You need to update MCLauncher-API to run this minecraft version! Required API version: " + version.getMinimumLauncherVersion());
         }
-        ArrayList<String> command = new ArrayList<String>();
+        StringBuilder command = new StringBuilder();
         if (settings.getJavaLocation() != null)
-            command.add(settings.getJavaLocation().getAbsolutePath());
+            command.append(settings.getJavaLocation().getAbsolutePath());
         else
-            command.add("java");
-        command.add("-Xms".concat(settings.getInitHeap()));
-        command.add("-Xmx".concat(settings.getHeap()));
+            command.append("java ");
+        if (settings.getInitHeap() != null && settings.getInitHeap().length() > 0)
+            command.append("-Xms").append(settings.getInitHeap()).append(' ');
+        if (settings.getHeap() != null && settings.getHeap().length() > 0)
+            command.append("-Xmx").append(settings.getHeap()).append(' ');
         if (settings.getJavaArguments() != null && !settings.getJavaArguments().isEmpty()) {
-            command.addAll(settings.getJavaArguments());
+            for(String arg : settings.getJavaArguments())
+                command.append(arg).append(' ');
         }
         // TODO minecraft natives
-
-        command.add("Djava.library.path=");
-        command.add("-cp");
+        
+        command.append("-Djava.library.path=/home/jasku/dev/Eclipse_workbench/MCLauncherAPI/testmc/bin/natives ");
+        command.append("-cp ");
         StringBuilder sb = new StringBuilder();
         for (Library lib : version.getLibraries()) {
-            sb = sb.append(mc.getLibraryProvider().getLibrary(lib)).append(':');
+            sb = sb.append(mc.getLibraryProvider().getLibrary(lib).getAbsolutePath()).append(':');
         }
-        if (sb.length() > 0)
-            sb = sb.deleteCharAt(sb.length() - 1);
-        command.add(sb.toString());
-        command.add(version.getMainClass());
-
+        sb = sb.append(jarFile.getAbsolutePath());
+        
+        command.append(sb.toString()).append(' ');
+        command.append(version.getMainClass()).append(' ');
         String[] arguments = getMinecraftArguments(mc, session, settings, version);
         sb = new StringBuilder();
         for (String arg : arguments) {
@@ -86,9 +84,11 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         }
         if (sb.length() > 0)
             sb = sb.deleteCharAt(sb.length() - 1);
-        command.add(sb.toString());
-        ProcessBuilder pb = new ProcessBuilder(command);
+        command.append(sb.toString());
+        ProcessBuilder pb = new ProcessBuilder(command.toString());
+        pb.redirectErrorStream(settings.isErrorStreamRedirected());
         pb.directory(mc.getLocation());
+        System.out.println(command.toString());
         return pb.start();
     }
 

@@ -13,7 +13,7 @@ public class StringSubstitutor {
 
     public String substitute(String s) {
         for (Entry<String, String> variable : variables.entrySet()) {
-            s = s.replace(String.format(template,variable.getKey()), variable.getValue());
+                s = s.replace(String.format(template,variable.getKey()), variable.getValue());
         }
         return s;
     }
