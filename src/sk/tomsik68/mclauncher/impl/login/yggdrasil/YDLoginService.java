@@ -9,6 +9,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
 
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.login.ILoginService;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
@@ -18,8 +19,7 @@ import sk.tomsik68.mclauncher.util.HttpUtils;
 
 public class YDLoginService implements ILoginService {
     private static UUID clientToken = UUID.randomUUID();
-    private static String PASSWORD_LOGIN_URL = "https://authserver.mojang.com/authenticate";
-    private String SESSION_LOGIN_URL = "https://authserver.mojang.com/refresh";
+    
 
     public YDLoginService() {
     }
@@ -36,14 +36,14 @@ public class YDLoginService implements ILoginService {
 
     private YDLoginResponse doSessionLogin(IProfile profile) throws Exception {
         YDSessionLoginRequest request = new YDSessionLoginRequest(profile.getPassword(), clientToken.toString());
-        String result = HttpUtils.doJSONPost(SESSION_LOGIN_URL, request);
+        String result = HttpUtils.doJSONPost(MCLauncherAPI.URLS.SESSION_LOGIN_URL, request);
         YDLoginResponse response = new YDLoginResponse((JSONObject) JSONValue.parse(result));
         return response;
     }
 
     private YDLoginResponse doPasswordLogin(IProfile profile) throws Exception {
         YDPasswordLoginRequest request = new YDPasswordLoginRequest(profile.getName(), profile.getPassword(), clientToken.toString());
-        String result = HttpUtils.doJSONPost(PASSWORD_LOGIN_URL, request);
+        String result = HttpUtils.doJSONPost(MCLauncherAPI.URLS.PASSWORD_LOGIN_URL, request);
         YDLoginResponse response = new YDLoginResponse((JSONObject) JSONValue.parse(result));
         return response;
     }

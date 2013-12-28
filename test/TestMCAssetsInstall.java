@@ -65,7 +65,6 @@ public class TestMCAssetsInstall {
 
                     }
                 }
-
             }
         });
         try {

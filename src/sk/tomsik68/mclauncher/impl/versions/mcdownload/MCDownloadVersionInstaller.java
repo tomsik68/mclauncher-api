@@ -27,7 +27,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
 
     @Override
     public void install(IVersion v, IMinecraftInstance mc, IProgressMonitor progress) throws Exception {
-        Logger log = Logger.getLogger("installer");
+        Logger log = MCLauncherAPI.log;
         log.info("Checking compatibility...");
         MCDownloadVersion version = (MCDownloadVersion) v;
         if (!version.isCompatible())
@@ -62,6 +62,8 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
             }
         }
         notifyListeners(version);
+        if(progress != null)
+            progress.finish();
     }
 
     private void updateResources(IMinecraftInstance mc, MCDownloadVersion version, IProgressMonitor progress) throws Exception {
@@ -70,7 +72,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
             assets.mkdirs();
         }
         MCDResourcesInstaller resInstaller = new MCDResourcesInstaller(mc);
-        resInstaller.install(version);
+        resInstaller.install(version, progress);
     }
 
     

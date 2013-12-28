@@ -49,7 +49,7 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         if (!version.isCompatible()) {
             throw new VersionIncompatibleException(version);
         }
-        if (version.getMinimumLauncherVersion() > MCLauncherAPI.MC_LAUNCHER) {
+        if (version.getMinimumLauncherVersion() > MCLauncherAPI.MC_LAUNCHER_VERSION) {
             throw new RuntimeException("You need to update MCLauncher-API to run this minecraft version! Required API version: " + version.getMinimumLauncherVersion());
         }
         StringBuilder command = new StringBuilder();
