@@ -17,10 +17,11 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+@Deprecated
 public class LauncherComponent extends Applet implements AppletStub {
     private static final long serialVersionUID = -6942044817024235085L;
     private Applet minecraft;
-    private HashMap<String, Object> params = new HashMap();
+    private HashMap<String, Object> params = new HashMap<String, Object>();
     private final ClassLoader loader;
     protected boolean active = false;
     private final JSplitPane splitPane;
@@ -117,13 +118,14 @@ public class LauncherComponent extends Applet implements AppletStub {
                 while (LauncherComponent.this.active) {
                     LauncherComponent.this.repaint();
                     try {
-                        Thread.sleep(10L);
+                        Thread.sleep(100L);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             }
         };
+        thread.start();
         for (int i = 0; i < this.model.getRowCount(); i++) {
             if ((this.model.getValueAt(i, 0) != null) && (this.model.getValueAt(i, 1) != null))
                 this.params.put(this.model.getValueAt(i, 0).toString(), this.model.getValueAt(i, 1).toString());

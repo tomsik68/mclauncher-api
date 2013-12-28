@@ -11,6 +11,7 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionList;
 import sk.tomsik68.mclauncher.impl.common.Observable;
 
+@Deprecated
 public class MCAssetsVersionList extends Observable<IVersion> implements IVersionList {
     private static final Pattern snapshotPattern = Pattern.compile("((\\d\\d\\w\\d\\d\\w)|(\\d_\\d-pre)|(\\d_\\d-pre\\d)|(rc)|(rc\\d))");
 
@@ -24,7 +25,8 @@ public class MCAssetsVersionList extends Observable<IVersion> implements IVersio
                     notifyObservers(new MCAssetsVersion(node.getFirstChild().getTextContent().split("/")[0]));
         }
     }
-    public static final boolean isSnapshot(IVersion version){
+
+    public static final boolean isSnapshot(IVersion version) {
         return snapshotPattern.matcher(version.getId()).matches();
     }
 }

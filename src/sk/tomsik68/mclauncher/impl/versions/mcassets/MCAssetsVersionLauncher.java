@@ -14,6 +14,7 @@ import sk.tomsik68.mclauncher.api.servers.ISavedServer;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
 
+@Deprecated
 public class MCAssetsVersionLauncher implements IVersionLauncher {
 
     @Override
@@ -26,7 +27,7 @@ public class MCAssetsVersionLauncher implements IVersionLauncher {
             command.add("java");
         else
             command.add(settings.getJavaLocation().getAbsolutePath());
-        if(settings.getJavaArguments() != null && !settings.getJavaArguments().isEmpty())
+        if (settings.getJavaArguments() != null && !settings.getJavaArguments().isEmpty())
             command.addAll(settings.getJavaArguments());
         command.add("-Xms".concat(settings.getInitHeap()));
         command.add("-Xmx".concat(settings.getHeap()));

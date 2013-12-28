@@ -16,9 +16,9 @@ import sk.tomsik68.mclauncher.resources.ResourcesXMLParser;
 import sk.tomsik68.mclauncher.util.ExtractUtils;
 import sk.tomsik68.mclauncher.util.FileUtils;
 
+@Deprecated
 public class MCAssetsVersionInstaller implements IVersionInstaller {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
-    
 
     public MCAssetsVersionInstaller() {
 
