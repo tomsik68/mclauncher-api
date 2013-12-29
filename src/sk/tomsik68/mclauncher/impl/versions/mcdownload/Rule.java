@@ -49,7 +49,6 @@ public class Rule {
     }
 
     public boolean applies() {
-
         if (getRestrictedOs() == null) {
             return true;
         } else {

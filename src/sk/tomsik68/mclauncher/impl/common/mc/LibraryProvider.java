@@ -21,7 +21,7 @@ public class LibraryProvider implements ILibraryProvider {
     }
 
     @Override
-    public File getLibrary(Library library) {
+    public File getLibraryFile(Library library) {
         String path = library.getPath().replace('/', File.separatorChar);
         return new File(libsFolder,path);
     }
@@ -33,7 +33,7 @@ public class LibraryProvider implements ILibraryProvider {
 
     @Override
     public boolean isInstalled(Library library) {
-        return getLibrary(library).exists();
+        return getLibraryFile(library).exists();
     }
 
     @Override

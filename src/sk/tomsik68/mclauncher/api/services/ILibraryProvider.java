@@ -11,7 +11,7 @@ public interface ILibraryProvider {
      *            - Name of library.
      * @return - File where this library is located. Name will be in minecraft's format.
      */
-    public File getLibrary(Library lib);
+    public File getLibraryFile(Library lib);
 
     public File getNativesDirectory();
 

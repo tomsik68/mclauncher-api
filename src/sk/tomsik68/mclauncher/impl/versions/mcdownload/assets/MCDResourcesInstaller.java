@@ -15,7 +15,6 @@ import sk.tomsik68.mclauncher.util.FilePathBuilder;
 import sk.tomsik68.mclauncher.util.FileUtils;
 
 public class MCDResourcesInstaller {
-    
 
     private final File indexesDir, objectsDir, virtualDir;
 
@@ -29,11 +28,11 @@ public class MCDResourcesInstaller {
         String index = version.getAssetsIndexName();
         File indexDest = new File(indexesDir, index + ".json");
         String indexDownloadURL = MCLauncherAPI.URLS.RESOURCES_INDEX_URL + index + ".json";
-        System.out.println(indexDownloadURL);
-        FileUtils.downloadFileWithProgress(indexDownloadURL, indexDest, null);
+        if (!indexDest.exists() || indexDest.length() == 0)
+            FileUtils.downloadFileWithProgress(indexDownloadURL, indexDest, null);
         JSONObject jsonAssets = (JSONObject) JSONValue.parse(new FileReader(indexDest));
         AssetIndex assets = new AssetIndex(jsonAssets);
-
+        MCLauncherAPI.log.info("Retrieving objects...");
         if (!assets.isVirtual()) {
             downloadAssetList(assets, progress);
         } else
@@ -45,21 +44,31 @@ public class MCDResourcesInstaller {
         assetsDir.mkdirs();
         String path;
         File dest;
+
         for (Entry<String, Asset> entry : assets.getAssets().entrySet()) {
+            MCLauncherAPI.log.info("Retrieving " + entry.getKey());
             path = entry.getKey().replace('/', File.separatorChar);
             dest = new File(assetsDir, path);
+
             dest.getParentFile().mkdirs();
-            FileUtils.downloadFileWithProgress(entry.getValue().getUrl(), dest, progress);
+            if (!dest.exists() || dest.length() != entry.getValue().getSize())
+                FileUtils.downloadFileWithProgress(entry.getValue().getUrl(), dest, progress);
+            else
+                MCLauncherAPI.log.info("Skipping already downloaded " + entry.getKey());
         }
     }
 
-    private void downloadAssetList(AssetIndex assets,IProgressMonitor progress) throws Exception {
+    private void downloadAssetList(AssetIndex assets, IProgressMonitor progress) throws Exception {
         FilePathBuilder pathBuilder;
         for (Entry<String, Asset> entry : assets.getAssets().entrySet()) {
+            MCLauncherAPI.log.info("Retrieving " + entry.getKey());
             pathBuilder = new FilePathBuilder(objectsDir);
             pathBuilder.append(entry.getValue().getPreHash()).append(entry.getValue().getHash());
             File dest = pathBuilder.getResult();
-            FileUtils.downloadFileWithProgress(entry.getValue().getUrl(), dest, progress);
+            if (!dest.exists() || dest.length() != entry.getValue().getSize())
+                FileUtils.downloadFileWithProgress(entry.getValue().getUrl(), dest, progress);
+            else
+                MCLauncherAPI.log.info("Skipping already downloaded " + entry.getKey());
         }
     }
 

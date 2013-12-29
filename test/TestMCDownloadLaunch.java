@@ -12,9 +12,9 @@ import sk.tomsik68.mclauncher.api.common.IObserver;
 import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
+import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDAuthProfile;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
 
@@ -32,17 +32,12 @@ public class TestMCDownloadLaunch {
                 public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
                     if (changed.getUniqueID().equals("r1.7.4")) {
                         try {
-
-                            try {
-                                changed.getInstaller().install(changed, mc, null);
-                            } catch (Exception ignore) {
-                            }
-
+                            changed.getInstaller().install(changed, mc, null);
+                            // finally use my minecraft credentials
                             YDLoginService service = new YDLoginService();
-
+                            service.load(Platform.getCurrentPlatform().getWorkingDirectory());
                             ISession session = service.login(new LegacyProfile("Tomsik68@gmail.com", "mypassword"));
-                            /*IProfileIO profileReader = new YDProfileIO(Platform.getCurrentPlatform().getWorkingDirectory());
-                            ISession session = service.login(profileReader.read()[0]);*/
+                            
                             Process proc = changed.getLauncher().launch(session, mc, null, changed, new ILaunchSettings() {
 
                                 @Override

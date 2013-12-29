@@ -62,10 +62,11 @@ public class Library {
     }
 
     public boolean isCompatible() {
-        Action action = null;
+        Action action = Action.ALLOW;
         for (Rule rule : rules) {
             if (rule.applies()){
-                action = rule.getAction();
+                if(action == Action.ALLOW)
+                    action = rule.getAction();
             }
         }
         return action == Action.ALLOW;

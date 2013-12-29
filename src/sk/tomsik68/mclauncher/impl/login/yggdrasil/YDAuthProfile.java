@@ -5,7 +5,11 @@ import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 
 public class YDAuthProfile implements IProfile, IJSONSerializable {
-    private final String userName, accessToken, uuid, displayName, userId;
+    private final String userName;
+    private String accessToken;
+    private final String uuid;
+    private final String displayName;
+    private final String userId;
     private String profileName = "(Default)";
 
     public YDAuthProfile(String name, String displayName, String sessid, String uuid, String userId) {
@@ -74,6 +78,10 @@ public class YDAuthProfile implements IProfile, IJSONSerializable {
 
     public String getUserId() {
         return userId;
+    }
+
+    public void setPassword(String sessionID) {
+        accessToken = sessionID;
     }
 
 }
