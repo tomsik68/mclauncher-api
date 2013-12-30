@@ -16,6 +16,7 @@ public class MCLauncherAPI {
         
         public static final String PASSWORD_LOGIN_URL = "https://authserver.mojang.com/authenticate";
         public static final String SESSION_LOGIN_URL = "https://authserver.mojang.com/refresh";
+        public static final String SESSION_LOGOUT_URL = "https://authserver.mojang.com/invalidate";
 
         public static final String LWJGL_DOWNLOAD_URL = "http://kent.dl.sourceforge.net/project/java-game-lib/Official%20Releases/LWJGL%202.9.0/lwjgl-2.9.0.zip";
         public static final String RESOURCES_DOWNLOAD_URL = "http://s3.amazonaws.com/MinecraftResources/";

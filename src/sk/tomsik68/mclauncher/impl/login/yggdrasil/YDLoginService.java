@@ -19,7 +19,6 @@ import sk.tomsik68.mclauncher.util.HttpUtils;
 
 public class YDLoginService implements ILoginService {
     private static UUID clientToken = UUID.randomUUID();
-    
 
     public YDLoginService() {
     }
@@ -27,11 +26,17 @@ public class YDLoginService implements ILoginService {
     @Override
     public ISession login(IProfile profile) throws Exception {
         YDLoginResponse response;
-        if (profile instanceof LegacyProfile) {
+        if (profile instanceof LegacyProfile)
             response = doPasswordLogin(profile);
-        } else
+        else {
             response = doSessionLogin(profile);
-        return new YDSession(response);
+            if (profile instanceof YDAuthProfile)
+                ((YDAuthProfile) profile).setPassword(response.getSessionID());
+        }
+
+        YDSession result = new YDSession(response);
+
+        return result;
     }
 
     private YDLoginResponse doSessionLogin(IProfile profile) throws Exception {
@@ -72,7 +77,19 @@ public class YDLoginService implements ILoginService {
         if (file.exists()) {
             JSONObject obj = (JSONObject) JSONValue.parse(new FileReader(file));
             clientToken = UUID.fromString(obj.get("clientToken").toString());
-            System.out.println("Loaded client token: " + clientToken.toString());
+            MCLauncherAPI.log.info("Loaded client token: " + clientToken.toString());
+        }
+    }
+
+    @Override
+    public void logout(ISession session) throws Exception {
+        YDLogoutRequest request = new YDLogoutRequest(session, clientToken);
+        String result = HttpUtils.doJSONPost(MCLauncherAPI.URLS.SESSION_LOGOUT_URL, request);
+        if (result.length() > 0) {
+            YDResponse response = new YDResponse((JSONObject) JSONValue.parse(result));
+            if (response.getError() != null) {
+                throw new RuntimeException(response.getError() + " " + response.getMessage());
+            }
         }
     }
 

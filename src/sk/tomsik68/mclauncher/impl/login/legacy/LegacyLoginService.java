@@ -31,4 +31,9 @@ public class LegacyLoginService implements ILoginService {
         return factory.createSession(loginResponse.split(":"));
     }
 
+    @Override
+    public void logout(ISession session) throws Exception {
+        // nothing happens, can't log out.
+    }
+
 }

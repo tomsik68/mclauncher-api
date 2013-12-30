@@ -10,12 +10,13 @@ import sk.tomsik68.mclauncher.api.common.ILaunchSettings;
 import sk.tomsik68.mclauncher.api.common.IObservable;
 import sk.tomsik68.mclauncher.api.common.IObserver;
 import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.common.mc.MinecraftInstance;
-import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
+import sk.tomsik68.mclauncher.impl.login.yggdrasil.io.YDProfileIO;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
 
 public class TestMCDownloadLaunch {
@@ -36,7 +37,10 @@ public class TestMCDownloadLaunch {
                             // finally use my minecraft credentials
                             YDLoginService service = new YDLoginService();
                             service.load(Platform.getCurrentPlatform().getWorkingDirectory());
-                            ISession session = service.login(new LegacyProfile("Tomsik68@gmail.com", "mypassword"));
+                            YDProfileIO profileIO = new YDProfileIO(Platform.getCurrentPlatform().getWorkingDirectory());
+                            IProfile[] profiles = profileIO.read();
+                            ISession session = service.login(profiles[0]);
+                            
                             
                             Process proc = changed.getLauncher().launch(session, mc, null, changed, new ILaunchSettings() {
 
