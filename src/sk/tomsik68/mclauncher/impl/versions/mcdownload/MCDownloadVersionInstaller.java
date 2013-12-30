@@ -14,11 +14,11 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstallListener;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.assets.MCDResourcesInstaller;
+import sk.tomsik68.mclauncher.util.ExtractUtils;
 import sk.tomsik68.mclauncher.util.FileUtils;
 
 public class MCDownloadVersionInstaller implements IVersionInstaller {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
-    
 
     @Override
     public void addVersionInstallListener(IVersionInstallListener listener) {
@@ -34,20 +34,42 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
             throw new VersionIncompatibleException(v);
         log.info("Version compatible");
         List<Library> toInstall = version.getLibraries();
+        List<Library> toExtract = new ArrayList<Library>();
         log.info("Fetching libraries...");
+
         for (Library lib : toInstall) {
-            if (!mc.getLibraryProvider().isInstalled(lib) && lib.isCompatible()) {
-                log.info("Installing " + lib.getName());
-                try {
-                    installLibrary(lib, mc, progress);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    log.info("Failed to install " + lib.getName());
+            if (lib.isCompatible()) {
+                if (!mc.getLibraryProvider().isInstalled(lib)) {
+                    log.info("Installing " + lib.getName());
+                    try {
+                        downloadLibrary(lib, mc, progress);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        log.info("Failed to install " + lib.getName());
+                    }
+                }
+                if (lib.hasNatives()) {
+                    toExtract.add(lib);
                 }
             } else {
-                log.info(lib.getName() + " is already installed or incompatible.");
+                log.info(lib.getName() + " is not compatible.");
             }
         }
+
+        log.info("Extracting natives...");
+        File nativesDir = new File(mc.getJarProvider().getVersionFile(version.getUniqueID()).getParentFile(), "natives");
+        // purge old natives
+        if (nativesDir.exists()) {
+            File[] contains = nativesDir.listFiles();
+            for (File f : contains) {
+                f.delete();
+            }
+        }
+        for (Library lib : toExtract) {
+            File libFile = mc.getLibraryProvider().getLibraryFile(lib);
+            ExtractUtils.extractZipWithRules(libFile, nativesDir, lib.getExtractRules());
+        }
+
         log.info("Updating resources...");
         updateResources(mc, version, progress);
         File jarDest = mc.getJarProvider().getVersionFile(version.getUniqueID());
@@ -62,7 +84,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
             }
         }
         notifyListeners(version);
-        if(progress != null)
+        if (progress != null)
             progress.finish();
     }
 
@@ -75,9 +97,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
         resInstaller.install(version, progress);
     }
 
-    
-
-    private void installLibrary(Library lib, IMinecraftInstance mc, IProgressMonitor p) throws Exception {
+    private void downloadLibrary(Library lib, IMinecraftInstance mc, IProgressMonitor p) throws Exception {
         String url = MCLauncherAPI.URLS.LIBRARY_BASE_URL.concat(lib.getPath());
         File dest = new File(mc.getLibraryProvider().getLibrariesDirectory(), lib.getPath());
         dest.mkdirs();

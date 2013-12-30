@@ -2,22 +2,19 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Logger;
-
-import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
-import sk.tomsik68.mclauncher.impl.common.Platform;
-import sk.tomsik68.mclauncher.impl.versions.mcdownload.Rule.Action;
-import sk.tomsik68.mclauncher.util.FilePathBuilder;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
+import sk.tomsik68.mclauncher.impl.common.Platform;
+import sk.tomsik68.mclauncher.impl.versions.mcdownload.Rule.Action;
+import sk.tomsik68.mclauncher.util.IExtractRules;
 
 public class Library {
     private final String name;
     private final HashMap<String, String> natives = new HashMap<String, String>();
     private final ArrayList<Rule> rules = new ArrayList<Rule>();
+    private LibraryExtractRules extractRules;
 
     public Library(JSONObject json) {
         name = json.get("name").toString();
@@ -33,6 +30,9 @@ public class Library {
                 rules.add(new Rule((JSONObject) rulz.get(i)));
             }
         }
+        if (json.containsKey("extract")) {
+            extractRules = new LibraryExtractRules((JSONObject) json.get("extract"));
+        }
     }
 
     public String getName() {
@@ -41,14 +41,14 @@ public class Library {
 
     public String getNatives(IOperatingSystem os) {
         if (!natives.containsKey(os.getMinecraftName()))
-            return natives.get(Platform.wrapName(os.getMinecraftName()));
+            return natives.get(Platform.wrapName(os.getMinecraftName())).replace("${arch}", System.getProperty("sun.arch.data.model"));
         return natives.get(os.getMinecraftName()).replace("${arch}", System.getProperty("sun.arch.data.model"));
     }
 
     public String getPath() {
         String[] split = name.split(":");
         StringBuilder result = new StringBuilder();
-        
+
         result = result.append(split[0].replace('.', '/'));// net/sf/jopt-simple
         result = result.append('/').append(split[1]).append('/').append(split[2]).append('/'); // /jopt-simple/4.4/
         result = result.append(split[1]).append('-').append(split[2]); // jopt-simple-4.4
@@ -64,11 +64,20 @@ public class Library {
     public boolean isCompatible() {
         Action action = Action.ALLOW;
         for (Rule rule : rules) {
-            if (rule.applies()){
-                if(action == Action.ALLOW)
+            if (rule.applies()) {
+                if (action == Action.ALLOW)
                     action = rule.getAction();
             }
         }
-        return action == Action.ALLOW;
+        return action == Action.ALLOW && (natives== null || natives.containsKey(Platform.getCurrentPlatform().getMinecraftName()));
     }
+
+    public boolean hasNatives() {
+        return !natives.isEmpty();
+    }
+
+    public IExtractRules getExtractRules() {
+        return extractRules;
+    }
+
 }

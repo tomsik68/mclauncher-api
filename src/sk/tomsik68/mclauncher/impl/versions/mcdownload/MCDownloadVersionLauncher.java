@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minidev.json.JSONObject;
+import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
 
 import sk.tomsik68.mclauncher.api.common.ILaunchSettings;
@@ -15,6 +17,7 @@ import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.servers.ISavedServer;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
+import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
 public class MCDownloadVersionLauncher implements IVersionLauncher {
@@ -32,7 +35,16 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         subst.setVariable("assets_root", mc.getAssetsDirectory().getAbsolutePath());
         subst.setVariable("assets_index_name", version.getAssetsIndexName());
         subst.setVariable("user_type", session.getType().toString().toLowerCase());
-        subst.setVariable("user_properties", "{}");
+        if(session.getProperties() != null && !session.getProperties().isEmpty()){
+            JSONObject propertiesObj = new JSONObject();
+            List<Prop> properties = session.getProperties();
+            for(Prop p : properties){
+                propertiesObj.put(p.name, p.value);
+            }
+            subst.setVariable("user_properties", propertiesObj.toJSONString(JSONStyle.NO_COMPRESS));
+        }else
+            subst.setVariable("user_properties", "{}");
+        
         for (int i = 0; i < args.length; i++) {
             args[i] = subst.substitute(args[i]);
         }
@@ -68,8 +80,8 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
                 command.add(arg);
         }
         // TODO minecraft natives
-        
-        command.add("-Djava.library.path=/home/jasku/dev/Eclipse_workbench/MCLauncherAPI/testmc/bin/natives");
+        File nativesDir = new File(jarFile.getParentFile(),"natives");
+        command.add("-Djava.library.path="+nativesDir.getAbsolutePath());
         command.add("-cp");
         StringBuilder sb = new StringBuilder();
         for (Library lib : version.getLibraries()) {

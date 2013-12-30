@@ -32,7 +32,7 @@ public class MCDResourcesInstaller {
             FileUtils.downloadFileWithProgress(indexDownloadURL, indexDest, null);
         JSONObject jsonAssets = (JSONObject) JSONValue.parse(new FileReader(indexDest));
         AssetIndex assets = new AssetIndex(jsonAssets);
-        MCLauncherAPI.log.info("Retrieving objects...");
+        MCLauncherAPI.log.fine("Retrieving objects...");
         if (!assets.isVirtual()) {
             downloadAssetList(assets, progress);
         } else
@@ -46,7 +46,7 @@ public class MCDResourcesInstaller {
         File dest;
 
         for (Entry<String, Asset> entry : assets.getAssets().entrySet()) {
-            MCLauncherAPI.log.info("Retrieving " + entry.getKey());
+            MCLauncherAPI.log.fine("Retrieving " + entry.getKey());
             path = entry.getKey().replace('/', File.separatorChar);
             dest = new File(assetsDir, path);
 
@@ -54,21 +54,21 @@ public class MCDResourcesInstaller {
             if (!dest.exists() || dest.length() != entry.getValue().getSize())
                 FileUtils.downloadFileWithProgress(entry.getValue().getUrl(), dest, progress);
             else
-                MCLauncherAPI.log.info("Skipping already downloaded " + entry.getKey());
+                MCLauncherAPI.log.fine("Skipping already downloaded " + entry.getKey());
         }
     }
 
     private void downloadAssetList(AssetIndex assets, IProgressMonitor progress) throws Exception {
         FilePathBuilder pathBuilder;
         for (Entry<String, Asset> entry : assets.getAssets().entrySet()) {
-            MCLauncherAPI.log.info("Retrieving " + entry.getKey());
+            MCLauncherAPI.log.fine("Retrieving " + entry.getKey());
             pathBuilder = new FilePathBuilder(objectsDir);
             pathBuilder.append(entry.getValue().getPreHash()).append(entry.getValue().getHash());
             File dest = pathBuilder.getResult();
             if (!dest.exists() || dest.length() != entry.getValue().getSize())
                 FileUtils.downloadFileWithProgress(entry.getValue().getUrl(), dest, progress);
             else
-                MCLauncherAPI.log.info("Skipping already downloaded " + entry.getKey());
+                MCLauncherAPI.log.fine("Skipping already downloaded " + entry.getKey());
         }
     }
 

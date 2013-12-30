@@ -1,7 +1,10 @@
 package sk.tomsik68.mclauncher.impl.login.legacy;
 
+import java.util.List;
+
 import sk.tomsik68.mclauncher.api.login.ESessionType;
 import sk.tomsik68.mclauncher.api.login.ISession;
+import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
 
 public class LegacySession implements ISession {
     private final String userName, sessionID, uuid, downloadTicket, lastVersion;
@@ -40,6 +43,11 @@ public class LegacySession implements ISession {
     @Override
     public ESessionType getType() {
         return ESessionType.LEGACY;
+    }
+
+    @Override
+    public List<Prop> getProperties() {
+        return null;
     }
 
 }

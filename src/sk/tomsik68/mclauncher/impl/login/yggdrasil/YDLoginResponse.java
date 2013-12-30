@@ -9,6 +9,7 @@ public class YDLoginResponse extends YDResponse {
     private final String sessionID, clientToken;
     private final YDPartialGameProfile selectedProfile;
     private HashMap<String, YDPartialGameProfile> profiles = new HashMap<String, YDPartialGameProfile>();
+    private YDUserObject user;
 
     public YDLoginResponse(JSONObject json) {
         super(json);
@@ -23,6 +24,8 @@ public class YDLoginResponse extends YDResponse {
                 this.profiles.put(p.getName(), p);
             }
         }
+        if(json.containsKey("user"))
+            user = new YDUserObject((JSONObject)json.get("user"));
     }
 
     public String getSessionID() {
@@ -39,5 +42,12 @@ public class YDLoginResponse extends YDResponse {
 
     public YDPartialGameProfile getProfile(String name) {
         return profiles.get(name);
+    }
+
+    public YDUserObject getUserObject() {
+        if(user == null){
+            user = new YDUserObject(selectedProfile.getName());
+        }
+        return user;
     }
 }

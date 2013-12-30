@@ -72,7 +72,7 @@ public class YDAuthProfile implements IProfile, IJSONSerializable {
     }
 
     public YDPartialGameProfile getYDGameProfile() {
-        YDPartialGameProfile result = new YDPartialGameProfile(userName, uuid);
+        YDPartialGameProfile result = new YDPartialGameProfile(userName, uuid, false);
         return result;
     }
 
