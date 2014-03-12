@@ -31,6 +31,7 @@ public class LegacyProfileIO implements IProfileIO {
     @Override
     public void write(IProfile[] profile) throws Exception {
         if(!dest.exists()){
+            dest.getParentFile().mkdirs();
             dest.createNewFile();
         }
         DataOutputStream out = new DataOutputStream(proc.encrypt(new FileOutputStream(dest)));

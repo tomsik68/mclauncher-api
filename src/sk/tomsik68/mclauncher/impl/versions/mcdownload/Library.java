@@ -65,11 +65,10 @@ public class Library {
         Action action = Action.ALLOW;
         for (Rule rule : rules) {
             if (rule.applies()) {
-                if (action == Action.ALLOW)
-                    action = rule.getAction();
+                action = rule.getAction();
             }
         }
-        return action == Action.ALLOW && (natives== null || natives.containsKey(Platform.getCurrentPlatform().getMinecraftName()));
+        return action == Action.ALLOW && (natives.isEmpty() || natives.containsKey(Platform.getCurrentPlatform().getMinecraftName()));
     }
 
     public boolean hasNatives() {
