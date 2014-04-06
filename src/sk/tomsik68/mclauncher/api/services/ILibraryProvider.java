@@ -5,12 +5,6 @@ import java.io.File;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.Library;
 
 public interface ILibraryProvider {
-    /**
-     * 
-     * @param name
-     *            - Name of library.
-     * @return - File where this library is located. Name will be in minecraft's format.
-     */
     public File getLibraryFile(Library lib);
 
     public File getNativesDirectory();

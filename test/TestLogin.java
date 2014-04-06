@@ -33,6 +33,7 @@ public class TestLogin {
             
             profiles[0] = profile;
             profileIO.write(profiles);
+            System.out.println(session.getSessionID());
             
         } catch (Exception e) {
             e.printStackTrace();

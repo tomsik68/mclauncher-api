@@ -4,16 +4,24 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class holds basic settings for launching minecraft
+ * 
+ * @author Tomsik68
+ * 
+ */
 public interface ILaunchSettings {
     /**
-     * 
-     * @return how much RAM to allocate (-Xms argument)
+     * <B>Required</B>
+     * Accepts values like 512M or 3G etc.
+     * @return initial heap size (-Xms argument)
      */
     public String getInitHeap();
 
     /**
-     * 
-     * @return how much RAM to allocate (-Xmx argument)
+     * <B>Required</B>
+     * Accepts values like 512M or 3G etc.
+     * @return maximal heap size (-Xmx argument)
      */
     public String getHeap();
 
@@ -25,7 +33,6 @@ public interface ILaunchSettings {
     public Map<String, String> getCustomParameters();
 
     /**
-     * 
      * @return Whether to redirect process error stream to process input stream.
      *         If you're unsure, set to true.
      */
@@ -51,6 +58,7 @@ public interface ILaunchSettings {
      *         Files\java\jre\bin\java.exe). If null, default java will be used
      */
     public File getJavaLocation();
+
     /**
      * 
      * @return Additional arguments for java process

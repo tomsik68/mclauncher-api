@@ -1,7 +1,11 @@
 package sk.tomsik68.mclauncher.api.common;
 
 import java.util.logging.Logger;
-
+/**
+ * This is main entrypoint of MCLauncherAPI. It stores some constants and information needed by other components of the API.
+ * @author Tomsik68
+ *
+ */
 public class MCLauncherAPI {
     public static final int MC_LAUNCHER_VERSION = 13;
     public static Logger log = Logger.getLogger(MCLauncherAPI.class.getName());

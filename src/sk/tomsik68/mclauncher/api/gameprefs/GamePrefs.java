@@ -1,7 +1,11 @@
 package sk.tomsik68.mclauncher.api.gameprefs;
 
 import java.io.File;
-
+/**
+ * GamePrefs are used for compatibility with the official launcher. 
+ * @author Tomsik68
+ *
+ */
 public class GamePrefs{
     public class Resolution {
         private int width, height;

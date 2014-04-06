@@ -11,6 +11,13 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionList;
 import sk.tomsik68.mclauncher.impl.common.Observable;
 
+/**
+ * This is the old list, which still works, but you're highly encouraged to use
+ * {@link sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList} instead!
+ * 
+ * @author Tomsik68
+ * 
+ */
 @Deprecated
 public class MCAssetsVersionList extends Observable<IVersion> implements IVersionList {
     private static final Pattern snapshotPattern = Pattern.compile("((\\d\\d\\w\\d\\d\\w)|(\\d_\\d-pre)|(\\d_\\d-pre\\d)|(rc)|(rc\\d))");
