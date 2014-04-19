@@ -18,7 +18,7 @@ import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
 import sk.tomsik68.mclauncher.util.HttpUtils;
 
 public class YDLoginService implements ILoginService {
-    private static UUID clientToken = UUID.randomUUID();
+    public static UUID clientToken = UUID.randomUUID();
 
     public YDLoginService() {
     }
@@ -60,24 +60,40 @@ public class YDLoginService implements ILoginService {
 
     public void save(File mcInstance) throws Exception {
         File file = new File(mcInstance, "launcher_profiles.json");
+        saveTo(file);
+    }
+
+    public void saveTo(File file) throws Exception {
         JSONObject obj = new JSONObject();
         if (file.exists()) {
-            obj = (JSONObject) JSONValue.parse(new FileReader(file));
-            if (obj.containsKey("clientToken") && obj.get("clientToken").toString().equalsIgnoreCase(clientToken.toString()))
-                return;
+            try {
+                obj = (JSONObject) JSONValue.parse(new FileReader(file));
+                if (obj.containsKey("clientToken"))
+                    return;
+            } catch (Exception e) {
+                
+            }
             file.delete();
+
         }
-        file.createNewFile();
-        obj.put("clientToken", clientToken);
-        obj.writeJSONString(new FileWriter(file), JSONStyle.NO_COMPRESS);
+        // file.createNewFile();
+        obj.put("clientToken", clientToken.toString());
+        FileWriter fw = new FileWriter(file);
+        obj.writeJSONString(fw, JSONStyle.NO_COMPRESS);
+        fw.flush();
+        fw.close();
     }
 
     public void load(File mcInstance) throws Exception {
         File file = new File(mcInstance, "launcher_profiles.json");
+        loadFrom(file);
+    }
+
+    public void loadFrom(File file) throws Exception {
         if (file.exists()) {
             JSONObject obj = (JSONObject) JSONValue.parse(new FileReader(file));
             clientToken = UUID.fromString(obj.get("clientToken").toString());
-            MCLauncherAPI.log.info("Loaded client token: " + clientToken.toString());
+            //MCLauncherAPI.log.info("Loaded client token: " + clientToken.toString());
         }
     }
 
