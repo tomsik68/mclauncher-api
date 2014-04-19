@@ -3,9 +3,12 @@ package sk.tomsik68.mclauncher.impl.common;
 import java.util.HashMap;
 
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
+import sk.tomsik68.mclauncher.impl.versions.mcdownload.Library;
 
 public class Platform {
-    private final static IOperatingSystem[] oss = new IOperatingSystem[] { new Linux(), new Solaris(), new Windows(), new Macintosh() };
+    private final static IOperatingSystem[] oss = new IOperatingSystem[] {
+            new Linux(), new Solaris(), new Windows(), new Macintosh()
+    };
     private static IOperatingSystem currentOS = null;
     // macos was renamed to osx in 1.6, so I've created a map of changed OSs
     private static final HashMap<String, String> minecraftOsWrapper = new HashMap<String, String>();
@@ -18,16 +21,17 @@ public class Platform {
             return currentOS;
         for (IOperatingSystem os : oss) {
             if (os.isCurrent()) {
-                currentOS = os;
+                forcePlatform(os);
                 return currentOS;
             }
         }
-        currentOS = new UnknownOS();
+        forcePlatform(new UnknownOS());
         return currentOS;
     }
 
     public static void forcePlatform(IOperatingSystem p) {
         currentOS = p;
+        Library.addLibraryPathVariable("arch", currentOS.is32Bit() ? "32" : "64");
     }
 
     public static String wrapName(String name) {

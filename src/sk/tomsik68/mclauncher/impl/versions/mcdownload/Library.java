@@ -9,19 +9,24 @@ import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
 import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.Rule.Action;
 import sk.tomsik68.mclauncher.util.IExtractRules;
+import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
 public class Library {
     private final String name;
     private final HashMap<String, String> natives = new HashMap<String, String>();
     private final ArrayList<Rule> rules = new ArrayList<Rule>();
     private LibraryExtractRules extractRules;
+    private static final StringSubstitutor libraryPathSubstitutor = new StringSubstitutor("${%s}");
 
     public Library(JSONObject json) {
         name = json.get("name").toString();
         if (json.containsKey("natives")) {
             JSONObject nativesObj = (JSONObject) json.get("natives");
             for (String nativeKey : nativesObj.keySet()) {
-                natives.put(nativeKey, nativesObj.get(nativeKey).toString());
+                String key = nativeKey;
+                String value = nativesObj.get(nativeKey).toString();
+
+                natives.put(key, value);
             }
         }
         if (json.containsKey("rules")) {
@@ -58,7 +63,7 @@ public class Library {
             result = result.append('-').append(natives.get(osName));
         }
         result = result.append(".jar");
-        return result.toString();
+        return libraryPathSubstitutor.substitute(result.toString());
     }
 
     public boolean isCompatible() {
@@ -79,4 +84,7 @@ public class Library {
         return extractRules;
     }
 
+    public static void addLibraryPathVariable(String key, String value) {
+        libraryPathSubstitutor.setVariable(key, value);
+    }
 }

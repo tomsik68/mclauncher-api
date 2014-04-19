@@ -7,7 +7,7 @@ import java.util.logging.Logger;
  *
  */
 public class MCLauncherAPI {
-    public static final int MC_LAUNCHER_VERSION = 13;
+    public static final int MC_LAUNCHER_VERSION = 14;
     public static Logger log = Logger.getLogger(MCLauncherAPI.class.getName());
 
     public static final class URLS {
