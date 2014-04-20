@@ -85,7 +85,7 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         command.add("-cp");
         StringBuilder sb = new StringBuilder();
         for (Library lib : version.getLibraries()) {
-            sb = sb.append(mc.getLibraryProvider().getLibraryFile(lib).getAbsolutePath()).append(':');
+            sb = sb.append(mc.getLibraryProvider().getLibraryFile(lib).getAbsolutePath()).append(';');
         }
         sb = sb.append(jarFile.getAbsolutePath());
         
