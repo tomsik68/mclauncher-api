@@ -12,7 +12,9 @@ import sk.tomsik68.mclauncher.api.common.IObservable;
 public interface IVersionList extends IObservable<IVersion> {
     /**
      * Starts downloading list <b>on this thread</b>
-     * @throws Exception Network issues
+     * 
+     * @throws Exception
+     *             Network issues
      */
     public void startDownload() throws Exception;
 }

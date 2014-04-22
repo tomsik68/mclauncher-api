@@ -33,14 +33,12 @@ public class TestMCDownloadLaunch {
                 public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
                     if (changed.getUniqueID().equals("r1.7.4")) {
                         try {
-                            changed.getInstaller().install(changed, mc, null);
                             // finally use my minecraft credentials
                             YDLoginService service = new YDLoginService();
                             service.load(Platform.getCurrentPlatform().getWorkingDirectory());
                             YDProfileIO profileIO = new YDProfileIO(Platform.getCurrentPlatform().getWorkingDirectory());
                             IProfile[] profiles = profileIO.read();
                             ISession session = service.login(profiles[0]);
-                            
                             
                             Process proc = changed.getLauncher().launch(session, mc, null, changed, new ILaunchSettings() {
 

@@ -36,9 +36,9 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
         for (File file : lwjgl) {
             update = update || !file.exists();
         }
-        update = update || !mc.getLibraryProvider().getNativesDirectory().exists();
+        update = update || !mc.getLibraryProvider().getNativesDirectory(version).exists();
         if (update) {
-            updateJARs(mc, progress);
+            updateJARs(mc, version, progress);
         }
         updateResources(mc.getLocation(), progress);
         notifyListeners(version);
@@ -60,7 +60,8 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
                 dest.mkdirs();
                 if (!resource.endsWith("/")) {
                     dest.delete();
-                    FileUtils.downloadFileWithProgress(MCLauncherAPI.URLS.RESOURCES_DOWNLOAD_URL + URLEncoder.encode(resource, "UTF-8"), dest, progress);
+                    FileUtils.downloadFileWithProgress(MCLauncherAPI.URLS.RESOURCES_DOWNLOAD_URL + URLEncoder.encode(resource, "UTF-8"), dest,
+                            progress);
                 }
             }
         }
@@ -72,12 +73,12 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
         return file;
     }
 
-    private void updateJARs(IMinecraftInstance mc, IProgressMonitor progress) throws Exception {
+    private void updateJARs(IMinecraftInstance mc, IVersion version, IProgressMonitor progress) throws Exception {
         File lwjglDir = new File(mc.getLocation(), "lwjgl-2.9.0");
         lwjglDir.deleteOnExit();
         File dest = new File(mc.getJarProvider().getBinFolder(), "lwjgl.zip");
         FileUtils.downloadFileWithProgress(MCLauncherAPI.URLS.LWJGL_DOWNLOAD_URL, dest, progress);
-        mc.getLibraryProvider().getNativesDirectory().mkdirs();
+        mc.getLibraryProvider().getNativesDirectory(version).mkdirs();
         dest.deleteOnExit();
         ExtractUtils.extractZipWithoutRules(dest, mc.getLocation());
         File[] lwjgl = mc.getLibraryProvider().getDefaultLWJGLJars();
@@ -88,7 +89,7 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
         // move natives
         File[] nativeThings = new File(lwjglDir, "native" + File.separator + Platform.getCurrentPlatform().getMinecraftName()).listFiles();
         for (File file : nativeThings) {
-            FileUtils.copyFile(file, new File(mc.getLibraryProvider().getNativesDirectory(), file.getName()));
+            FileUtils.copyFile(file, new File(mc.getLibraryProvider().getNativesDirectory(version), file.getName()));
         }
     }
 

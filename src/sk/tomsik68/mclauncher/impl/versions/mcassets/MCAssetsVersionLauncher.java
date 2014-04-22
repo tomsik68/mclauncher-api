@@ -65,9 +65,9 @@ public class MCAssetsVersionLauncher implements IVersionLauncher {
             command.add("true");
         }
         command.add("-lwjgl");
-        command.add(mc.getLibraryProvider().getNativesDirectory().getAbsolutePath());
+        command.add(mc.getLibraryProvider().getNativesDirectory(version).getAbsolutePath());
         command.add("-jlibpath");
-        command.add(mc.getLibraryProvider().getNativesDirectory().getAbsolutePath());
+        command.add(mc.getLibraryProvider().getNativesDirectory(version).getAbsolutePath());
         ProcessBuilder pb = new ProcessBuilder(command);
         pb.redirectErrorStream(settings.isErrorStreamRedirected());
         Process result = pb.start();

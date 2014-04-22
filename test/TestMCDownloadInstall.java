@@ -18,9 +18,10 @@ public class TestMCDownloadInstall {
         final IMinecraftInstance mc = new MinecraftInstance(new File("testmc"));
         list.addObserver(new IObserver<IVersion>() {
             private boolean installed = false;
+
             @Override
             public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
-                if(installed)
+                if (installed)
                     return;
                 installed = true;
                 System.out.println("Installing " + changed.getDisplayName());

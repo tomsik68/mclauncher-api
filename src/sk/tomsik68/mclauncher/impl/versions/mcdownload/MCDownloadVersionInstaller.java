@@ -57,7 +57,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
         }
 
         log.info("Extracting natives...");
-        File nativesDir = new File(mc.getJarProvider().getVersionFile(version.getUniqueID()).getParentFile(), "natives");
+        File nativesDir = mc.getLibraryProvider().getNativesDirectory(version);
         // purge old natives
         if (nativesDir.exists()) {
             File[] contains = nativesDir.listFiles();
@@ -78,7 +78,9 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
             FileUtils.writeFile(jsonDest, version.toJSON().toJSONString(JSONStyle.LT_COMPRESS));
         if (!jarDest.exists()) {
             try {
+                MCLauncherAPI.log.info("Downloading JSON version descriptor");
                 FileUtils.downloadFileWithProgress(MCLauncherAPI.URLS.NEW_JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
+                MCLauncherAPI.log.info("Descriptor downloaded");
             } catch (Exception e) {
                 e.printStackTrace();
             }

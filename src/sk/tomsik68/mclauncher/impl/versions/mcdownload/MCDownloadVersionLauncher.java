@@ -79,8 +79,7 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
             for(String arg : settings.getJavaArguments())
                 command.add(arg);
         }
-        // TODO minecraft natives
-        File nativesDir = new File(jarFile.getParentFile(),"natives");
+        File nativesDir = mc.getLibraryProvider().getNativesDirectory(version);
         command.add("-Djava.library.path="+nativesDir.getAbsolutePath());
         command.add("-cp");
         StringBuilder sb = new StringBuilder();
