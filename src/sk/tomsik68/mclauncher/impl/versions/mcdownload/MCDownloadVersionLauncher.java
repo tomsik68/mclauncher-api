@@ -21,6 +21,8 @@ import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
 public class MCDownloadVersionLauncher implements IVersionLauncher {
+    public static final String LIBRARY_SEPARATOR = ";";
+
     public String[] getMinecraftArguments(IMinecraftInstance mc, ISession session, ILaunchSettings settings, MCDownloadVersion version) {
         // TODO tooo lazy to finish options
         String[] args = version.getMinecraftArgs().split(" ");
@@ -35,16 +37,16 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         subst.setVariable("assets_root", mc.getAssetsDirectory().getAbsolutePath());
         subst.setVariable("assets_index_name", version.getAssetsIndexName());
         subst.setVariable("user_type", session.getType().toString().toLowerCase());
-        if(session.getProperties() != null && !session.getProperties().isEmpty()){
+        if (session.getProperties() != null && !session.getProperties().isEmpty()) {
             JSONObject propertiesObj = new JSONObject();
             List<Prop> properties = session.getProperties();
-            for(Prop p : properties){
+            for (Prop p : properties) {
                 propertiesObj.put(p.name, p.value);
             }
             subst.setVariable("user_properties", propertiesObj.toJSONString(JSONStyle.NO_COMPRESS));
-        }else
+        } else
             subst.setVariable("user_properties", "{}");
-        
+
         for (int i = 0; i < args.length; i++) {
             args[i] = subst.substitute(args[i]);
         }
@@ -64,7 +66,8 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
             throw new VersionIncompatibleException(version);
         }
         if (version.getMinimumLauncherVersion() > MCLauncherAPI.MC_LAUNCHER_VERSION) {
-            throw new RuntimeException("You need to update MCLauncher-API to run this minecraft version! Required API version: " + version.getMinimumLauncherVersion());
+            throw new RuntimeException("You need to update MCLauncher-API to run this minecraft version! Required API version: "
+                    + version.getMinimumLauncherVersion());
         }
         ArrayList<String> command = new ArrayList<String>();
         if (settings.getJavaLocation() != null)
@@ -76,18 +79,19 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         if (settings.getHeap() != null && settings.getHeap().length() > 0)
             command.add("-Xmx".concat(settings.getHeap()));
         if (settings.getJavaArguments() != null && !settings.getJavaArguments().isEmpty()) {
-            for(String arg : settings.getJavaArguments())
+            for (String arg : settings.getJavaArguments())
                 command.add(arg);
         }
         File nativesDir = mc.getLibraryProvider().getNativesDirectory(version);
-        command.add("-Djava.library.path="+nativesDir.getAbsolutePath());
+        command.add("-Djava.library.path=" + nativesDir.getAbsolutePath());
         command.add("-cp");
         StringBuilder sb = new StringBuilder();
         for (Library lib : version.getLibraries()) {
-            sb = sb.append(mc.getLibraryProvider().getLibraryFile(lib).getAbsolutePath()).append(':');
+            if (lib.isCompatible())
+                sb = sb.append(mc.getLibraryProvider().getLibraryFile(lib).getAbsolutePath()).append(LIBRARY_SEPARATOR);
         }
         sb = sb.append(jarFile.getAbsolutePath());
-        
+
         command.add(sb.toString());
         command.add(version.getMainClass());
         String[] arguments = getMinecraftArguments(mc, session, settings, version);

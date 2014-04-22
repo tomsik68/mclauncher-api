@@ -3,6 +3,7 @@ package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 import net.minidev.json.JSONObject;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.login.IProfile;
+import sk.tomsik68.mclauncher.api.login.ISession;
 
 public class YDAuthProfile implements IProfile, IJSONSerializable {
     private final String userName;
@@ -82,6 +83,11 @@ public class YDAuthProfile implements IProfile, IJSONSerializable {
 
     public void setPassword(String sessionID) {
         accessToken = sessionID;
+    }
+
+    @Override
+    public void update(ISession session) {
+        setPassword(session.getSessionID());
     }
 
 }

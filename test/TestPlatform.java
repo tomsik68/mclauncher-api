@@ -9,7 +9,7 @@ public class TestPlatform {
 
     @Test
     public void test() {
-        assertTrue(Platform.getCurrentPlatform().getMinecraftName().equalsIgnoreCase("linux"));
+        assertTrue(Platform.getCurrentPlatform().equals(Platform.osByName("linux")));
     }
 
 }

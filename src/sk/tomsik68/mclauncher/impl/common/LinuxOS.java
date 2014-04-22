@@ -4,23 +4,23 @@ import java.io.File;
 
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
 
-public class Solaris implements IOperatingSystem {
+public class LinuxOS implements IOperatingSystem {
     private File workDir;
 
     @Override
     public String getDisplayName() {
-        return "Solaris/Sun OS";
+        return "Linux/Unix";
     }
 
     @Override
     public String getMinecraftName() {
-        return "solaris";
+        return "linux";
     }
 
     @Override
     public boolean isCurrent() {
-        String osName = System.getProperty("os.name").toLowerCase();
-        return osName.contains("solaris") || osName.contains("sunos");
+        String os = System.getProperty("os.name").toLowerCase();
+        return os.contains("unix") || os.contains("linux");
     }
 
     @Override
@@ -33,7 +33,7 @@ public class Solaris implements IOperatingSystem {
     }
 
     @Override
-    public boolean is32Bit() {
-        return "32".equals(System.getProperty("sun.arch.data.model"));
+    public String getArchitecture() {
+        return System.getProperty("sun.arch.data.model");
     }
 }

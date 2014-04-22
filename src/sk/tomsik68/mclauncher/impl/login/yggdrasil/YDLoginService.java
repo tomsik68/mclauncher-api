@@ -35,7 +35,7 @@ public class YDLoginService implements ILoginService {
         }
 
         YDSession result = new YDSession(response);
-
+        profile.update(result);
         return result;
     }
 

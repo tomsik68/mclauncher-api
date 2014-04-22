@@ -17,6 +17,7 @@ public class LegacyLoginEncryptionProcessor {
     private static final int MODE_DECRYPT = 2;
     private static final long SALT = 43287234L;
     private static final String PBE_KEY_STR = "passwordfile";
+
     // notchcode
     private static Cipher getCipher(int mode) throws Exception {
         Random random = new Random(SALT);

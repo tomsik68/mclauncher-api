@@ -33,8 +33,8 @@ public class UnknownOS implements IOperatingSystem {
     }
 
     @Override
-    public boolean is32Bit() {
-        return "32".equals(System.getProperty("sun.arch.data.model"));
+    public String getArchitecture() {
+        return System.getProperty("sun.arch.data.model");
     }
 
 }

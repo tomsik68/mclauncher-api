@@ -25,21 +25,22 @@ public class TestMCDownloadLaunch {
     public void test() {
 
         try {
+            // finally use my minecraft credentials
+            System.out.println("Logging in...");
+            YDLoginService service = new YDLoginService();
+            service.load(Platform.getCurrentPlatform().getWorkingDirectory());
+            YDProfileIO profileIO = new YDProfileIO(Platform.getCurrentPlatform().getWorkingDirectory());
+            IProfile[] profiles = profileIO.read();
+            final ISession session = service.login(profiles[0]);
+            System.out.println("Success! Launching...");
             final IMinecraftInstance mc = new MinecraftInstance(new File("testmc"));
             MCDownloadVersionList versionList = new MCDownloadVersionList();
             versionList.addObserver(new IObserver<IVersion>() {
 
                 @Override
                 public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
-                    if (changed.getUniqueID().equals("r1.7.4")) {
+                    if (changed.getUniqueID().equals("s14w11b")) {
                         try {
-                            // finally use my minecraft credentials
-                            YDLoginService service = new YDLoginService();
-                            service.load(Platform.getCurrentPlatform().getWorkingDirectory());
-                            YDProfileIO profileIO = new YDProfileIO(Platform.getCurrentPlatform().getWorkingDirectory());
-                            IProfile[] profiles = profileIO.read();
-                            ISession session = service.login(profiles[0]);
-                            
                             Process proc = changed.getLauncher().launch(session, mc, null, changed, new ILaunchSettings() {
 
                                 @Override

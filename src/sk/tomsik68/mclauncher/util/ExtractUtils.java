@@ -31,11 +31,12 @@ public class ExtractUtils {
     }
 
     public static void extractZipEntry(ZipFile zf, ZipEntry zipEntry, File dir) throws Exception {
+        File destFile =new File(dir, zipEntry.getName()); 
         if (zipEntry.isDirectory())
-            new File(dir, zipEntry.getName()).mkdirs();
+            destFile.mkdirs();
         else {
-            new File(dir, zipEntry.getName()).mkdirs();
-            new File(dir, zipEntry.getName()).delete();
+            destFile.getParentFile().mkdirs();
+            destFile.createNewFile();
             BufferedInputStream bis = new BufferedInputStream(zf.getInputStream(zipEntry));
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(dir, zipEntry.getName())));
             long available = bis.available();
@@ -53,5 +54,4 @@ public class ExtractUtils {
         }
 
     }
-
 }

@@ -33,9 +33,10 @@ public interface IOperatingSystem {
      * @return Minecraft working directory on this OS
      */
     public File getWorkingDirectory();
+
     /**
      * 
-     * @return True if this is 32-bit system
+     * @return Architecture of this system
      */
-    public boolean is32Bit();
+    public String getArchitecture();
 }

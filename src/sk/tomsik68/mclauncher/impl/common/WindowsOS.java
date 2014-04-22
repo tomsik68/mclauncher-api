@@ -4,7 +4,7 @@ import java.io.File;
 
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
 
-public class Windows implements IOperatingSystem {
+public class WindowsOS implements IOperatingSystem {
     private File workDir; // cached working directory
 
     @Override
@@ -36,7 +36,7 @@ public class Windows implements IOperatingSystem {
     }
 
     @Override
-    public boolean is32Bit() {
-        return "32".equals(System.getProperty("sun.arch.data.model"));
+    public String getArchitecture() {
+        return System.getProperty("sun.arch.data.model");
     }
 }

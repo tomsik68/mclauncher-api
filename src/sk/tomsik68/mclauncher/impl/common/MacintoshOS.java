@@ -4,36 +4,35 @@ import java.io.File;
 
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
 
-public class Linux implements IOperatingSystem {
+public class MacintoshOS implements IOperatingSystem {
     private File workDir;
 
     @Override
     public String getDisplayName() {
-        return "Linux/Unix";
+        return "MAC OS";
     }
 
     @Override
     public String getMinecraftName() {
-        return "linux";
+        return "macos";
     }
 
     @Override
     public boolean isCurrent() {
-        String os = System.getProperty("os.name").toLowerCase();
-        return os.contains("unix") || os.contains("linux");
+        return System.getProperty("os.name").toLowerCase().contains("mac");
     }
 
     @Override
     public File getWorkingDirectory() {
         if (workDir != null)
             return workDir;
-        String userHome = System.getProperty("user.home");
-        workDir = new File(userHome, ".minecraft");
+        workDir = new File(System.getProperty("user.home"), "Library/Application Support/.minecraft");
         return workDir;
     }
 
     @Override
-    public boolean is32Bit() {
-        return "32".equals(System.getProperty("sun.arch.data.model"));
+    public String getArchitecture() {
+        return System.getProperty("sun.arch.data.model");
     }
+
 }
