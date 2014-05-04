@@ -32,6 +32,7 @@ public class TestMCDownloadLaunch {
             YDProfileIO profileIO = new YDProfileIO(Platform.getCurrentPlatform().getWorkingDirectory());
             IProfile[] profiles = profileIO.read();
             final ISession session = service.login(profiles[0]);
+            profileIO.write(profiles);
             System.out.println("Success! Launching...");
             final IMinecraftInstance mc = new MinecraftInstance(new File("testmc"));
             MCDownloadVersionList versionList = new MCDownloadVersionList();

@@ -58,7 +58,7 @@ public class MCAssetsVersionLauncher implements IVersionLauncher {
         }
         if (server != null) {
             command.add("-mp");
-            command.add(server.getIP());
+            command.add(server.getIP() + ":" + server.getPort());
         }
         if (settings.isModifyAppletOptions()) {
             command.add("-ap");

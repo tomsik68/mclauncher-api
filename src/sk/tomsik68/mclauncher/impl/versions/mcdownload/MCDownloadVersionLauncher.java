@@ -21,7 +21,7 @@ import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
 public class MCDownloadVersionLauncher implements IVersionLauncher {
-    public static final String LIBRARY_SEPARATOR = ";";
+    public static final String LIBRARY_SEPARATOR = ":";
 
     public String[] getMinecraftArguments(IMinecraftInstance mc, ISession session, ILaunchSettings settings, MCDownloadVersion version) {
         // TODO tooo lazy to finish options
@@ -97,6 +97,12 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         String[] arguments = getMinecraftArguments(mc, session, settings, version);
         for (String arg : arguments) {
             command.add(arg);
+        }
+        if (server != null) {
+            command.add("--server");
+            command.add(server.getIP());
+            command.add("--port");
+            command.add("" + server.getPort());
         }
         ProcessBuilder pb = new ProcessBuilder(command);
         pb.redirectErrorStream(settings.isErrorStreamRedirected());
