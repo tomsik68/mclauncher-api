@@ -43,7 +43,7 @@ public class TestMCDownloadLaunch {
 
                 @Override
                 public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
-                    if (changed.getUniqueID().equals("s14w11b")) {
+                    if (changed.getUniqueID().equals("s14w21b")) {
                         try {
                             Process proc = changed.getLauncher().launch(session, mc, null, changed, new ILaunchSettings() {
 

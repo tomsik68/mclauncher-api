@@ -21,7 +21,7 @@ import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
 public class MCDownloadVersionLauncher implements IVersionLauncher {
-    public static final String LIBRARY_SEPARATOR = ";";
+    public static final String LIBRARY_SEPARATOR = ":";
 
     public String[] getMinecraftArguments(IMinecraftInstance mc, ISession session, ILaunchSettings settings, MCDownloadVersion version) {
         // TODO tooo lazy to finish options
@@ -57,6 +57,7 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
     public Process launch(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion v, ILaunchSettings settings) throws Exception {
         // get JSON information about the version
         File jsonFile = new File(mc.getJarProvider().getVersionFile(v.getUniqueID()).getParent(), "info.json");
+        System.out.println("Looking for " + jsonFile.getAbsolutePath());
         if (!jsonFile.exists()) {
             throw new FileNotFoundException("You need to download the version at first! (JSON description file not found!)");
         }
@@ -110,5 +111,4 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         System.out.println(command.toString());
         return pb.start();
     }
-
 }
