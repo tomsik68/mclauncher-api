@@ -21,7 +21,7 @@ import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
 public class MCDownloadVersionLauncher implements IVersionLauncher {
-    public static final String LIBRARY_SEPARATOR = ":";
+    public static final String LIBRARY_SEPARATOR = ";";
 
     public String[] getMinecraftArguments(IMinecraftInstance mc, ISession session, ILaunchSettings settings, MCDownloadVersion version) {
         // TODO tooo lazy to finish options

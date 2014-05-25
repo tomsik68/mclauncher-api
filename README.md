@@ -20,6 +20,6 @@ There are 2 RSS threads for this project, both maintained by myself.
 + Minecraft Launcher Changes: https://dl.dropboxusercontent.com/u/29628587/mclauncher-api.rss
 
 ## License
-*Just for clearance, this API is not connected with Mojang in any way.*
+**Just for clearance, this API is not connected with Mojang in any way.**
  
 This project is under CC BY-NC-SA License v3.0. Details can be found here: http://creativecommons.org/licenses/by-nc-sa/3.0/

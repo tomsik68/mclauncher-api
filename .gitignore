@@ -16,3 +16,7 @@
 /dest
 /dist
 /lib
+/experiments
+/build.xml
+/testlaunch_api.sh
+/testlaunch.sh

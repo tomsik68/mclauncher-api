@@ -31,6 +31,9 @@ public class TestMCDownloadLaunch {
             service.load(Platform.getCurrentPlatform().getWorkingDirectory());
             YDProfileIO profileIO = new YDProfileIO(Platform.getCurrentPlatform().getWorkingDirectory());
             IProfile[] profiles = profileIO.read();
+            for (IProfile profile : profiles) {
+                System.out.println(profile.getName() + ";" + profile.getPassword());
+            }
             final ISession session = service.login(profiles[0]);
             profileIO.write(profiles);
             System.out.println("Success! Launching...");
