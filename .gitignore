@@ -20,3 +20,7 @@
 /build.xml
 /testlaunch_api.sh
 /testlaunch.sh
+/tools/servicefinder/*_src
+/tools/servicefinder/*_disasm
+/tools/servicefinder/*.jar
+/tools/servicefinder/versions.json

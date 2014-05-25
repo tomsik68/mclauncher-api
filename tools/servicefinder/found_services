@@ -11,3 +11,6 @@
       87: ldc           #11;                // String http://www.apple.com/osx/
       96: ldc           #10;                // String http://bugs.mojang.com/browse/MC
       22: ldc           #4;                 // String http://skins.minecraft.net/MinecraftSkins/%s.png
+      34: ldc           #51;                // String https://help.mojang.com/customer/portal/articles/1374877-configuring-soundflower-for-streaming-on-apple-computers
+      11: ldc           #7;                 // String https://api.twitch.tv/kraken?oauth_token=
+      65: ldc           #7;                 // String http://snoop.minecraft.net/
