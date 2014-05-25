@@ -2,7 +2,7 @@ package sk.tomsik68.mclauncher.api.common;
 
 import java.util.logging.Logger;
 /**
- * This is main entrypoint of MCLauncherAPI. It stores some constants and information needed by other components of the API.
+ * This is main control class of MCLauncherAPI. It stores some constants and information needed by other components of the API.
  * @author Tomsik68
  *
  */

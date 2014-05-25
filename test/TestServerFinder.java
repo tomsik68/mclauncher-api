@@ -1,6 +1,6 @@
-import static org.junit.Assert.*;
-
 import java.net.UnknownHostException;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Test;
 
@@ -30,7 +30,14 @@ public class TestServerFinder implements IObserver<IFoundServer> {
     @Override
     public void onUpdate(IObservable<IFoundServer> observable, IFoundServer changed) {
         System.out.println("Found server: " + changed.getName());
-        System.out.println(changed.getIP()+":"+changed.getPort());
+        System.out.println(changed.getIP() + ":" + changed.getPort());
+        dumpMap(changed.getInformation());
+    }
+
+    private void dumpMap(Map<String, Object> information) {
+        for (Entry<String, Object> entry : information.entrySet()) {
+            System.out.println(String.format("'%s': '%s'", entry.getKey(), entry.getValue().toString()));
+        }
     }
 
 }

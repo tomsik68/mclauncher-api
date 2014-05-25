@@ -39,12 +39,16 @@ public class VanillaServerFinder extends Observable<IFoundServer> implements ISe
             } catch (SocketTimeoutException ign) {
                 continue;
             } catch (Exception e) {
-                
+
             }
             String recvString = new String(packet.getData(), packet.getOffset(), packet.getLength());
             String motd = ServerStringDecoder.parseProperty(recvString, "MOTD");
             String port = ServerStringDecoder.parseProperty(recvString, "AD");
-            FoundServer server = new FoundServer(this, packet.getAddress().getHostAddress()+":"+port, motd);
+            FoundServer server = new FoundServer(this, packet.getAddress().getHostAddress() + ":" + port, motd);
+            server.getInformation().put("motd", motd);
+            server.getInformation().put("address", packet.getAddress().getHostAddress() + ":" + port);
+            server.getInformation().put("discoveryData", packet.getData());
+            server.getInformation().put("packet", packet);
             notifyObservers(server);
         }
 
