@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.Library;
+import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionLauncher;
 
 public class Platform {
     public static final LinkedList<IOperatingSystem> oss = new LinkedList<IOperatingSystem>();

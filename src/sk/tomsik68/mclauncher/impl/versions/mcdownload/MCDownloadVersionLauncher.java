@@ -17,11 +17,11 @@ import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.servers.ISavedServer;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
+import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
 public class MCDownloadVersionLauncher implements IVersionLauncher {
-    public static final String LIBRARY_SEPARATOR = ":";
 
     public String[] getMinecraftArguments(IMinecraftInstance mc, ISession session, ILaunchSettings settings, MCDownloadVersion version) {
         // TODO tooo lazy to finish options
@@ -87,6 +87,7 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         command.add("-Djava.library.path=" + nativesDir.getAbsolutePath());
         command.add("-cp");
         StringBuilder sb = new StringBuilder();
+        final String LIBRARY_SEPARATOR = Platform.getCurrentPlatform().getLibrarySeparator();
         for (Library lib : version.getLibraries()) {
             if (lib.isCompatible())
                 sb = sb.append(mc.getLibraryProvider().getLibraryFile(lib).getAbsolutePath()).append(LIBRARY_SEPARATOR);

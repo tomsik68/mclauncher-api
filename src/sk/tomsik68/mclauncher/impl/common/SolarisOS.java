@@ -36,4 +36,9 @@ public class SolarisOS implements IOperatingSystem {
     public String getArchitecture() {
         return System.getProperty("sun.arch.data.model");
     }
+
+    @Override
+    public String getLibrarySeparator() {
+        return ":";
+    }
 }
