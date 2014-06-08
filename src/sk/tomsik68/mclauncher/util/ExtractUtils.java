@@ -21,6 +21,8 @@ public class ExtractUtils {
     }
 
     public static void extractZipWithRules(File jar, File dir, IExtractRules rules) throws Exception {
+        if (rules == null)
+            rules = anarchy;
         ZipFile zf = new ZipFile(jar);
         Enumeration<? extends ZipEntry> entries = zf.entries();
         while (entries.hasMoreElements()) {
@@ -31,7 +33,7 @@ public class ExtractUtils {
     }
 
     public static void extractZipEntry(ZipFile zf, ZipEntry zipEntry, File dir) throws Exception {
-        File destFile =new File(dir, zipEntry.getName()); 
+        File destFile = new File(dir, zipEntry.getName());
         if (zipEntry.isDirectory())
             destFile.mkdirs();
         else {

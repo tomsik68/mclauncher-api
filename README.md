@@ -23,3 +23,12 @@ There are 2 RSS threads for this project, both maintained by myself.
 **Just for clearance, this API is not connected with Mojang in any way.**
  
 This project is under CC BY-NC-SA License v3.0. Details can be found here: http://creativecommons.org/licenses/by-nc-sa/3.0/
+
+## Contributors
+
+I'd like to thank people for helping me out to improve this project by using, supporting, finding errors etc.
+
+Here's a list of people who supported the project so far:
+
++ Podshot
++ BaluMonster
