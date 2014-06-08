@@ -46,29 +46,23 @@ public class MCDResourcesInstaller {
         File dest;
 
         for (Entry<String, Asset> entry : assets.getAssets().entrySet()) {
-            MCLauncherAPI.log.info("Retrieving " + entry.getKey());
             path = entry.getKey().replace('/', File.separatorChar);
             dest = new File(assetsDir, path);
 
             dest.getParentFile().mkdirs();
             if (!dest.exists() || dest.length() != entry.getValue().getSize())
                 FileUtils.downloadFileWithProgress(entry.getValue().getUrl(), dest, progress);
-            else
-                MCLauncherAPI.log.info("Skipping already downloaded " + entry.getKey());
         }
     }
 
     private void downloadAssetList(AssetIndex assets, IProgressMonitor progress) throws Exception {
         FilePathBuilder pathBuilder;
         for (Entry<String, Asset> entry : assets.getAssets().entrySet()) {
-            MCLauncherAPI.log.info("Retrieving " + entry.getKey());
             pathBuilder = new FilePathBuilder(objectsDir);
             pathBuilder.append(entry.getValue().getPreHash()).append(entry.getValue().getHash());
             File dest = pathBuilder.getResult();
             if (!dest.exists() || dest.length() != entry.getValue().getSize())
                 FileUtils.downloadFileWithProgress(entry.getValue().getUrl(), dest, progress);
-            else
-                MCLauncherAPI.log.info("Skipping already downloaded " + entry.getKey());
         }
     }
 

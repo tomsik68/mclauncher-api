@@ -24,3 +24,4 @@
 /tools/servicefinder/*_disasm
 /tools/servicefinder/*.jar
 /tools/servicefinder/versions.json
+/Official-MCLauncher

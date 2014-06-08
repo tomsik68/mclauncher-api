@@ -45,6 +45,7 @@ public class Rule {
             sb.append("OS:").append(restrictedOs).append(',');
         if (restrictedOsVersionPattern != null)
             sb.append("version:").append(restrictedOsVersionPattern);
+        sb.append('}');
         return sb.toString();
     }
 
@@ -52,12 +53,11 @@ public class Rule {
         if (getRestrictedOs() == null) {
             return true;
         } else {
-            if (getRestrictedOs().isCurrent()) {
+            if (getRestrictedOs() == Platform.getCurrentPlatform()) {
                 if (restrictedOsVersionPattern == null) {
                     return true;
                 } else {
                     boolean result = Pattern.matches(restrictedOsVersionPattern, System.getProperty("os.version"));
-                    System.out.println(result);
                     return result;
                 }
             } else {

@@ -47,7 +47,7 @@ public class Library {
     public String getNatives(IOperatingSystem os) {
         if (!natives.containsKey(os.getMinecraftName()))
             return natives.get(Platform.wrapName(os.getMinecraftName())).replace("${arch}", System.getProperty("sun.arch.data.model"));
-        return natives.get(os.getMinecraftName()).replace("${arch}", System.getProperty("sun.arch.data.model"));
+        return natives.get(os.getMinecraftName()).replace("${arch}", os.getArchitecture());
     }
 
     public String getPath() {
@@ -67,13 +67,15 @@ public class Library {
     }
 
     public boolean isCompatible() {
-        Action action = Action.ALLOW;
+        Action action = Action.DISALLOW;
         for (Rule rule : rules) {
             if (rule.applies()) {
                 action = rule.getAction();
+                System.out.println("Rule: " + rule.toString());
             }
         }
-        return action == Action.ALLOW && (natives.isEmpty() || natives.containsKey(Platform.getCurrentPlatform().getMinecraftName()));
+        return rules.isEmpty()
+                || (action == Action.ALLOW && (!hasNatives() || natives.containsKey(Platform.getCurrentPlatform().getMinecraftName())));
     }
 
     public boolean hasNatives() {

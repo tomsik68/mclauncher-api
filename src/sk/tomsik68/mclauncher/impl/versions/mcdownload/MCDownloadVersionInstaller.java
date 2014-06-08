@@ -13,6 +13,7 @@ import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstallListener;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;
+import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.assets.MCDResourcesInstaller;
 import sk.tomsik68.mclauncher.util.ExtractUtils;
 import sk.tomsik68.mclauncher.util.FileUtils;
@@ -36,7 +37,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
         List<Library> toInstall = version.getLibraries();
         List<Library> toExtract = new ArrayList<Library>();
         log.info("Fetching libraries...");
-
+        log.info("Platform: " + Platform.getCurrentPlatform().getDisplayName());
         for (Library lib : toInstall) {
             if (lib.isCompatible()) {
                 if (!mc.getLibraryProvider().isInstalled(lib)) {
