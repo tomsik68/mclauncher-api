@@ -79,7 +79,7 @@ public class HttpUtils {
         connection.setConnectTimeout(15000);
         connection.setReadTimeout(15000);
         connection.setRequestMethod("POST");
-        connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+        connection.setRequestProperty("Content-Type", "application/json");
 
         connection.setRequestProperty("Content-Length", "" + bytes.length);
         connection.setRequestProperty("Content-Language", "en-US");
