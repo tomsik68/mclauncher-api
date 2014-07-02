@@ -6,6 +6,7 @@ import java.util.HashMap;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.Rule.Action;
 import sk.tomsik68.mclauncher.util.IExtractRules;
@@ -16,6 +17,7 @@ public class Library {
     private final HashMap<String, String> natives = new HashMap<String, String>();
     private final ArrayList<Rule> rules = new ArrayList<Rule>();
     private LibraryExtractRules extractRules;
+    private String url = MCLauncherAPI.URLS.LIBRARY_BASE_URL;
     private static final StringSubstitutor libraryPathSubstitutor = new StringSubstitutor("${%s}");
 
     public Library(JSONObject json) {
@@ -37,6 +39,9 @@ public class Library {
         }
         if (json.containsKey("extract")) {
             extractRules = new LibraryExtractRules((JSONObject) json.get("extract"));
+        }
+        if (json.containsKey("url")) {
+            url = json.get("url").toString();
         }
     }
 
@@ -88,5 +93,9 @@ public class Library {
 
     public static void addLibraryPathVariable(String key, String value) {
         libraryPathSubstitutor.setVariable(key, value);
+    }
+
+    public String getDownloadURL() {
+        return url.concat(getPath());
     }
 }

@@ -99,7 +99,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
     }
 
     private void downloadLibrary(Library lib, IMinecraftInstance mc, IProgressMonitor p) throws Exception {
-        String url = MCLauncherAPI.URLS.LIBRARY_BASE_URL.concat(lib.getPath());
+        String url = lib.getDownloadURL();
         File dest = new File(mc.getLibraryProvider().getLibrariesDirectory(), lib.getPath());
         dest.mkdirs();
         dest.delete();
