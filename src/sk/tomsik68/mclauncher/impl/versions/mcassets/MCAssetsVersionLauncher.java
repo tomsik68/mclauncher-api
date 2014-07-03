@@ -19,6 +19,15 @@ public class MCAssetsVersionLauncher implements IVersionLauncher {
 
     @Override
     public Process launch(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion version, ILaunchSettings settings) throws Exception {
+        ProcessBuilder pb = new ProcessBuilder(getLaunchCommand(session, mc, server, version, settings));
+        pb.redirectErrorStream(settings.isErrorStreamRedirected());
+        Process result = pb.start();
+        return result;
+    }
+
+    @Override
+    public List<String> getLaunchCommand(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion version, ILaunchSettings settings)
+            throws Exception {
         String pathToJar = Relauncher.class.getProtectionDomain().getCodeSource().getLocation().getFile();
         List<String> command = new ArrayList<String>();
         if (settings.getCommandPrefix() != null && !settings.getCommandPrefix().isEmpty())
@@ -68,10 +77,7 @@ public class MCAssetsVersionLauncher implements IVersionLauncher {
         command.add(mc.getLibraryProvider().getNativesDirectory(version).getAbsolutePath());
         command.add("-jlibpath");
         command.add(mc.getLibraryProvider().getNativesDirectory(version).getAbsolutePath());
-        ProcessBuilder pb = new ProcessBuilder(command);
-        pb.redirectErrorStream(settings.isErrorStreamRedirected());
-        Process result = pb.start();
-        return result;
+        return command;
     }
 
 }
