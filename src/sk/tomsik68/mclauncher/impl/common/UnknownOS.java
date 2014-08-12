@@ -31,14 +31,19 @@ public class UnknownOS implements IOperatingSystem {
         workDir = new File(userHome, ".minecraft");
         return workDir;
     }
-
     @Override
     public String getArchitecture() {
         return System.getProperty("sun.arch.data.model");
     }
+    
     @Override
     public String getLibrarySeparator() {
         return ";";
     }
+
+	@Override
+	public void setWorkingDirectory(File dir) {
+		this.workDir = dir;
+	}
 
 }

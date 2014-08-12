@@ -39,4 +39,9 @@ public class MacintoshOS implements IOperatingSystem {
         return ":";
     }
 
+	@Override
+	public void setWorkingDirectory(File dir) {
+		this.workDir = dir;		
+	}
+
 }
