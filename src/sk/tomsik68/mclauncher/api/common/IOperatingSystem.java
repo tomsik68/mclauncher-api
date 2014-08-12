@@ -33,6 +33,12 @@ public interface IOperatingSystem {
      * @return Minecraft working directory on this OS
      */
     public File getWorkingDirectory();
+    
+    /**
+     * 
+     * @param dir The directory to work from
+     */
+    public void setWorkingDirectory(File dir);
 
     /**
      * 

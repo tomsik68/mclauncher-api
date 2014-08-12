@@ -41,4 +41,9 @@ public class SolarisOS implements IOperatingSystem {
     public String getLibrarySeparator() {
         return ":";
     }
+
+	@Override
+	public void setWorkingDirectory(File dir) {
+		this.workDir = dir;
+	}
 }
