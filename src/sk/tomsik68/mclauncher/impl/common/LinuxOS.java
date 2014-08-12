@@ -42,8 +42,8 @@ public class LinuxOS implements IOperatingSystem {
         return ":";
     }
 
-	@Override
-	public void setWorkingDirectory(File dir) {
+   	@Override
+    public void setWorkingDirectory(File dir) {
 		this.workDir = dir;
-	}
+    }
 }
