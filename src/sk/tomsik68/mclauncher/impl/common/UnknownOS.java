@@ -36,9 +36,5 @@ public class UnknownOS implements IOperatingSystem {
     public String getArchitecture() {
         return System.getProperty("sun.arch.data.model");
     }
-    @Override
-    public String getLibrarySeparator() {
-        return ";";
-    }
 
 }

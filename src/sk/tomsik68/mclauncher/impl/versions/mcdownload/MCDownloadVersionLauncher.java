@@ -97,7 +97,7 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         command.add("-Djava.library.path=" + nativesDir.getAbsolutePath());
         command.add("-cp");
         StringBuilder sb = new StringBuilder();
-        final String LIBRARY_SEPARATOR = Platform.getCurrentPlatform().getLibrarySeparator();
+        final String LIBRARY_SEPARATOR = File.pathSeparator;
         for (Library lib : version.getLibraries()) {
             if (lib.isCompatible())
                 sb = sb.append(mc.getLibraryProvider().getLibraryFile(lib).getAbsolutePath()).append(LIBRARY_SEPARATOR);

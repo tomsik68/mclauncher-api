@@ -75,15 +75,17 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
         updateResources(mc, version, progress);
         File jarDest = mc.getJarProvider().getVersionFile(version.getUniqueID());
         File jsonDest = new File(jarDest.getParentFile(), "info.json");
-        if (!jsonDest.exists())
-            FileUtils.writeFile(jsonDest, version.toJSON().toJSONString(JSONStyle.LT_COMPRESS));
-        if (!jarDest.exists()) {
+        // always overwrite json file
+        // if (!jsonDest.exists())
+        FileUtils.writeFile(jsonDest, version.toJSON().toJSONString(JSONStyle.LT_COMPRESS));
+        // and jar file
+        // if (!jarDest.exists()) 
             try {
                 FileUtils.downloadFileWithProgress(MCLauncherAPI.URLS.NEW_JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        
         notifyListeners(version);
         if (progress != null)
             progress.finish();

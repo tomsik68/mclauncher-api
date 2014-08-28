@@ -37,8 +37,4 @@ public class LinuxOS implements IOperatingSystem {
         return System.getProperty("sun.arch.data.model");
     }
 
-    @Override
-    public String getLibrarySeparator() {
-        return ":";
-    }
 }

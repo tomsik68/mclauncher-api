@@ -40,10 +40,4 @@ public interface IOperatingSystem {
      */
     public String getArchitecture();
 
-    /**
-     * 
-     * @return System-specific char or string which will be used to separate
-     *         multiple paths
-     */
-    public String getLibrarySeparator();
 }
