@@ -32,3 +32,6 @@ Here's a list of people who supported the project so far:
 
 + Podshot
 + BaluMonster
++ lowky12
++ mathwhiz19
++ mrzban
