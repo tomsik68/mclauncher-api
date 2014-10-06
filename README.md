@@ -22,7 +22,7 @@ There are 2 RSS threads for this project, both maintained by myself.
 ## License
 **Just for clearance, this API is not connected with Mojang in any way.**
  
-This project is under CC BY-NC-SA License v3.0. Details can be found here: http://creativecommons.org/licenses/by-nc-sa/3.0/
+This project is under MIT license. More information can be found in LICENSE file.
 
 ## Contributors
 
