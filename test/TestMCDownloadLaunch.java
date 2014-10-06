@@ -14,7 +14,7 @@ import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.impl.common.Platform;
-import sk.tomsik68.mclauncher.impl.common.mc.MinecraftInstance;
+import sk.tomsik68.mclauncher.impl.common.mc.VanillaMinecraftInstance;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.io.YDProfileIO;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
@@ -31,19 +31,25 @@ public class TestMCDownloadLaunch {
             service.load(Platform.getCurrentPlatform().getWorkingDirectory());
             YDProfileIO profileIO = new YDProfileIO(Platform.getCurrentPlatform().getWorkingDirectory());
             IProfile[] profiles = profileIO.read();
-            for (IProfile profile : profiles) {
-                System.out.println(profile.getName() + ";" + profile.getPassword());
-            }
+            /*
+             * for (IProfile profile : profiles) {
+             * System.out.println(profile.getName() + ";" +
+             * profile.getPassword());
+             * }
+             */
             final ISession session = service.login(profiles[0]);
             profileIO.write(profiles);
             System.out.println("Success! Launching...");
-            final IMinecraftInstance mc = new MinecraftInstance(new File("testmc"));
+            final IMinecraftInstance mc = new VanillaMinecraftInstance(new File("testmc"));
             MCDownloadVersionList versionList = new MCDownloadVersionList();
             versionList.addObserver(new IObserver<IVersion>() {
 
+                private boolean launched = false;
+
                 @Override
                 public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
-                    if (changed.getUniqueID().equals("s14w21b")) {
+                    if (!launched) {
+                        launched = true;
                         try {
                             Process proc = changed.getLauncher().launch(session, mc, null, changed, new ILaunchSettings() {
 

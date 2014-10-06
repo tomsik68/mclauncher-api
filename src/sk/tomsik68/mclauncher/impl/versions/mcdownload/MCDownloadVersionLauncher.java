@@ -17,7 +17,6 @@ import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.servers.ISavedServer;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
-import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
@@ -66,13 +65,13 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
     public List<String> getLaunchCommand(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion v, ILaunchSettings settings)
             throws Exception {
         // get JSON information about the version
-        File jsonFile = new File(mc.getJarProvider().getVersionFile(v.getUniqueID()).getParent(), "info.json");
+        File jsonFile = new File(mc.getJarProvider().getVersionFile(v).getParent(), "info.json");
         System.out.println("Looking for " + jsonFile.getAbsolutePath());
         if (!jsonFile.exists()) {
             throw new FileNotFoundException("You need to download the version at first! (JSON description file not found!)");
         }
         MCDownloadVersion version = new MCDownloadVersion((JSONObject) JSONValue.parse(new FileInputStream(jsonFile)));
-        File jarFile = mc.getJarProvider().getVersionFile(version.getUniqueID());
+        File jarFile = mc.getJarProvider().getVersionFile(version);
         if (!version.isCompatible()) {
             throw new VersionIncompatibleException(version);
         }

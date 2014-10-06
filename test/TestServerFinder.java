@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -18,10 +19,13 @@ public class TestServerFinder implements IObserver<IFoundServer> {
             finder = new VanillaServerFinder();
             finder.addObserver(this);
             finder.startFinding();
-            while (finder.isActive()) {
+            try {
+                while (System.in.available() == 0) {
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

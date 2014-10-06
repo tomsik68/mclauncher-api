@@ -8,21 +8,14 @@ import sk.tomsik68.mclauncher.api.services.ILibraryProvider;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.Library;
 
-public class LibraryProvider implements ILibraryProvider {
+public class VanillaLibraryProvider implements ILibraryProvider {
     private final IJarProvider jarProvider;
     private final File libsFolder, binFolder;
 
-    public LibraryProvider(IMinecraftInstance mc) {
-        binFolder = mc.getJarProvider().getBinFolder();
+    public VanillaLibraryProvider(IMinecraftInstance mc) {
+        binFolder = new File(mc.getLocation(), "oldLib");
         libsFolder = new File(mc.getLocation(), "libraries");
         this.jarProvider = mc.getJarProvider();
-    }
-
-    @Override
-    public File[] getDefaultLWJGLJars() {
-        return new File[] {
-                new File(binFolder, "lwjgl.jar"), new File(binFolder, "lwjgl_util.jar"), new File(binFolder, "jinput.jar")
-        };
     }
 
     @Override
@@ -33,7 +26,7 @@ public class LibraryProvider implements ILibraryProvider {
 
     @Override
     public File getNativesDirectory(IVersion version) {
-        File nativesDir = new File(jarProvider.getVersionFile(version.getUniqueID()).getParentFile(), "natives");
+        File nativesDir = new File(jarProvider.getVersionFile(version).getParentFile(), "natives");
         return nativesDir;
     }
 

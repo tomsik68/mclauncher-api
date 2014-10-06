@@ -29,12 +29,6 @@ public interface ILibraryProvider {
 
     /**
      * 
-     * @return Default LWJGL files for older minecraft versions
-     */
-    public File[] getDefaultLWJGLJars();
-
-    /**
-     * 
      * @param lib
      * @return True if specified library is already installed
      */

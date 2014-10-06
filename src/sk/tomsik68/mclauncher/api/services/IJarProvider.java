@@ -11,13 +11,6 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
  * 
  */
 public interface IJarProvider {
-    /**
-     * 
-     * @param uniqueID
-     *            ID of version
-     * @return Path to minecraft.jar for specified version
-     */
-    public File getVersionFile(String uniqueID);
 
     /**
      * Prepares this JAR provider for new version installation
@@ -27,9 +20,6 @@ public interface IJarProvider {
      */
     public void prepareVersionInstallation(IVersion version);
 
-    /**
-     * 
-     * @return Path to bin folder
-     */
-    public File getBinFolder();
+    public File getVersionFile(IVersion version);
+
 }

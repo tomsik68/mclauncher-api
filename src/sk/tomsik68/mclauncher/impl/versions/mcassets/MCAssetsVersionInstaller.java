@@ -24,14 +24,24 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
 
     }
 
+    static File[] getDefaultLWJGLJars(File mcLocation) {
+        File oldLib = new File(mcLocation, "oldLib");
+        if (!oldLib.exists()) {
+            oldLib.mkdirs();
+        }
+        return new File[] {
+                new File(oldLib, "lwjgl.jar"), new File(oldLib, "lwjgl_util.jar"), new File(oldLib, "jinput.jar")
+        };
+    }
+
     @Override
     public void install(IVersion version, IMinecraftInstance mc, IProgressMonitor progress) throws Exception {
         String url = getVersionURL(version.getId());
         mc.getJarProvider().prepareVersionInstallation(version);
-        if (!mc.getJarProvider().getVersionFile(version.getUniqueID()).exists())
-            FileUtils.downloadFileWithProgress(url, mc.getJarProvider().getVersionFile(version.getUniqueID()), progress);
+        if (!mc.getJarProvider().getVersionFile(version).exists())
+            FileUtils.downloadFileWithProgress(url, mc.getJarProvider().getVersionFile(version), progress);
 
-        File[] lwjgl = mc.getLibraryProvider().getDefaultLWJGLJars();
+        File[] lwjgl = getDefaultLWJGLJars(mc.getLocation());
         boolean update = false;
         for (File file : lwjgl) {
             update = update || !file.exists();
@@ -76,12 +86,12 @@ public class MCAssetsVersionInstaller implements IVersionInstaller {
     private void updateJARs(IMinecraftInstance mc, IVersion version, IProgressMonitor progress) throws Exception {
         File lwjglDir = new File(mc.getLocation(), "lwjgl-2.9.0");
         lwjglDir.deleteOnExit();
-        File dest = new File(mc.getJarProvider().getBinFolder(), "lwjgl.zip");
+        File dest = new File(mc.getLibraryProvider().getLibrariesDirectory(), "lwjgl.zip");
         FileUtils.downloadFileWithProgress(MCLauncherAPI.URLS.LWJGL_DOWNLOAD_URL, dest, progress);
         mc.getLibraryProvider().getNativesDirectory(version).mkdirs();
         dest.deleteOnExit();
         ExtractUtils.extractZipWithoutRules(dest, mc.getLocation());
-        File[] lwjgl = mc.getLibraryProvider().getDefaultLWJGLJars();
+        File[] lwjgl = getDefaultLWJGLJars(mc.getLocation());
         // move JARs from LWJGL
         for (File file : lwjgl) {
             FileUtils.copyFile(new File(lwjglDir + File.separator + "jar", file.getName()), file);

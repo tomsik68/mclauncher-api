@@ -50,8 +50,8 @@ public class MCAssetsVersionLauncher implements IVersionLauncher {
         command.add("-dir");
         command.add(mc.getLocation().toString());
         command.add("-jar");
-        command.add(mc.getJarProvider().getVersionFile(version.getUniqueID()).getPath());
-        File[] files = mc.getLibraryProvider().getDefaultLWJGLJars();
+        command.add(mc.getJarProvider().getVersionFile(version).getPath());
+        File[] files = MCAssetsVersionInstaller.getDefaultLWJGLJars(mc.getLocation());
         command.add("-lib");
         StringBuilder sb = new StringBuilder();
         for (File file : files) {
