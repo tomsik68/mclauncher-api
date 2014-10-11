@@ -12,7 +12,7 @@ import sk.tomsik68.mclauncher.impl.common.Platform;
  * 
  */
 public class MCLauncherAPI {
-    public static final int MC_LAUNCHER_VERSION = 14;
+    public static final int MC_LAUNCHER_VERSION = 15;
     public static Logger log = Logger.getLogger(MCLauncherAPI.class.getName());
 
     public static final class URLS {

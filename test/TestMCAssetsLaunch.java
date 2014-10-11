@@ -45,7 +45,7 @@ public class TestMCAssetsLaunch {
 
                     System.out.println("Found version: " + changed.getDisplayName());
                     try {
-                        Process proc = changed.getLauncher().launch(session, mc, null, (MCAssetsVersion) changed, new ILaunchSettings() {
+                        List<String> launchCommand = changed.getLauncher().getLaunchCommand(session, mc, null, (MCAssetsVersion) changed, new ILaunchSettings() {
 
                             @Override
                             public boolean isModifyAppletOptions() {
@@ -87,6 +87,7 @@ public class TestMCAssetsLaunch {
                                 return null;
                             }
                         });
+                        Process proc = new ProcessBuilder(launchCommand).start();
                         BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
                         String line;
                         while (isProcessAlive(proc)) {

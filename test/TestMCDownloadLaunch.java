@@ -51,7 +51,7 @@ public class TestMCDownloadLaunch {
                     if (!launched) {
                         launched = true;
                         try {
-                            Process proc = changed.getLauncher().launch(session, mc, null, changed, new ILaunchSettings() {
+                            List<String> launchCommand = changed.getLauncher().getLaunchCommand(session, mc, null, changed, new ILaunchSettings() {
 
                                 @Override
                                 public boolean isModifyAppletOptions() {
@@ -93,6 +93,7 @@ public class TestMCDownloadLaunch {
                                     return null;
                                 }
                             });
+                            Process proc = new ProcessBuilder(launchCommand).start();
                             BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
                             String line;
                             while (isProcessAlive(proc)) {

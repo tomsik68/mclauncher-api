@@ -53,15 +53,6 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
     }
 
     @Override
-    public Process launch(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion v, ILaunchSettings settings) throws Exception {
-
-        ProcessBuilder pb = new ProcessBuilder(getLaunchCommand(session, mc, server, v, settings));
-        pb.redirectErrorStream(settings.isErrorStreamRedirected());
-        pb.directory(mc.getLocation());
-        return pb.start();
-    }
-
-    @Override
     public List<String> getLaunchCommand(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion v, ILaunchSettings settings)
             throws Exception {
         // get JSON information about the version

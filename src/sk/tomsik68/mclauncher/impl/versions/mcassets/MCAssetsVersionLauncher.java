@@ -18,14 +18,6 @@ import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
 public class MCAssetsVersionLauncher implements IVersionLauncher {
 
     @Override
-    public Process launch(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion version, ILaunchSettings settings) throws Exception {
-        ProcessBuilder pb = new ProcessBuilder(getLaunchCommand(session, mc, server, version, settings));
-        pb.redirectErrorStream(settings.isErrorStreamRedirected());
-        Process result = pb.start();
-        return result;
-    }
-
-    @Override
     public List<String> getLaunchCommand(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion version, ILaunchSettings settings)
             throws Exception {
         String pathToJar = Relauncher.class.getProtectionDomain().getCodeSource().getLocation().getFile();

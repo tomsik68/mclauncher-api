@@ -14,10 +14,6 @@ import sk.tomsik68.mclauncher.api.servers.ISavedServer;
  * 
  */
 public interface IVersionLauncher {
-
-    public List<String> getLaunchCommand(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion version, ILaunchSettings settings)
-            throws Exception;
-
     /**
      * Launches minecraft
      * 
@@ -35,5 +31,7 @@ public interface IVersionLauncher {
      * @throws Exception
      *             various errors
      */
-    public Process launch(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion version, ILaunchSettings settings) throws Exception;
+    public List<String> getLaunchCommand(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion version, ILaunchSettings settings)
+            throws Exception;
+
 }
