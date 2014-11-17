@@ -55,7 +55,6 @@ public class TestMCDownloadInstall {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         });
         try {
