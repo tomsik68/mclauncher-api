@@ -1,10 +1,9 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import javax.swing.JFrame;
 
 import org.junit.Test;
 
@@ -76,17 +75,21 @@ public class TestMCDownloadLaunch {
 
 						@Override
 						public List<String> getJavaArguments() {
-						    return null;
+						    return Arrays
+							    .asList("-XX:+UseConcMarkSweepGC",
+								    "-XX:+CMSIncrementalMode",
+								    "-XX:-UseAdaptiveSizePolicy",
+								    "-Xmn128M");
 						}
 
 						@Override
 						public String getInitHeap() {
-						    return null;
+						    return "512M";
 						}
 
 						@Override
 						public String getHeap() {
-						    return null;
+						    return "1G";
 						}
 
 						@Override
@@ -102,8 +105,11 @@ public class TestMCDownloadLaunch {
 			    for (String cmd : launchCommand) {
 				System.out.print(cmd + " ");
 			    }
+			    System.out.println();
 			    ProcessBuilder pb = new ProcessBuilder(
 				    launchCommand);
+			    pb.redirectError(new File("mcerr.log"));
+			    pb.redirectOutput(new File("mcout.log"));
 			    pb.directory(mc.getLocation());
 			    Process proc = pb.start();
 			    BufferedReader br = new BufferedReader(
@@ -129,7 +135,8 @@ public class TestMCDownloadLaunch {
 
     protected boolean isProcessAlive(Process proc) {
 	try {
-	    proc.exitValue();
+	    System.out.println("Process exited with error code:"
+		    + proc.exitValue());
 	    return false;
 	} catch (Exception e) {
 	    return true;
