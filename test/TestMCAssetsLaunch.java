@@ -86,7 +86,7 @@ public class TestMCAssetsLaunch {
                             public List<String> getJavaArguments() {
                                 return null;
                             }
-                        });
+                        }, null);
                         Process proc = new ProcessBuilder(launchCommand).start();
                         BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
                         String line;

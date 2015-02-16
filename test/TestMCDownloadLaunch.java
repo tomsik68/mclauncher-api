@@ -101,7 +101,7 @@ public class TestMCDownloadLaunch {
 						public List<String> getCommandPrefix() {
 						    return null;
 						}
-					    });
+					    }, null);
 			    for (String cmd : launchCommand) {
 				System.out.print(cmd + " ");
 			    }
