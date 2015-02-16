@@ -3,8 +3,10 @@ package sk.tomsik68.mclauncher.impl.versions.mcassets;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import sk.tomsik68.mclauncher.api.common.ILaunchSettings;
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.ISession;
+import sk.tomsik68.mclauncher.api.mods.IModdingProfile;
 import sk.tomsik68.mclauncher.api.servers.ISavedServer;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
@@ -17,7 +19,7 @@ import java.util.List;
 public class MCAssetsVersionLauncher implements IVersionLauncher {
 
     @Override
-    public List<String> getLaunchCommand(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion version, ILaunchSettings settings)
+    public List<String> getLaunchCommand(ISession session, IMinecraftInstance mc, ISavedServer server, IVersion version, ILaunchSettings settings, IModdingProfile mods)
             throws Exception {
         String pathToJar = Relauncher.class.getProtectionDomain().getCodeSource().getLocation().getFile();
         List<String> command = new ArrayList<String>();
@@ -68,6 +70,9 @@ public class MCAssetsVersionLauncher implements IVersionLauncher {
         command.add(mc.getLibraryProvider().getNativesDirectory(version).getAbsolutePath());
         command.add("-jlibpath");
         command.add(mc.getLibraryProvider().getNativesDirectory(version).getAbsolutePath());
+        if(mods != null){
+            MCLauncherAPI.log.warning("You're trying to use mods with MCAssets version. MCAssets versions are deprecated, so mods won't load correctly.");
+        }
         return command;
     }
 
