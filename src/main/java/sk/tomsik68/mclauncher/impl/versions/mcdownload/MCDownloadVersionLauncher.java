@@ -100,6 +100,12 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         command.add("-cp");
         StringBuilder sb = new StringBuilder();
         final String LIBRARY_SEPARATOR = System.getProperty("path.separator");
+        if(mods != null) {
+            // mods after libraries
+            for (File file : mods.getCoreMods()) {
+                sb = sb.append(file.getAbsolutePath()).append(LIBRARY_SEPARATOR);
+            }
+        }
         for (Library lib : version.getLibraries()) {
             if (lib.isCompatible()) {
                 File libraryFile = mc.getLibraryProvider().getLibraryFile(lib);
@@ -110,12 +116,7 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
                         LIBRARY_SEPARATOR);
             }
         }
-        if(mods != null) {
-            // mods after libraries
-            for (File file : mods.getCoreMods()) {
-                sb = sb.append(file.getAbsolutePath()).append(LIBRARY_SEPARATOR);
-            }
-        }
+
 
         sb = sb.append(jarFile.getAbsolutePath());
 
