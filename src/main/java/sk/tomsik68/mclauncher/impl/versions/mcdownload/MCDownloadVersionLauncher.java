@@ -101,13 +101,13 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         StringBuilder sb = new StringBuilder();
         final String LIBRARY_SEPARATOR = System.getProperty("path.separator");
         if(mods != null) {
-            // mods after libraries
-            for (File file : mods.getCoreMods()) {
+            /*for (File file : mods.getCoreMods()) {
                 sb = sb.append(file.getAbsolutePath()).append(LIBRARY_SEPARATOR);
-            }
+            }*/
+            sb = sb.append(mods.injectBeforeLibs(LIBRARY_SEPARATOR));
         }
         for (Library lib : version.getLibraries()) {
-            if (lib.isCompatible()) {
+            if (lib.isCompatible() && (mods == null || mods.isLibraryAllowed(lib))) {
                 File libraryFile = mc.getLibraryProvider().getLibraryFile(lib);
                 if (!libraryFile.exists()) {
                     throw new FileNotFoundException("Library file wasn't found");
@@ -117,13 +117,32 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
             }
         }
 
-
-        sb = sb.append(jarFile.getAbsolutePath());
+        if(mods != null) {
+            /*for (File file : mods.getCoreMods()) {
+                sb = sb.append(file.getAbsolutePath()).append(LIBRARY_SEPARATOR);
+            }*/
+            sb = sb.append(mods.injectAfterLibs(LIBRARY_SEPARATOR));
+        }
+        String jarToUse = jarFile.getAbsolutePath();
+        if(mods != null && mods.getCustomGameJar() != null) {
+            jarToUse = mods.getCustomGameJar();
+        }
+        sb = sb.append(jarToUse);
 
         command.add(sb.toString());
-        command.add(version.getMainClass());
+
+        String mainClass = version.getMainClass();
+        if(mods != null && mods.getMainClass() != null){
+            mainClass = mods.getMainClass();
+        }
+        command.add(mainClass);
         String[] arguments = getMinecraftArguments(mc, session, settings,
                 version);
+        if(mods != null){
+            String[] args = mods.changeMinecraftArguments(arguments);
+            if(args != null)
+                arguments = args;
+        }
         for (String arg : arguments) {
             command.add(arg);
         }
@@ -132,6 +151,9 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
             command.add(server.getIP());
             command.add("--port");
             command.add("" + server.getPort());
+        }
+        if(mods != null){
+            command.addAll(mods.getLastParameters());
         }
 
         return command;
