@@ -11,15 +11,15 @@ import java.util.List;
 public interface IModdingProfile {
     /**
      * Returns <code>separator</code>-separated list of absolute paths to JAR files that will be injected before libraries
-     * @param separator
-     * @return Empty string for none. <b>Don't return null or you'll get an error</b>
+     * @param separator - String used to separate files
+     * @return Null for none.
      */
     public String injectBeforeLibs(String separator);
 
     /**
      * Returns <code>separator</code>-separated list of absolute paths to JAR files that will be injected after libraries
-     * @param separator
-     * @return Empty string for none. <b>Don't return null or you'll get an error</b>
+     * @param separator - String used to separate files
+     * @return Null for none.
      */
     public String injectAfterLibs(String separator);
 

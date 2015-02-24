@@ -104,7 +104,13 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
             /*for (File file : mods.getCoreMods()) {
                 sb = sb.append(file.getAbsolutePath()).append(LIBRARY_SEPARATOR);
             }*/
-            sb = sb.append(mods.injectBeforeLibs(LIBRARY_SEPARATOR));
+            String inject = mods.injectBeforeLibs(LIBRARY_SEPARATOR);
+            if(inject != null) {
+                if(!inject.endsWith(LIBRARY_SEPARATOR))
+                    inject = inject.concat(LIBRARY_SEPARATOR);
+                sb = sb.append(inject);
+
+            }
         }
         for (Library lib : version.getLibraries()) {
             if (lib.isCompatible() && (mods == null || mods.isLibraryAllowed(lib))) {
@@ -118,11 +124,14 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
         }
 
         if(mods != null) {
-            /*for (File file : mods.getCoreMods()) {
-                sb = sb.append(file.getAbsolutePath()).append(LIBRARY_SEPARATOR);
-            }*/
-            sb = sb.append(mods.injectAfterLibs(LIBRARY_SEPARATOR));
+            String inject = mods.injectAfterLibs(LIBRARY_SEPARATOR);
+            if(inject != null) {
+                if(!inject.endsWith(LIBRARY_SEPARATOR))
+                    inject = inject.concat(LIBRARY_SEPARATOR);
+                sb = sb.append(inject);
+            }
         }
+
         String jarToUse = jarFile.getAbsolutePath();
         if(mods != null && mods.getCustomGameJar() != null) {
             jarToUse = mods.getCustomGameJar();
