@@ -1,19 +1,19 @@
-package sk.tomsik68.mclauncher.impl.servers;
+package sk.tomsik68.mclauncher.api.servers;
 
-import sk.tomsik68.mclauncher.api.servers.IFoundServer;
+import sk.tomsik68.mclauncher.api.servers.IFoundServerInfo;
 import sk.tomsik68.mclauncher.api.servers.IServerFinder;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class FoundServer implements IFoundServer {
+public class FoundServerInfo implements IFoundServerInfo {
     private static final int DEFAULT_PORT = 25565;
     private final IServerFinder source;
     private HashMap<String, Object> info = new HashMap<String, Object>();
     private String ip, name;
     private int port;
 
-    public FoundServer(IServerFinder sf, String ip, String name) {
+    public FoundServerInfo(IServerFinder sf, String ip, String name) {
         source = sf;
         this.ip = ip;
         if (ip.contains(":")) {

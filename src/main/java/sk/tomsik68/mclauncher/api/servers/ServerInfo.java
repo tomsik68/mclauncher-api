@@ -5,7 +5,7 @@ package sk.tomsik68.mclauncher.api.servers;
  *
  * @author Tomsik68
  */
-public interface ISavedServer {
+public interface ServerInfo {
     /**
      * @return IP of this server in form 1.2.3.4
      */
