@@ -1,6 +1,7 @@
 package sk.tomsik68.mclauncher.impl.servers;
 
 import sk.tomsik68.mclauncher.api.servers.FoundServerInfo;
+import sk.tomsik68.mclauncher.api.servers.FoundServerInfoBuilder;
 import sk.tomsik68.mclauncher.api.servers.IServerFinder;
 import sk.tomsik68.mclauncher.impl.common.Observable;
 
@@ -10,7 +11,6 @@ import java.net.*;
 public class VanillaServerFinder extends Observable<FoundServerInfo> implements IServerFinder {
     private static final String SOCKET_GROUP_ADDRESS = "224.0.2.60";
     private Thread thread;
-    private MulticastSocket socket;
     private InetAddress broadcastAddress;
 
     public VanillaServerFinder() throws UnknownHostException {
@@ -28,6 +28,9 @@ public class VanillaServerFinder extends Observable<FoundServerInfo> implements 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // we will use single builder to build all FoundServerInfo objects
+        final FoundServerInfoBuilder builder = new FoundServerInfoBuilder();
+        builder.finder(this);
         while (socket != null && isActive()) {
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             try {
@@ -39,12 +42,11 @@ public class VanillaServerFinder extends Observable<FoundServerInfo> implements 
             }
             String recvString = new String(packet.getData(), packet.getOffset(), packet.getLength());
             String motd = ServerStringDecoder.parseProperty(recvString, "MOTD");
-            String port = ServerStringDecoder.parseProperty(recvString, "AD");
-            FoundServer server = new FoundServer(this, packet.getAddress().getHostAddress() + ":" + port, motd);
-            server.getInformation().put("motd", motd);
-            server.getInformation().put("address", packet.getAddress().getHostAddress() + ":" + port);
-            server.getInformation().put("discoveryData", packet.getData());
-            server.getInformation().put("packet", packet);
+            Integer port = Integer.parseInt(ServerStringDecoder.parseProperty(recvString, "AD"));
+
+            builder.motd(motd).port(port).ip(packet.getAddress().getHostAddress());
+            builder.property("recvString", recvString);
+            FoundServerInfo server = builder.build();
             notifyObservers(server);
         }
 
