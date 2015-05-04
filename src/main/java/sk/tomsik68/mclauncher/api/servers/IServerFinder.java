@@ -8,7 +8,7 @@ import sk.tomsik68.mclauncher.api.common.IObservable;
  *
  * @author Tomsik68
  */
-public interface IServerFinder extends IObservable<IFoundServer>, Runnable {
+public interface IServerFinder extends IObservable<FoundServerInfo>, Runnable {
     /**
      * @return True if this finder is active
      */

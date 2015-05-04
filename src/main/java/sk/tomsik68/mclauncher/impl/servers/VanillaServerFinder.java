@@ -1,13 +1,13 @@
 package sk.tomsik68.mclauncher.impl.servers;
 
-import sk.tomsik68.mclauncher.api.servers.IFoundServer;
+import sk.tomsik68.mclauncher.api.servers.FoundServerInfo;
 import sk.tomsik68.mclauncher.api.servers.IServerFinder;
 import sk.tomsik68.mclauncher.impl.common.Observable;
 
 import java.io.IOException;
 import java.net.*;
 
-public class VanillaServerFinder extends Observable<IFoundServer> implements IServerFinder {
+public class VanillaServerFinder extends Observable<FoundServerInfo> implements IServerFinder {
     private static final String SOCKET_GROUP_ADDRESS = "224.0.2.60";
     private Thread thread;
     private MulticastSocket socket;
@@ -35,7 +35,7 @@ public class VanillaServerFinder extends Observable<IFoundServer> implements ISe
             } catch (SocketTimeoutException ign) {
                 continue;
             } catch (Exception e) {
-
+                // TODO: add option to handle this error!
             }
             String recvString = new String(packet.getData(), packet.getOffset(), packet.getLength());
             String motd = ServerStringDecoder.parseProperty(recvString, "MOTD");

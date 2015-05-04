@@ -7,10 +7,10 @@ import org.junit.Test;
 
 import sk.tomsik68.mclauncher.api.common.IObservable;
 import sk.tomsik68.mclauncher.api.common.IObserver;
-import sk.tomsik68.mclauncher.api.servers.IFoundServer;
+import sk.tomsik68.mclauncher.api.servers.FoundServerInfo;
 import sk.tomsik68.mclauncher.impl.servers.VanillaServerFinder;
 
-public class TestServerFinder implements IObserver<IFoundServer> {
+public class TestServerFinder implements IObserver<FoundServerInfo> {
 
     @Test
     public void test() {
@@ -31,8 +31,7 @@ public class TestServerFinder implements IObserver<IFoundServer> {
 
     }
 
-    @Override
-    public void onUpdate(IObservable<IFoundServer> observable, IFoundServer changed) {
+    public void onUpdate(IObservable<FoundServerInfo> observable, FoundServerInfo changed) {
         System.out.println("Found server: " + changed.getName());
         System.out.println(changed.getIP() + ":" + changed.getPort());
         dumpMap(changed.getInformation());

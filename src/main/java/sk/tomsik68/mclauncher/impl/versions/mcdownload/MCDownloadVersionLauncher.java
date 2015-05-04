@@ -8,7 +8,7 @@ import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.mods.IModdingProfile;
-import sk.tomsik68.mclauncher.api.servers.ISavedServer;
+import sk.tomsik68.mclauncher.api.servers.ServerInfo;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
@@ -59,7 +59,7 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
 
     @Override
     public List<String> getLaunchCommand(ISession session,
-                                         IMinecraftInstance mc, ISavedServer server, IVersion v,
+                                         IMinecraftInstance mc, ServerInfo server, IVersion v,
                                          ILaunchSettings settings, IModdingProfile mods) throws Exception {
         // get JSON information about the version
         File jsonFile = new File(mc.getJarProvider().getVersionFile(v)
