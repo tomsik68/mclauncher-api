@@ -1,5 +1,7 @@
 package sk.tomsik68.mclauncher.api.servers;
 
+import java.io.IOException;
+
 /**
  * Player-saved server storage
  *
@@ -7,7 +9,12 @@ package sk.tomsik68.mclauncher.api.servers;
  */
 public interface IServerStorage {
     /**
-     * @return Array of {@link ISavedServer} which are all servers player has saved
+     * @return Array of {@link ServerInfo} which are all servers player has saved
      */
-    public ISavedServer[] loadServers();
+    public ServerInfo[] loadServers() throws Exception;
+
+    /**
+     * Overwrites servers in this storage by provided array
+     * */
+    public void saveServers(ServerInfo[] servers) throws Exception;
 }
