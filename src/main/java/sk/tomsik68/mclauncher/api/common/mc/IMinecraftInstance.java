@@ -1,5 +1,6 @@
 package sk.tomsik68.mclauncher.api.common.mc;
 
+import sk.tomsik68.mclauncher.api.servers.IServerStorage;
 import sk.tomsik68.mclauncher.api.services.IJarProvider;
 import sk.tomsik68.mclauncher.api.services.ILibraryProvider;
 
@@ -31,5 +32,7 @@ public interface IMinecraftInstance {
      * @return Location of .minecraft/assets
      */
     public File getAssetsDirectory();
+
+    public IServerStorage getServerStorage();
 
 }
