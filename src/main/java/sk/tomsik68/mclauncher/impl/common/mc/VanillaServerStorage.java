@@ -1,19 +1,17 @@
 package sk.tomsik68.mclauncher.impl.common.mc;
 
-import com.flowpowered.nbt.CompoundMap;
-import com.flowpowered.nbt.CompoundTag;
-import com.flowpowered.nbt.ListTag;
-import com.flowpowered.nbt.TagType;
+import com.flowpowered.nbt.*;
 import com.flowpowered.nbt.stream.NBTInputStream;
+import com.flowpowered.nbt.stream.NBTOutputStream;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
 import sk.tomsik68.mclauncher.api.servers.ServerInfo;
 import sk.tomsik68.mclauncher.api.servers.IServerStorage;
-
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.IllegalFormatException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,8 +77,39 @@ public class VanillaServerStorage implements IServerStorage {
         return result;
     }
 
-    public void saveServers(ServerInfo[] servers) throws IOException {
+    private final CompoundMap createCompoundFromServer(ServerInfo server){
+        CompoundMap result = new CompoundMap();
+        result.put("name", new StringTag("name", server.getName()));
+        String ipString = server.getIP();
+        if(server.getPort() != DEFAULT_PORT)
+            ipString = ipString.concat(":".concat(Integer.toString(server.getPort())));
 
+        result.put("ip", new StringTag("ip", ipString));
+        if(server.hasIcon())
+            result.put("icon", new StringTag("icon", server.getIcon()));
+        return result;
+    }
+
+
+    public void saveServers(ServerInfo[] servers) throws IOException {
+        if(file.exists())
+            file.delete();
+        final FileOutputStream fos = new FileOutputStream(file);
+        NBTOutputStream nbtOutputStream = new NBTOutputStream(fos, false);
+        ArrayList<CompoundTag> serversList = new ArrayList<CompoundTag>();
+
+        for(ServerInfo server : servers){
+            serversList.add(new CompoundTag("", createCompoundFromServer(server)));
+        }
+
+        ListTag<CompoundTag> listTag = new ListTag<CompoundTag>("servers", CompoundTag.class, serversList);
+        CompoundTag root = new CompoundTag("", new CompoundMap());
+        root.getValue().put("servers", listTag);
+        nbtOutputStream.writeTag(root);
+        nbtOutputStream.flush();
+        fos.flush();
+        nbtOutputStream.close();
+        fos.close();
     }
 }
 
