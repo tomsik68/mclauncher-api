@@ -10,8 +10,8 @@ public class FoundServerInfo extends ServerInfo {
     private final IServerFinder source;
     private final Map<String, Object> info;
 
-    public FoundServerInfo(IServerFinder sf, String ip, int port, String name, Map<String, Object> info) {
-        super(ip, name, port);
+    public FoundServerInfo(IServerFinder sf, String ip, String icon, int port, String name, Map<String, Object> info) {
+        super(ip, name,icon, port);
         source = sf;
         this.info = info;
     }

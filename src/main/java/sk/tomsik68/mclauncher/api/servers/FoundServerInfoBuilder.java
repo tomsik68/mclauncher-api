@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Builder class for FoundServerInfo. May be used in server finders
  */
 public final class FoundServerInfoBuilder {
-    private String motd, ip;
+    private String motd, ip, icon;
     private int port;
     private IServerFinder finder;
     private HashMap<String, Object> properties = new HashMap<String, Object>();
@@ -31,6 +31,15 @@ public final class FoundServerInfoBuilder {
         return this;
     }
 
+    /**
+     *
+     * @param ico - Icon image encoded as base64 string
+     * @return
+     */
+    public final FoundServerInfoBuilder icon(String ico){
+        icon = ico;
+        return this;
+    }
 
     public final FoundServerInfoBuilder property(String key, Object value){
         properties.put(key, value);
@@ -38,7 +47,7 @@ public final class FoundServerInfoBuilder {
     }
 
     public final FoundServerInfo build(){
-        return new FoundServerInfo(finder, ip, port, motd, properties);
+        return new FoundServerInfo(finder, ip, icon, port, motd, properties);
     }
 
 
