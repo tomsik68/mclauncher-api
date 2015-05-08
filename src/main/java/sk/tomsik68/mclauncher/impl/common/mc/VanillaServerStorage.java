@@ -33,7 +33,7 @@ public class VanillaServerStorage implements IServerStorage {
 
 
     private static ServerInfo createServerFromTag(CompoundMap compound){
-        String ipString, ip, name;
+        String ipString, ip, name, icon = null;
         int port;
         ipString = compound.get("ip").getValue().toString();
         name = compound.get("name").getValue().toString();
@@ -47,13 +47,17 @@ public class VanillaServerStorage implements IServerStorage {
                 exce.printStackTrace();
                 return null;
             }
-        } else{
+        } else {
             ip = ipString;
             port = DEFAULT_PORT;
         }
 
-        ServerInfo result = new ServerInfo(ip, name, port);
-        return result;
+        if(compound.containsKey("icon")){
+            icon = ((StringTag)compound.get("icon")).getValue();
+        }
+
+
+        return new ServerInfo(ip, name, icon,port);
     }
 
 
