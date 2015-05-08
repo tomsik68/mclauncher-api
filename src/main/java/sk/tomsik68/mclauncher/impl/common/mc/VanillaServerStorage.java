@@ -59,7 +59,7 @@ public class VanillaServerStorage implements IServerStorage {
 
     public ServerInfo[] loadServers() throws Exception{
         final FileInputStream fis = new FileInputStream(file);
-        NBTInputStream nbtIs = new NBTInputStream(fis);
+        NBTInputStream nbtIs = new NBTInputStream(fis, false);
         // the cast should be safe, because compound tag is also a root container of contents in the file...
         final CompoundTag root = (CompoundTag) nbtIs.readTag();
         nbtIs.close();
