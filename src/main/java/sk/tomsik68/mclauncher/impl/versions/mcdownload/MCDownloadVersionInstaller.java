@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 public class MCDownloadVersionInstaller implements IVersionInstaller {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
+    private static final String JAR_DOWNLOAD_URL = "https://s3.amazonaws.com/Minecraft.Download/versions/<VERSION>/<VERSION>.jar";
 
     @Override
     public void addVersionInstallListener(IVersionInstallListener listener) {
@@ -80,7 +81,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
         // and jar file
         // if (!jarDest.exists()) 
         try {
-            FileUtils.downloadFileWithProgress(MCLauncherAPI.URLS.NEW_JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
+            FileUtils.downloadFileWithProgress(JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -4,6 +4,8 @@ import net.minidev.json.JSONObject;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 
 public class Asset {
+    private static final String RESOURCES_URL = "http://resources.download.minecraft.net/";
+
     private final String hash;
     private final int size;
 
@@ -25,7 +27,7 @@ public class Asset {
     }
 
     public String getUrl() {
-        return MCLauncherAPI.URLS.RESOURCES_URL + getPreHash() + "/" + hash;
+        return RESOURCES_URL + getPreHash() + "/" + hash;
     }
 
 }

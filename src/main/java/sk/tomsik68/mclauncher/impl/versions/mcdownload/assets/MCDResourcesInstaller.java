@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 public class MCDResourcesInstaller {
 
     private final File indexesDir, objectsDir, virtualDir;
+    private static final String RESOURCES_INDEX_URL = "https://s3.amazonaws.com/Minecraft.Download/indexes/";
 
     public MCDResourcesInstaller(IMinecraftInstance mc) {
         indexesDir = new File(mc.getAssetsDirectory(), "indexes");
@@ -26,7 +27,7 @@ public class MCDResourcesInstaller {
     public void install(MCDownloadVersion version, IProgressMonitor progress) throws Exception {
         String index = version.getAssetsIndexName();
         File indexDest = new File(indexesDir, index + ".json");
-        String indexDownloadURL = MCLauncherAPI.URLS.RESOURCES_INDEX_URL + index + ".json";
+        String indexDownloadURL = RESOURCES_INDEX_URL + index + ".json";
         if (!indexDest.exists() || indexDest.length() == 0)
             FileUtils.downloadFileWithProgress(indexDownloadURL, indexDest, null);
         JSONObject jsonAssets = (JSONObject) JSONValue.parse(new FileReader(indexDest));

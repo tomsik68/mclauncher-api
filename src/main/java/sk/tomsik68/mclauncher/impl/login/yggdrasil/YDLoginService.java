@@ -18,6 +18,9 @@ import java.util.UUID;
 
 public class YDLoginService implements ILoginService {
     public static UUID clientToken = UUID.randomUUID();
+    private static final String PASSWORD_LOGIN_URL = "https://authserver.mojang.com/authenticate";
+    private static final String SESSION_LOGIN_URL = "https://authserver.mojang.com/refresh";
+    private static final String SESSION_LOGOUT_URL = "https://authserver.mojang.com/invalidate";
 
     public YDLoginService() {
     }
@@ -40,14 +43,14 @@ public class YDLoginService implements ILoginService {
 
     private YDLoginResponse doSessionLogin(IProfile profile) throws Exception {
         YDSessionLoginRequest request = new YDSessionLoginRequest(profile.getPassword(), clientToken.toString());
-        String result = HttpUtils.doJSONPost(MCLauncherAPI.URLS.SESSION_LOGIN_URL, request);
+        String result = HttpUtils.doJSONPost(SESSION_LOGIN_URL, request);
         YDLoginResponse response = new YDLoginResponse((JSONObject) JSONValue.parse(result));
         return response;
     }
 
     private YDLoginResponse doPasswordLogin(IProfile profile) throws Exception {
         YDPasswordLoginRequest request = new YDPasswordLoginRequest(profile.getName(), profile.getPassword(), clientToken.toString());
-        String result = HttpUtils.doJSONPost(MCLauncherAPI.URLS.PASSWORD_LOGIN_URL, request);
+        String result = HttpUtils.doJSONPost(PASSWORD_LOGIN_URL, request);
         YDLoginResponse response = new YDLoginResponse((JSONObject) JSONValue.parse(result));
         return response;
     }
@@ -99,7 +102,7 @@ public class YDLoginService implements ILoginService {
     @Override
     public void logout(ISession session) throws Exception {
         YDLogoutRequest request = new YDLogoutRequest(session, clientToken);
-        String result = HttpUtils.doJSONPost(MCLauncherAPI.URLS.SESSION_LOGOUT_URL, request);
+        String result = HttpUtils.doJSONPost(SESSION_LOGOUT_URL, request);
         if (result.length() > 0) {
             YDResponse response = new YDResponse((JSONObject) JSONValue.parse(result));
             if (response.getError() != null) {

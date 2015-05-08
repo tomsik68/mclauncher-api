@@ -18,7 +18,8 @@ public class Library {
     private final HashMap<String, String> natives = new HashMap<String, String>();
     private final ArrayList<Rule> rules = new ArrayList<Rule>();
     private LibraryExtractRules extractRules;
-    private String url = MCLauncherAPI.URLS.LIBRARY_BASE_URL;
+    private final static String LIBRARY_BASE_URL = "https://libraries.minecraft.net/";
+    private String url = LIBRARY_BASE_URL;
 
     public Library(JSONObject json) {
         name = json.get("name").toString();
