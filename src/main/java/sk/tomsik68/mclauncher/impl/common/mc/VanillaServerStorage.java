@@ -41,9 +41,9 @@ public class VanillaServerStorage implements IServerStorage {
         if(ipString.contains(":")){
             ip = ipString.split(":")[0];
             try {
-                port = Integer.parseInt(ipString.split(":")[0]);
+                port = Integer.parseInt(ipString.split(":")[1]);
             } catch(NumberFormatException exce){
-                MCLauncherAPI.log.severe("Bad port number format: '"+ipString.split(":")[0]+"' ");
+                MCLauncherAPI.log.severe("Bad port number format: '"+ipString.split(":")[1]+"' ");
                 exce.printStackTrace();
                 return null;
             }
