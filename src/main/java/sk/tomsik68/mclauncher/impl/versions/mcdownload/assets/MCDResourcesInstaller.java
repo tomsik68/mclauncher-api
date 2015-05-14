@@ -29,7 +29,7 @@ public class MCDResourcesInstaller {
         File indexDest = new File(indexesDir, index + ".json");
         String indexDownloadURL = RESOURCES_INDEX_URL + index + ".json";
         if (!indexDest.exists() || indexDest.length() == 0)
-            FileUtils.downloadFileWithProgress(indexDownloadURL, indexDest, null);
+            FileUtils.downloadFileWithProgress(indexDownloadURL, indexDest, progress);
         JSONObject jsonAssets = (JSONObject) JSONValue.parse(new FileReader(indexDest));
         AssetIndex assets = new AssetIndex(jsonAssets);
         MCLauncherAPI.log.info("Retrieving objects...");
