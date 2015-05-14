@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Server storage implementation used by the default launcher
  */
-public class VanillaServerStorage implements IServerStorage {
+final class VanillaServerStorage implements IServerStorage {
     private final File file;
     private static final int DEFAULT_PORT = 25565;
 

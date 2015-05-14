@@ -8,7 +8,7 @@ import sk.tomsik68.mclauncher.impl.versions.mcdownload.Library;
 
 import java.io.File;
 
-public class VanillaLibraryProvider implements ILibraryProvider {
+final class VanillaLibraryProvider implements ILibraryProvider {
     private final IJarProvider jarProvider;
     private final File libsFolder, binFolder;
 

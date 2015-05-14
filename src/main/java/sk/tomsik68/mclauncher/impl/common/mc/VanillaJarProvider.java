@@ -5,7 +5,7 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
 
 import java.io.File;
 
-public class VanillaJarProvider implements IJarProvider {
+final class VanillaJarProvider implements IJarProvider {
     private final File versionsFolder;
 
     public VanillaJarProvider(File mc) {
