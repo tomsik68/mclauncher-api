@@ -6,7 +6,7 @@ import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
 
 import java.util.List;
 
-public class LegacySession implements ISession {
+final class LegacySession implements ISession {
     private final String userName, sessionID, uuid, downloadTicket, lastVersion;
 
     public LegacySession(String user, String sessid, String uuid, String dlTicket, String lVersion) {

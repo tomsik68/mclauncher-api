@@ -26,7 +26,7 @@ final class LegacyLoginEncryptionProcessor {
         return cipher;
     }
 
-    InputStream decrypt(InputStream is) throws Exception {
+    final InputStream decrypt(InputStream is) throws Exception {
         Cipher cipher = getCipher(MODE_DECRYPT);
         if (cipher == null)
             return is;
@@ -34,7 +34,7 @@ final class LegacyLoginEncryptionProcessor {
             return new CipherInputStream(is, cipher);
     }
 
-    OutputStream encrypt(OutputStream os) throws Exception {
+    final OutputStream encrypt(OutputStream os) throws Exception {
         Cipher cipher = getCipher(MODE_ENCRYPT);
         if (cipher == null)
             return os;
