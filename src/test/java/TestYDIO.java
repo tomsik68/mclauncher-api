@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDAuthProfile;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.io.YDProfileIO;
+import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfileIO;
 
 public class TestYDIO {
 

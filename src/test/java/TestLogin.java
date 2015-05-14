@@ -6,7 +6,7 @@ import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.io.YDProfileIO;
+import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfileIO;
 
 public class TestLogin {
 

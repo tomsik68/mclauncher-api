@@ -17,7 +17,7 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.common.mc.VanillaMinecraftInstance;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.io.YDProfileIO;
+import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfileIO;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
 
 public class TestMCDownloadForgeLaunch {

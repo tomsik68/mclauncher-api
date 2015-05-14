@@ -62,7 +62,6 @@ final class YDAuthProfile implements IProfile, IJSONSerializable {
         return true;
     }
 
-    @Override
     public String getUUID() {
         return uuid;
     }
