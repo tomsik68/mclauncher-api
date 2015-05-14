@@ -3,7 +3,7 @@ package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 import net.minidev.json.JSONObject;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 
-public class YDPasswordLoginRequest implements IJSONSerializable {
+final class YDPasswordLoginRequest implements IJSONSerializable {
     private static final JSONObject agentObj = new JSONObject();
 
     static {

@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import sk.tomsik68.mclauncher.api.login.ISession.Prop;
 
-public class YDUserObject {
+final class YDUserObject {
 
     public final String id;
     private final ArrayList<Prop> props = new ArrayList<Prop>();

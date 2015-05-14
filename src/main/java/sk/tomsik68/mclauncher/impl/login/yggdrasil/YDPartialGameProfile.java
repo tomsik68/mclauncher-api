@@ -3,7 +3,7 @@ package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 import net.minidev.json.JSONObject;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 
-public class YDPartialGameProfile implements IJSONSerializable {
+final class YDPartialGameProfile implements IJSONSerializable {
     private final String name, id;
     private final boolean legacy;
 
@@ -18,11 +18,11 @@ public class YDPartialGameProfile implements IJSONSerializable {
 
     }
 
-    public String getName() {
+    final String getName() {
         return name;
     }
 
-    public String getId() {
+    final String getId() {
         return id;
     }
 
@@ -33,7 +33,7 @@ public class YDPartialGameProfile implements IJSONSerializable {
         return obj;
     }
 
-    public boolean isLegacy() {
+    final boolean isLegacy() {
         return legacy;
     }
 }

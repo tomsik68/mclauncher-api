@@ -6,7 +6,7 @@ import sk.tomsik68.mclauncher.api.login.ISession.Prop;
 
 import java.util.List;
 
-public class YDSession implements ISession {
+final class YDSession implements ISession {
     private final String username, sessid, uuid;
     private final YDUserObject user;
 
@@ -38,7 +38,7 @@ public class YDSession implements ISession {
         return ESessionType.MOJANG;
     }
 
-    public YDUserObject getUserObject() {
+    final YDUserObject getUserObject() {
         return user;
     }
 

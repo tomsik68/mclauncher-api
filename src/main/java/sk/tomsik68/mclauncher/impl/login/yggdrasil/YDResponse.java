@@ -2,7 +2,7 @@ package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
 import net.minidev.json.JSONObject;
 
-public class YDResponse {
+class YDResponse {
     private String error, message;
 
     public YDResponse(JSONObject json) {
@@ -12,19 +12,19 @@ public class YDResponse {
             setMessage(json.get("errorMessage").toString());
     }
 
-    public String getError() {
+    final String getError() {
         return error;
     }
 
-    public void setError(String error) {
+    final void setError(String error) {
         this.error = error;
     }
 
-    public String getMessage() {
+    final String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    final void setMessage(String message) {
         this.message = message;
     }
 }

@@ -6,7 +6,7 @@ import sk.tomsik68.mclauncher.api.login.ISession;
 
 import java.util.UUID;
 
-public class YDLogoutRequest implements IJSONSerializable {
+final class YDLogoutRequest implements IJSONSerializable {
     private final ISession session;
     private final UUID clientToken;
 

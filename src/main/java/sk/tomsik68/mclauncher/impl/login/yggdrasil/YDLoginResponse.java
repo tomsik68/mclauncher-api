@@ -5,7 +5,7 @@ import net.minidev.json.JSONObject;
 
 import java.util.HashMap;
 
-public class YDLoginResponse extends YDResponse {
+final class YDLoginResponse extends YDResponse {
     private final String sessionID, clientToken;
     private final YDPartialGameProfile selectedProfile;
     private HashMap<String, YDPartialGameProfile> profiles = new HashMap<String, YDPartialGameProfile>();

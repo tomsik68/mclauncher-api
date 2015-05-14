@@ -13,7 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 
-public class YDProfileIO implements IProfileIO {
+public final class YDProfileIO implements IProfileIO {
     private final File dest;
 
     public YDProfileIO(File mcInstance) {
@@ -46,10 +46,11 @@ public class YDProfileIO implements IProfileIO {
             authDb = (JSONObject) jRoot.get("authenticationDatabase");
         }
 
-        for (IProfile profile : profiles) {
-            if (!(profile instanceof YDAuthProfile))
+        for (IProfile p : profiles) {
+            if (!(p instanceof YDAuthProfile))
                 throw new IllegalArgumentException("You can only save YDAuthProfile with this system!");
-            authDb.put(((YDAuthProfile) profile).getUuid().replace("-", ""), ((IJSONSerializable) profile).toJSON());
+            YDAuthProfile profile = (YDAuthProfile)p;
+            authDb.put(profile.getUUID().replace("-", ""), profile.toJSON());
         }
         jRoot.put("authenticationDatabase", authDb);
         FileWriter fw = new FileWriter(dest);

@@ -16,7 +16,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.UUID;
 
-public class YDLoginService implements ILoginService {
+public final class YDLoginService implements ILoginService {
     public static UUID clientToken = UUID.randomUUID();
     private static final String PASSWORD_LOGIN_URL = "https://authserver.mojang.com/authenticate";
     private static final String SESSION_LOGIN_URL = "https://authserver.mojang.com/refresh";
