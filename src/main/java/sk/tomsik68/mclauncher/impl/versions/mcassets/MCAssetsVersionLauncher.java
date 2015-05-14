@@ -4,7 +4,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import sk.tomsik68.mclauncher.api.common.ILaunchSettings;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
-import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.mods.IModdingProfile;
 import sk.tomsik68.mclauncher.api.servers.ServerInfo;
@@ -19,7 +19,7 @@ import java.util.List;
 public final class MCAssetsVersionLauncher implements IVersionLauncher {
 
     @Override
-    public List<String> getLaunchCommand(ISession session, IMinecraftInstance mc, ServerInfo server, IVersion version, ILaunchSettings settings, IModdingProfile mods)
+    public List<String> getLaunchCommand(ISession session, MinecraftInstance mc, ServerInfo server, IVersion version, ILaunchSettings settings, IModdingProfile mods)
             throws Exception {
         String pathToJar = Relauncher.class.getProtectionDomain().getCodeSource().getLocation().getFile();
         List<String> command = new ArrayList<String>();

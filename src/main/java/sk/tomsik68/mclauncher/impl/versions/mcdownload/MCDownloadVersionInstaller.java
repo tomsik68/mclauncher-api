@@ -2,7 +2,7 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 
 import net.minidev.json.JSONStyle;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
-import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstallListener;
@@ -27,7 +27,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
     }
 
     @Override
-    public void install(IVersion v, IMinecraftInstance mc, IProgressMonitor progress) throws Exception {
+    public void install(IVersion v, MinecraftInstance mc, IProgressMonitor progress) throws Exception {
         Logger log = MCLauncherAPI.log;
         log.info("Checking compatibility...");
         MCDownloadVersion version = (MCDownloadVersion) v;
@@ -92,7 +92,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
             progress.finish();
     }
 
-    private void updateResources(IMinecraftInstance mc, MCDownloadVersion version, IProgressMonitor progress) throws Exception {
+    private void updateResources(MinecraftInstance mc, MCDownloadVersion version, IProgressMonitor progress) throws Exception {
         File assets = mc.getAssetsDirectory();
         if (!assets.exists()) {
             assets.mkdirs();
@@ -101,7 +101,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
         resInstaller.install(version, progress);
     }
 
-    private void downloadLibrary(Library lib, IMinecraftInstance mc, IProgressMonitor p) throws Exception {
+    private void downloadLibrary(Library lib, MinecraftInstance mc, IProgressMonitor p) throws Exception {
         String url = lib.getDownloadURL();
         File dest = new File(mc.getLibraryProvider().getLibrariesDirectory(), lib.getPath());
         dest.mkdirs();

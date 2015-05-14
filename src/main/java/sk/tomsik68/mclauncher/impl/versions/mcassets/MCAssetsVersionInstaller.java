@@ -1,7 +1,7 @@
 package sk.tomsik68.mclauncher.impl.versions.mcassets;
 
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
-import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstallListener;
@@ -37,7 +37,7 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
     }
 
     @Override
-    public void install(IVersion version, IMinecraftInstance mc, IProgressMonitor progress) throws Exception {
+    public void install(IVersion version, MinecraftInstance mc, IProgressMonitor progress) throws Exception {
         String url = getVersionURL(version.getId());
         mc.getJarProvider().prepareVersionInstallation(version);
         if (!mc.getJarProvider().getVersionFile(version).exists())
@@ -85,7 +85,7 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
         return file;
     }
 
-    private void updateJARs(IMinecraftInstance mc, IVersion version, IProgressMonitor progress) throws Exception {
+    private void updateJARs(MinecraftInstance mc, IVersion version, IProgressMonitor progress) throws Exception {
         File lwjglDir = new File(mc.getLocation(), "lwjgl-2.9.0");
         lwjglDir.deleteOnExit();
         File dest = new File(mc.getLibraryProvider().getLibrariesDirectory(), "lwjgl.zip");

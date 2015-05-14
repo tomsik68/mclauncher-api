@@ -4,7 +4,7 @@ import com.flowpowered.nbt.*;
 import com.flowpowered.nbt.stream.NBTInputStream;
 import com.flowpowered.nbt.stream.NBTOutputStream;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
-import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.servers.ServerInfo;
 import sk.tomsik68.mclauncher.api.servers.IServerStorage;
 import java.io.File;
@@ -21,7 +21,7 @@ final class VanillaServerStorage implements IServerStorage {
     private final File file;
     private static final int DEFAULT_PORT = 25565;
 
-    public VanillaServerStorage(IMinecraftInstance mc){
+    public VanillaServerStorage(MinecraftInstance mc){
         this(new File(mc.getLocation(), "servers.dat"));
     }
 

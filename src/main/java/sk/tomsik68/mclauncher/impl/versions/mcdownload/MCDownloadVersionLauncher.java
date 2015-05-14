@@ -5,7 +5,7 @@ import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
 import sk.tomsik68.mclauncher.api.common.ILaunchSettings;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
-import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.mods.IModdingProfile;
 import sk.tomsik68.mclauncher.api.servers.ServerInfo;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MCDownloadVersionLauncher implements IVersionLauncher {
 
-    public String[] getMinecraftArguments(IMinecraftInstance mc,
+    public String[] getMinecraftArguments(MinecraftInstance mc,
                                           ISession session, ILaunchSettings settings,
                                           MCDownloadVersion version) {
         // TODO tooo lazy to finish options
@@ -59,7 +59,7 @@ public class MCDownloadVersionLauncher implements IVersionLauncher {
 
     @Override
     public List<String> getLaunchCommand(ISession session,
-                                         IMinecraftInstance mc, ServerInfo server, IVersion v,
+                                         MinecraftInstance mc, ServerInfo server, IVersion v,
                                          ILaunchSettings settings, IModdingProfile mods) throws Exception {
         // get JSON information about the version
         File jsonFile = new File(mc.getJarProvider().getVersionFile(v)

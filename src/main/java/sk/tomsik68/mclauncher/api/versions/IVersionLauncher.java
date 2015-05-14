@@ -1,7 +1,7 @@
 package sk.tomsik68.mclauncher.api.versions;
 
 import sk.tomsik68.mclauncher.api.common.ILaunchSettings;
-import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.mods.IModdingProfile;
 import sk.tomsik68.mclauncher.api.servers.ServerInfo;
@@ -26,7 +26,7 @@ public interface IVersionLauncher {
      * @return Process which was created
      * @throws Exception various errors
      */
-    public List<String> getLaunchCommand(ISession session, IMinecraftInstance mc, ServerInfo server, IVersion version, ILaunchSettings settings, IModdingProfile mods)
+    public List<String> getLaunchCommand(ISession session, MinecraftInstance mc, ServerInfo server, IVersion version, ILaunchSettings settings, IModdingProfile mods)
             throws Exception;
 
 }
