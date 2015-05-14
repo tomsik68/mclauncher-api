@@ -1,7 +1,5 @@
 package sk.tomsik68.mclauncher.api.login;
 
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
-
 import java.util.List;
 
 /**
@@ -34,4 +32,9 @@ public interface ISession {
      * @return User properties tied with this session
      */
     public List<Prop> getProperties();
+
+    public final class Prop {
+        public String name, value;
+    }
+
 }

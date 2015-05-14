@@ -11,8 +11,8 @@ import sk.tomsik68.mclauncher.api.mods.IModdingProfile;
 import sk.tomsik68.mclauncher.api.servers.ServerInfo;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
+import sk.tomsik68.mclauncher.api.login.ISession.Prop;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -2,7 +2,7 @@ package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
 import sk.tomsik68.mclauncher.api.login.ESessionType;
 import sk.tomsik68.mclauncher.api.login.ISession;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDUserObject.Prop;
+import sk.tomsik68.mclauncher.api.login.ISession.Prop;
 
 import java.util.List;
 

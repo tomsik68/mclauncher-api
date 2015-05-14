@@ -6,6 +6,7 @@ import net.minidev.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import sk.tomsik68.mclauncher.api.login.ISession.Prop;
 
 public class YDUserObject {
 
@@ -32,9 +33,5 @@ public class YDUserObject {
 
     public List<Prop> getProperties() {
         return Collections.unmodifiableList(props);
-    }
-
-    public class Prop {
-        public String name, value;
     }
 }
