@@ -4,7 +4,7 @@ import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
 
 import java.io.File;
 
-public class MacintoshOS implements IOperatingSystem {
+final class MacintoshOS implements IOperatingSystem {
     private File workDir;
 
     @Override

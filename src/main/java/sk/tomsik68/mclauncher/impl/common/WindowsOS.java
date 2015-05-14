@@ -4,7 +4,7 @@ import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
 
 import java.io.File;
 
-public class WindowsOS implements IOperatingSystem {
+final class WindowsOS implements IOperatingSystem {
     private File workDir; // cached working directory
 
     @Override

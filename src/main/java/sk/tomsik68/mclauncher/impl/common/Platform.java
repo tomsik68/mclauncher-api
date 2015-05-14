@@ -6,7 +6,7 @@ import sk.tomsik68.mclauncher.impl.versions.mcdownload.Library;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class Platform {
+public final class Platform {
     public static final LinkedList<IOperatingSystem> oss = new LinkedList<IOperatingSystem>();
     // macos was renamed to osx in 1.6, so I've created a map of changed OSs
     private static final HashMap<String, String> minecraftOsWrapper = new HashMap<String, String>();
