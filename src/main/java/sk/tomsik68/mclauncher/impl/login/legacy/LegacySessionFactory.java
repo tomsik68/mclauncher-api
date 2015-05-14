@@ -7,9 +7,6 @@ public class LegacySessionFactory {
     public ISession createSession(String[] params) throws Exception {
         if (params == null || params.length <= 1)
             throw new IllegalArgumentException("Unable to login: " + params[0]);
-        for (String p : params) {
-            System.out.println(p);
-        }
         return new LegacySession(params[2], params[3], params[4], params[1], params[0]);
     }
 
