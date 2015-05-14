@@ -1,5 +1,6 @@
 package sk.tomsik68.mclauncher.impl.login.legacy.io;
 
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.IProfileIO;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
@@ -27,6 +28,9 @@ public class LegacyProfileIO implements IProfileIO {
 
     @Override
     public void write(IProfile[] profile) throws Exception {
+        if(profile.length > 1){
+            MCLauncherAPI.log.warning("Saving multiple profiles using LegacyProfileIO is not possible! MCLauncherAPI will only save the one that is 0th in the array. Other profiles won't be saved!");
+        }
         if (!dest.exists()) {
             dest.getParentFile().mkdirs();
             dest.createNewFile();
