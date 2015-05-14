@@ -12,6 +12,12 @@ public interface IProfile {
     public String getName();
 
     /**
+     *
+     * @return URL of this player's skin
+     */
+    public String getSkinURL();
+
+    /**
      * @return Password from this profile
      */
     public String getPassword();

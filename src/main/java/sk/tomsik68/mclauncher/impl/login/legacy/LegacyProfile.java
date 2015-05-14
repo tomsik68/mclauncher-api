@@ -8,6 +8,8 @@ public class LegacyProfile implements IProfile {
     private String pass;
     private String name;
 
+    private final String SKINS_ROOT = "http://skins.minecraft.net/MinecraftSkins/";
+
     public LegacyProfile(String username, String password) {
         name = username;
         pass = password;
@@ -26,6 +28,14 @@ public class LegacyProfile implements IProfile {
     @Override
     public boolean isRemember() {
         return pass.length() > 0;
+    }
+
+    @Override
+    public String getSkinURL() {
+        StringBuilder url = new StringBuilder(SKINS_ROOT);
+        url = url.append(getName());
+        url = url.append(".png");
+        return url.toString();
     }
 
     @Override

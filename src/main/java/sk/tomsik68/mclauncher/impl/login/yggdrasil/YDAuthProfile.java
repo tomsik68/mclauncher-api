@@ -5,13 +5,15 @@ import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 
-public class YDAuthProfile implements IProfile, IJSONSerializable {
+final class YDAuthProfile implements IProfile, IJSONSerializable {
     private final String userName;
     private final String uuid;
     private final String displayName;
     private final String userId;
     private String accessToken;
     private String profileName = "(Default)";
+
+    private final String SKINS_ROOT = "http://skins.minecraft.net/MinecraftSkins/";
 
     public YDAuthProfile(String name, String displayName, String sessid, String uuid, String userId) {
         this.userName = name;
@@ -60,29 +62,37 @@ public class YDAuthProfile implements IProfile, IJSONSerializable {
         return true;
     }
 
-    public String getUuid() {
+    @Override
+    public String getUUID() {
         return uuid;
     }
 
-    public String getDisplayName() {
+    final String getDisplayName() {
         return displayName;
     }
 
-    public String getProfileName() {
+    final String getProfileName() {
         return profileName;
     }
 
-    public void setProfileName(String profileName) {
+    final void setProfileName(String profileName) {
         this.profileName = profileName;
     }
 
-    public YDPartialGameProfile getYDGameProfile() {
+    final YDPartialGameProfile getYDGameProfile() {
         YDPartialGameProfile result = new YDPartialGameProfile(userName, uuid, false);
         return result;
     }
 
-    public String getUserId() {
+    final String getUserId() {
         return userId;
+    }
+
+    @Override
+    public String getSkinURL() {
+        StringBuilder url = new StringBuilder(SKINS_ROOT);
+        url = url.append(getUUID()).append(".png");
+        return url.toString();
     }
 
     @Override
