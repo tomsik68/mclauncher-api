@@ -66,6 +66,7 @@ public class MCDownloadVersionInstaller implements IVersionInstaller {
                 f.delete();
             }
         }
+        log.info("Extracting libraries...");
         for (Library lib : toExtract) {
             File libFile = mc.getLibraryProvider().getLibraryFile(lib);
             ExtractUtils.extractZipWithRules(libFile, nativesDir, lib.getExtractRules());
