@@ -1,9 +1,8 @@
-package sk.tomsik68.mclauncher.impl.login.legacy.io;
+package sk.tomsik68.mclauncher.impl.login.legacy;
 
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.IProfileIO;
-import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
 
 import java.io.*;
 

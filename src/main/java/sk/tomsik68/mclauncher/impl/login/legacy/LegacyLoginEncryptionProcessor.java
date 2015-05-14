@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.impl.login.legacy.io;
+package sk.tomsik68.mclauncher.impl.login.legacy;
 
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Random;
 
-public class LegacyLoginEncryptionProcessor {
+final class LegacyLoginEncryptionProcessor {
     private static final int MODE_ENCRYPT = 1;
     private static final int MODE_DECRYPT = 2;
     private static final long SALT = 43287234L;
@@ -26,7 +26,7 @@ public class LegacyLoginEncryptionProcessor {
         return cipher;
     }
 
-    public InputStream decrypt(InputStream is) throws Exception {
+    InputStream decrypt(InputStream is) throws Exception {
         Cipher cipher = getCipher(MODE_DECRYPT);
         if (cipher == null)
             return is;
@@ -34,7 +34,7 @@ public class LegacyLoginEncryptionProcessor {
             return new CipherInputStream(is, cipher);
     }
 
-    public OutputStream encrypt(OutputStream os) throws Exception {
+    OutputStream encrypt(OutputStream os) throws Exception {
         Cipher cipher = getCipher(MODE_ENCRYPT);
         if (cipher == null)
             return os;
