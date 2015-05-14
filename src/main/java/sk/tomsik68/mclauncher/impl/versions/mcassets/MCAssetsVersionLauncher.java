@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Deprecated
-public class MCAssetsVersionLauncher implements IVersionLauncher {
+public final class MCAssetsVersionLauncher implements IVersionLauncher {
 
     @Override
     public List<String> getLaunchCommand(ISession session, IMinecraftInstance mc, ServerInfo server, IVersion version, ILaunchSettings settings, IModdingProfile mods)

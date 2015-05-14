@@ -5,7 +5,7 @@ import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;
 import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
 
 @Deprecated
-public class MCAssetsVersion implements IVersion {
+final class MCAssetsVersion implements IVersion {
     private static final MCAssetsVersionInstaller installer = new MCAssetsVersionInstaller();
     private static final MCAssetsVersionLauncher launcher = new MCAssetsVersionLauncher();
     private final String id;

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Deprecated
-public class MCAssetsVersionInstaller implements IVersionInstaller {
+public final class MCAssetsVersionInstaller implements IVersionInstaller {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
     private static final String LWJGL_DOWNLOAD_URL = "http://kent.dl.sourceforge.net/project/java-game-lib/Official%20Releases/LWJGL%202.9.0/lwjgl-2.9.0.zip";
     private static final String RESOURCES_DOWNLOAD_URL = "http://s3.amazonaws.com/MinecraftResources/";

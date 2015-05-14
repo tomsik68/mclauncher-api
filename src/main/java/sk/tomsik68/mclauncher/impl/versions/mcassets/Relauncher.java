@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 @Deprecated
-public class Relauncher {
+final class Relauncher {
     public static void main(String[] args) {
         try {
             HashMap<String, String> arguments = new HashMap<String, String>();

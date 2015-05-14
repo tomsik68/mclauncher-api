@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Deprecated
-public class LauncherComponent extends Applet implements AppletStub {
+final class LauncherComponent extends Applet implements AppletStub {
     private static final long serialVersionUID = -6942044817024235085L;
     private final ClassLoader loader;
     private final JSplitPane splitPane;

@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * @author Tomsik68
  */
 @Deprecated
-public class MCAssetsVersionList extends Observable<IVersion> implements IVersionList {
+public final class MCAssetsVersionList extends Observable<IVersion> implements IVersionList {
     private static final Pattern snapshotPattern = Pattern.compile("((\\d\\d\\w\\d\\d\\w)|(\\d_\\d-pre)|(\\d_\\d-pre\\d)|(rc)|(rc\\d))");
 
     public static final boolean isSnapshot(IVersion version) {

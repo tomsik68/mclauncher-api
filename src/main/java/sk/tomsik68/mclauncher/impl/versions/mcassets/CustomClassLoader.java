@@ -8,7 +8,7 @@ import java.security.PermissionCollection;
 import java.util.Enumeration;
 
 @Deprecated
-public class CustomClassLoader extends URLClassLoader {
+final class CustomClassLoader extends URLClassLoader {
     public CustomClassLoader() {
         this(new URL[0], CustomClassLoader.class.getClassLoader());
     }
