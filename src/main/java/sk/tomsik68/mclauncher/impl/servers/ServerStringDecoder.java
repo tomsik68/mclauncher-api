@@ -1,8 +1,8 @@
 package sk.tomsik68.mclauncher.impl.servers;
 
-public class ServerStringDecoder {
+final class ServerStringDecoder {
 
-    public static String parseProperty(String serverStr, String property) {
+    static String parseProperty(String serverStr, String property) {
         String beginStr = getPropertyBeginStr(property);
         String endStr = getPropertyEndStr(property);
         int propBegin = serverStr.indexOf(beginStr);

@@ -9,7 +9,7 @@ import sk.tomsik68.mclauncher.impl.common.Observable;
 import java.util.Arrays;
 import java.util.List;
 
-public class MultipleVersionLists extends Observable<IVersion> implements IVersionList, IObserver<IVersion> {
+public final class MultipleVersionLists extends Observable<IVersion> implements IVersionList, IObserver<IVersion> {
     private final List<IVersionList> versionLists;
 
     public MultipleVersionLists(IVersionList... lists) {

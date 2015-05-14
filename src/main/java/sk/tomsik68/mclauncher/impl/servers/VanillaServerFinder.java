@@ -8,7 +8,7 @@ import sk.tomsik68.mclauncher.impl.common.Observable;
 import java.io.IOException;
 import java.net.*;
 
-public class VanillaServerFinder extends Observable<FoundServerInfo> implements IServerFinder {
+public final class VanillaServerFinder extends Observable<FoundServerInfo> implements IServerFinder {
     private static final String SOCKET_GROUP_ADDRESS = "224.0.2.60";
     private Thread thread;
     private InetAddress broadcastAddress;
