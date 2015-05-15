@@ -62,9 +62,9 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
                                          MinecraftInstance mc, ServerInfo server, IVersion v,
                                          ILaunchSettings settings, IModdingProfile mods) throws Exception {
         MCDJarManager jarManager = new MCDJarManager(mc);
+        LibraryProvider libraryProvider = new LibraryProvider(mc);
         // get JSON information about the version
-        File jsonFile = new File(mc.getJarProvider().getVersionFile(v)
-                .getParent(), "info.json");
+        File jsonFile = jarManager.getInfoFile(v);
         System.out.println("Looking for " + jsonFile.getAbsolutePath());
         if (!jsonFile.exists()) {
             throw new FileNotFoundException(
@@ -72,7 +72,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         }
         MCDownloadVersion version = new MCDownloadVersion(
                 (JSONObject) JSONValue.parse(new FileInputStream(jsonFile)));
-        File jarFile = mc.getJarProvider().getVersionFile(version);
+        File jarFile = jarManager.getVersionJAR(version);
         if (!version.isCompatible()) {
             throw new VersionIncompatibleException(version);
         }
@@ -96,7 +96,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         if (settings.getJavaArguments() != null) {
             command.addAll(settings.getJavaArguments());
         }
-        File nativesDir = mc.getLibraryProvider().getNativesDirectory(version);
+        final File nativesDir = new File(jarManager.getVersionFolder(v), "natives");
         command.add("-Djava.library.path=" + nativesDir.getAbsolutePath());
         command.add("-cp");
         StringBuilder sb = new StringBuilder();
@@ -114,12 +114,11 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
             }
         }
         for (Library lib : version.getLibraries()) {
-            if (lib.isCompatible() && (mods == null || mods.isLibraryAllowed(lib))) {
-                File libraryFile = mc.getLibraryProvider().getLibraryFile(lib);
-                if (!libraryFile.exists()) {
+            if (lib.isCompatible() && (mods == null || mods.isLibraryAllowed(lib.getName()))) {
+                if (!libraryProvider.isInstalled(lib)) {
                     throw new FileNotFoundException("Library file wasn't found");
                 }
-                sb = sb.append(libraryFile.getAbsolutePath()).append(
+                sb = sb.append(libraryProvider.getLibraryFile(lib).getAbsolutePath()).append(
                         LIBRARY_SEPARATOR);
             }
         }

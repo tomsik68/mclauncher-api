@@ -29,6 +29,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
     @Override
     public void install(IVersion v, MinecraftInstance mc, IProgressMonitor progress) throws Exception {
         MCDJarManager jarManager = new MCDJarManager(mc);
+        LibraryProvider libraryProvider = new LibraryProvider(mc);
         Logger log = MCLauncherAPI.log;
         log.info("Checking compatibility...");
         MCDownloadVersion version = (MCDownloadVersion) v;
@@ -41,10 +42,10 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         log.info("Platform: " + Platform.getCurrentPlatform().getDisplayName());
         for (Library lib : toInstall) {
             if (lib.isCompatible()) {
-                if (!mc.getLibraryProvider().isInstalled(lib)) {
+                if (!libraryProvider.isInstalled(lib)) {
                     log.info("Installing " + lib.getName());
                     try {
-                        downloadLibrary(lib, mc, progress);
+                        downloadLibrary(lib.getDownloadURL(), libraryProvider.getLibraryFile(lib), progress);
                     } catch (Exception e) {
                         e.printStackTrace();
                         log.info("Failed to install " + lib.getName());
@@ -69,7 +70,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         }
         log.info("Extracting libraries...");
         for (Library lib : toExtract) {
-            File libFile = mc.getLibraryProvider().getLibraryFile(lib);
+            File libFile = libraryProvider.getLibraryFile(lib);
             ExtractUtils.extractZipWithRules(libFile, nativesDir, lib.getExtractRules());
         }
 
@@ -102,9 +103,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         resInstaller.install(version, progress);
     }
 
-    private void downloadLibrary(Library lib, MinecraftInstance mc, IProgressMonitor p) throws Exception {
-        String url = lib.getDownloadURL();
-        File dest = new File(mc.getLibraryProvider().getLibrariesDirectory(), lib.getPath());
+    private void downloadLibrary(String url, File dest, IProgressMonitor p) throws Exception {
         dest.mkdirs();
         dest.delete();
         FileUtils.downloadFileWithProgress(url, dest, p);
