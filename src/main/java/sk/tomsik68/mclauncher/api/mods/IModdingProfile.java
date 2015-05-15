@@ -1,6 +1,5 @@
 package sk.tomsik68.mclauncher.api.mods;
 
-import sk.tomsik68.mclauncher.impl.versions.mcdownload.Library;
 
 import java.io.File;
 import java.util.List;
@@ -25,10 +24,10 @@ public interface IModdingProfile {
 
     /**
      *
-     * @param library
+     * @param libraryName - Name of library to test
      * @return True if specified library may be injected along with all vanilla libraries
      */
-    public boolean isLibraryAllowed(Library library);
+    public boolean isLibraryAllowed(String libraryName);
 
     /**
      *

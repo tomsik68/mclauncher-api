@@ -1,7 +1,6 @@
 package sk.tomsik68.mclauncher.impl.common;
 
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
-import sk.tomsik68.mclauncher.impl.versions.mcdownload.Library;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -38,7 +37,6 @@ public final class Platform {
 
     public static void forcePlatform(IOperatingSystem p) {
         currentOS = p;
-        Library.addLibraryPathVariable("arch", currentOS.getArchitecture());
     }
 
     public static String wrapName(String name) {

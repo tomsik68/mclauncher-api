@@ -12,8 +12,8 @@ import sk.tomsik68.mclauncher.util.StringSubstitutor;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Library {
-    private static final StringSubstitutor libraryPathSubstitutor = new StringSubstitutor("${%s}");
+final class Library {
+    private final StringSubstitutor libraryPathSubstitutor = new StringSubstitutor("${%s}");
     private final String name;
     private final HashMap<String, String> natives = new HashMap<String, String>();
     private final ArrayList<Rule> rules = new ArrayList<Rule>();
@@ -46,10 +46,6 @@ public class Library {
         }
     }
 
-    public static void addLibraryPathVariable(String key, String value) {
-        libraryPathSubstitutor.setVariable(key, value);
-    }
-
     public String getName() {
         return name;
     }
@@ -61,6 +57,7 @@ public class Library {
     }
 
     public String getPath() {
+        libraryPathSubstitutor.setVariable("arch", Platform.getCurrentPlatform().getArchitecture());
         String[] split = name.split(":");
         StringBuilder result = new StringBuilder();
 
