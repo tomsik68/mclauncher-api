@@ -11,7 +11,7 @@ import sk.tomsik68.mclauncher.util.HttpUtils;
 
 public final class MCDownloadVersionList extends Observable<IVersion> implements IVersionList {
     private static final String JSONVERSION_LIST_URL = "http://s3.amazonaws.com/Minecraft.Download/versions/versions.json";
-    private static final String NEW_VERSION_URL = "http://s3.amazonaws.com/Minecraft.Download/versions/<VERSION>/<VERSION>.json";
+    private static final String FULL_VERSION_URL_TEMPLATE = "http://s3.amazonaws.com/Minecraft.Download/versions/<VERSION>/<VERSION>.json";
 
     @Override
     public void startDownload() throws Exception {
@@ -20,8 +20,10 @@ public final class MCDownloadVersionList extends Observable<IVersion> implements
         JSONArray versions = (JSONArray) versionInformation.get("versions");
         for (Object object : versions) {
             JSONObject versionObject = (JSONObject) object;
-            String fullVersionString = HttpUtils.httpGet(NEW_VERSION_URL.replace("<VERSION>", versionObject.get("id").toString()));
-            JSONObject fullVersionObject = (JSONObject) JSONValue.parse(fullVersionString);
+
+            String fullVersionJSONString = HttpUtils.httpGet(FULL_VERSION_URL_TEMPLATE.replace("<VERSION>", versionObject.get("id").toString()));
+            JSONObject fullVersionObject = (JSONObject) JSONValue.parse(fullVersionJSONString);
+
             MCDownloadVersion version = new MCDownloadVersion(fullVersionObject);
             notifyObservers(version);
         }
