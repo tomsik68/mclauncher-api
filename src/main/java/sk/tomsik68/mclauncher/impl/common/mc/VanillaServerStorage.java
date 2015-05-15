@@ -6,7 +6,6 @@ import com.flowpowered.nbt.stream.NBTOutputStream;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.servers.ServerInfo;
-import sk.tomsik68.mclauncher.api.servers.IServerStorage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,7 +16,7 @@ import java.util.List;
 /**
  * Server storage implementation used by the default launcher
  */
-final class VanillaServerStorage implements IServerStorage {
+public final class VanillaServerStorage {
     private final File file;
     private static final int DEFAULT_PORT = 25565;
 
