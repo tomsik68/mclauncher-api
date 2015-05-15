@@ -1,7 +1,5 @@
 package sk.tomsik68.mclauncher.api.common.mc;
 
-import sk.tomsik68.mclauncher.api.servers.IServerStorage;
-
 import java.io.File;
 
 /**
