@@ -22,7 +22,7 @@ import java.util.List;
 
 final class MCDownloadVersionLauncher implements IVersionLauncher {
 
-    public String[] getMinecraftArguments(MinecraftInstance mc,
+    public String[] getMinecraftArguments(MinecraftInstance mc, File assetsDir,
                                           ISession session, ILaunchSettings settings,
                                           MCDownloadVersion version) {
         // TODO tooo lazy to finish options
@@ -34,9 +34,9 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         subst.setVariable("auth_uuid", session.getUUID());
         subst.setVariable("version_name", version.getId());
         subst.setVariable("game_directory", mc.getLocation().getAbsolutePath());
-        subst.setVariable("game_assets", mc.getAssetsDirectory()
+        subst.setVariable("game_assets", assetsDir
                 .getAbsolutePath());
-        subst.setVariable("assets_root", mc.getAssetsDirectory()
+        subst.setVariable("assets_root", assetsDir
                 .getAbsolutePath());
         subst.setVariable("assets_index_name", version.getAssetsIndexName());
         subst.setVariable("user_type", session.getType().toString()
@@ -61,6 +61,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
     public List<String> getLaunchCommand(ISession session,
                                          MinecraftInstance mc, ServerInfo server, IVersion v,
                                          ILaunchSettings settings, IModdingProfile mods) throws Exception {
+        MCDResourcesInstaller resourcesInstaller = new MCDResourcesInstaller(mc);
         MCDJarManager jarManager = new MCDJarManager(mc);
         LibraryProvider libraryProvider = new LibraryProvider(mc);
         // get JSON information about the version
@@ -102,9 +103,6 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         StringBuilder sb = new StringBuilder();
         final String LIBRARY_SEPARATOR = System.getProperty("path.separator");
         if(mods != null) {
-            /*for (File file : mods.getCoreMods()) {
-                sb = sb.append(file.getAbsolutePath()).append(LIBRARY_SEPARATOR);
-            }*/
             String inject = mods.injectBeforeLibs(LIBRARY_SEPARATOR);
             if(inject != null) {
                 if(!inject.endsWith(LIBRARY_SEPARATOR))
@@ -145,7 +143,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
             mainClass = mods.getMainClass();
         }
         command.add(mainClass);
-        String[] arguments = getMinecraftArguments(mc, session, settings,
+        String[] arguments = getMinecraftArguments(mc, resourcesInstaller.getAssetsDirectory(), session, settings,
                 version);
         if(mods != null){
             String[] args = mods.changeMinecraftArguments(arguments);

@@ -8,7 +8,6 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstallListener;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;
 import sk.tomsik68.mclauncher.impl.common.Platform;
-import sk.tomsik68.mclauncher.impl.versions.mcdownload.assets.MCDResourcesInstaller;
 import sk.tomsik68.mclauncher.util.ExtractUtils;
 import sk.tomsik68.mclauncher.util.FileUtils;
 
@@ -95,12 +94,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
     }
 
     private void updateResources(MinecraftInstance mc, MCDownloadVersion version, IProgressMonitor progress) throws Exception {
-        File assets = mc.getAssetsDirectory();
-        if (!assets.exists()) {
-            assets.mkdirs();
-        }
         MCDResourcesInstaller resInstaller = new MCDResourcesInstaller(mc);
-        resInstaller.install(version, progress);
+        resInstaller.installAssetsForVersion(version, progress);
     }
 
     private void downloadLibrary(String url, File dest, IProgressMonitor p) throws Exception {
