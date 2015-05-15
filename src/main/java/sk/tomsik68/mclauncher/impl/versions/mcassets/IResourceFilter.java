@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.resources;
+package sk.tomsik68.mclauncher.impl.versions.mcassets;
 
 import java.util.Map;
 
