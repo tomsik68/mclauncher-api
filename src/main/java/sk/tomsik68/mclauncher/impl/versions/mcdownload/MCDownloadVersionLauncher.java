@@ -61,6 +61,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
     public List<String> getLaunchCommand(ISession session,
                                          MinecraftInstance mc, ServerInfo server, IVersion v,
                                          ILaunchSettings settings, IModdingProfile mods) throws Exception {
+        MCDJarManager jarManager = new MCDJarManager(mc);
         // get JSON information about the version
         File jsonFile = new File(mc.getJarProvider().getVersionFile(v)
                 .getParent(), "info.json");

@@ -28,6 +28,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
 
     @Override
     public void install(IVersion v, MinecraftInstance mc, IProgressMonitor progress) throws Exception {
+        MCDJarManager jarManager = new MCDJarManager(mc);
         Logger log = MCLauncherAPI.log;
         log.info("Checking compatibility...");
         MCDownloadVersion version = (MCDownloadVersion) v;
@@ -58,7 +59,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         }
 
         log.info("Extracting natives...");
-        File nativesDir = mc.getLibraryProvider().getNativesDirectory(version);
+        File nativesDir = new File(jarManager.getVersionFolder(version), "natives");
         // purge old natives
         if (nativesDir.exists()) {
             File[] contains = nativesDir.listFiles();
@@ -74,7 +75,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
 
         log.info("Updating resources...");
         updateResources(mc, version, progress);
-        File jarDest = mc.getJarProvider().getVersionFile(version);
+        File jarDest = jarManager.getVersionJAR(version);
         File jsonDest = new File(jarDest.getParentFile(), "info.json");
         // always overwrite json file
         // if (!jsonDest.exists())
