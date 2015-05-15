@@ -20,7 +20,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MCDownloadVersionLauncher implements IVersionLauncher {
+final class MCDownloadVersionLauncher implements IVersionLauncher {
 
     public String[] getMinecraftArguments(MinecraftInstance mc,
                                           ISession session, ILaunchSettings settings,

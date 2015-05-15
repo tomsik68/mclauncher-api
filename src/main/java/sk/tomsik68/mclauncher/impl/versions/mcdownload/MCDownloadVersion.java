@@ -11,7 +11,7 @@ import sk.tomsik68.mclauncher.impl.versions.mcdownload.Rule.Action;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MCDownloadVersion implements IVersion, IJSONSerializable {
+final class MCDownloadVersion implements IVersion, IJSONSerializable {
     private static final MCDownloadVersionInstaller installer = new MCDownloadVersionInstaller();
     private static final IVersionLauncher launcher = new MCDownloadVersionLauncher();
     private static final String DEFAULT_ASSETS_INDEX = "legacy";
@@ -22,7 +22,7 @@ public class MCDownloadVersion implements IVersion, IJSONSerializable {
     private ArrayList<Rule> rules = new ArrayList<Rule>();
     private ArrayList<Library> libraries = new ArrayList<Library>();
 
-    public MCDownloadVersion(JSONObject json) {
+    MCDownloadVersion(JSONObject json) {
         this.json = json;
         id = json.get("id").toString();
         time = json.get("time").toString();
@@ -74,31 +74,31 @@ public class MCDownloadVersion implements IVersion, IJSONSerializable {
         return type.charAt(0) + getId();
     }
 
-    public String getTime() {
+    final String getTime() {
         return time;
     }
 
-    public String getReleaseTime() {
+    final String getReleaseTime() {
         return releaseTime;
     }
 
-    public String getType() {
+    final String getType() {
         return type;
     }
 
-    public String getProcessArgs() {
+    final String getProcessArgs() {
         return processArgs;
     }
 
-    public String getMinecraftArgs() {
+    final String getMinecraftArgs() {
         return minecraftArgs;
     }
 
-    public int getMinimumLauncherVersion() {
+    final int getMinimumLauncherVersion() {
         return minimumLauncherVersion;
     }
 
-    public String getMainClass() {
+    final String getMainClass() {
         return mainClass;
     }
 
@@ -117,11 +117,11 @@ public class MCDownloadVersion implements IVersion, IJSONSerializable {
         return launcher;
     }
 
-    public List<Library> getLibraries() {
+    final List<Library> getLibraries() {
         return libraries;
     }
 
-    public boolean isCompatible() {
+    public final boolean isCompatible() {
         Action action = null;
         for (Rule rule : rules) {
             if (rule.applies())
@@ -135,7 +135,7 @@ public class MCDownloadVersion implements IVersion, IJSONSerializable {
         return json;
     }
 
-    public String getAssetsIndexName() {
+    final String getAssetsIndexName() {
         return assets;
     }
 }

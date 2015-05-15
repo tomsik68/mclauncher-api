@@ -7,7 +7,7 @@ import sk.tomsik68.mclauncher.util.IExtractRules;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 
-public class LibraryExtractRules implements IExtractRules {
+final class LibraryExtractRules implements IExtractRules {
     private ArrayList<String> exclude = new ArrayList<String>();
 
     public LibraryExtractRules(JSONObject object) {

@@ -6,7 +6,7 @@ import sk.tomsik68.mclauncher.impl.common.Platform;
 
 import java.util.regex.Pattern;
 
-public class Rule {
+final class Rule {
     private final Action action;
     private IOperatingSystem restrictedOs;
     private String restrictedOsVersionPattern;
