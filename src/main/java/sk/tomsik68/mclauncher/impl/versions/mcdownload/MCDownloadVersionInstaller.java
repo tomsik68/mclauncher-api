@@ -76,7 +76,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         log.info("Updating resources...");
         updateResources(mc, version, progress);
         File jarDest = jarManager.getVersionJAR(version);
-        File jsonDest = new File(jarDest.getParentFile(), "info.json");
+        File jsonDest = jarManager.getInfoFile(version);
         // always overwrite json file
         // if (!jsonDest.exists())
         FileUtils.writeFile(jsonDest, version.toJSON().toJSONString(JSONStyle.LT_COMPRESS));
