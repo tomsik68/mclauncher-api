@@ -57,11 +57,6 @@ final class YDAuthProfile implements IProfile, IJSONSerializable {
         accessToken = sessionID;
     }
 
-    @Override
-    public boolean isRemember() {
-        return true;
-    }
-
     public String getUUID() {
         return uuid;
     }

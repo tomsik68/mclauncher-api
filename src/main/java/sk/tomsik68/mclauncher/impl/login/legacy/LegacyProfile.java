@@ -25,7 +25,6 @@ public class LegacyProfile implements IProfile {
         return pass;
     }
 
-    @Override
     public boolean isRemember() {
         return pass.length() > 0;
     }

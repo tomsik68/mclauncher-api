@@ -23,11 +23,6 @@ public interface IProfile {
     public String getPassword();
 
     /**
-     * @return If launcher should remember password
-     */
-    public boolean isRemember();
-
-    /**
      * Updates this profile with parameters from the new session
      *
      * @param session New session created from this profile
