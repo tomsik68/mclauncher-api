@@ -6,7 +6,7 @@
 
     <groupId>sk.tomsik68</groupId>
     <artifactId>mclauncher-api</artifactId>
-    <version>0.22</version>
+    <version>0.3</version>
     <dependencies>
         <dependency>
             <groupId>net.minidev</groupId>
