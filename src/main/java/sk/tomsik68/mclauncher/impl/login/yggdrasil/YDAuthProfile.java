@@ -5,7 +5,7 @@ import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 
-final class YDAuthProfile implements IProfile, IJSONSerializable {
+public final class YDAuthProfile implements IProfile, IJSONSerializable {
     private final String userName;
     private final String uuid;
     private final String displayName;
