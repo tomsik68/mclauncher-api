@@ -9,7 +9,7 @@ import sk.tomsik68.mclauncher.util.HttpUtils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class LegacyLoginService implements ILoginService {
+public final class LegacyLoginService implements ILoginService {
     private static final LegacySessionFactory factory = new LegacySessionFactory();
     private static final String LOGIN_URL = "https://login.minecraft.net/";
 

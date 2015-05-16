@@ -6,7 +6,7 @@ import sk.tomsik68.mclauncher.api.login.IProfileIO;
 
 import java.io.*;
 
-public class LegacyProfileIO implements IProfileIO {
+public final class LegacyProfileIO implements IProfileIO {
     private final LegacyLoginEncryptionProcessor proc;
     private final File dest;
 

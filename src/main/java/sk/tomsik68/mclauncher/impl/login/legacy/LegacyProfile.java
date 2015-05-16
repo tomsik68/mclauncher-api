@@ -3,7 +3,7 @@ package sk.tomsik68.mclauncher.impl.login.legacy;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 
-public class LegacyProfile implements IProfile {
+public final class LegacyProfile implements IProfile {
 
     private String pass;
     private String name;
