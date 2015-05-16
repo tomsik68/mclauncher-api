@@ -20,8 +20,7 @@ public class TestMCDownloadInstall {
 
             @Override
             public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
-                if (!changed.getId().equalsIgnoreCase("1.8"))
-                    return;
+                if(installed) return;
                 installed = true;
                 System.out.println("Installing " + changed.getDisplayName());
                 try {
