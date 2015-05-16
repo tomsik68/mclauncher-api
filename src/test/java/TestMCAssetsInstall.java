@@ -7,10 +7,9 @@ import org.junit.Test;
 
 import sk.tomsik68.mclauncher.api.common.IObservable;
 import sk.tomsik68.mclauncher.api.common.IObserver;
+import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
-import sk.tomsik68.mclauncher.impl.common.mc.VanillaMinecraftInstance;
-import sk.tomsik68.mclauncher.impl.versions.mcassets.MCAssetsVersion;
 import sk.tomsik68.mclauncher.impl.versions.mcassets.MCAssetsVersionList;
 
 public class TestMCAssetsInstall {
@@ -22,7 +21,7 @@ public class TestMCAssetsInstall {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
-        final VanillaMinecraftInstance mc = new VanillaMinecraftInstance(new File("testmc"));
+        final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
         MCAssetsVersionList list = new MCAssetsVersionList();
         list.addObserver(new IObserver<IVersion>() {
             private boolean installed = false;

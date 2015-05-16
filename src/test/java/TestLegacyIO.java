@@ -20,7 +20,6 @@ public class TestLegacyIO {
             io.write(new IProfile[] { profile });
             profiles = io.read();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         assertEquals(profile.getName(), profiles[0].getName());

@@ -10,12 +10,11 @@ import org.junit.Test;
 import sk.tomsik68.mclauncher.api.common.ILaunchSettings;
 import sk.tomsik68.mclauncher.api.common.IObservable;
 import sk.tomsik68.mclauncher.api.common.IObserver;
-import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.impl.common.Platform;
-import sk.tomsik68.mclauncher.impl.common.mc.VanillaMinecraftInstance;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfileIO;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
@@ -37,7 +36,7 @@ public class TestMCDownloadForgeLaunch {
             final ISession session = service.login(profiles[0]);
             profileIO.write(profiles);
             System.out.println("Success! Launching...");
-            final IMinecraftInstance mc = new VanillaMinecraftInstance(
+            final MinecraftInstance mc = new MinecraftInstance(
                     new File("testmc"));
             /*final BasicModdingProfile mods = new BasicModdingProfile();
             mods.addCoreMod(new File(mc.getLocation(), "coremods/forge-1.8-11.14.0.1299-universal.jar"));*/

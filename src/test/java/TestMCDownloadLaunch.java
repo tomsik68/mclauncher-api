@@ -10,12 +10,11 @@ import org.junit.Test;
 import sk.tomsik68.mclauncher.api.common.ILaunchSettings;
 import sk.tomsik68.mclauncher.api.common.IObservable;
 import sk.tomsik68.mclauncher.api.common.IObserver;
-import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.impl.common.Platform;
-import sk.tomsik68.mclauncher.impl.common.mc.VanillaMinecraftInstance;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfileIO;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
@@ -41,8 +40,7 @@ public class TestMCDownloadLaunch {
 	    final ISession session = service.login(profiles[0]);
 	    profileIO.write(profiles);
 	    System.out.println("Success! Launching...");
-	    final IMinecraftInstance mc = new VanillaMinecraftInstance(
-		    new File("testmc"));
+	    final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
 	    MCDownloadVersionList versionList = new MCDownloadVersionList();
 	    versionList.addObserver(new IObserver<IVersion>() {
 

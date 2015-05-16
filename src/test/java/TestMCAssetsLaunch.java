@@ -12,15 +12,13 @@ import org.junit.Test;
 import sk.tomsik68.mclauncher.api.common.ILaunchSettings;
 import sk.tomsik68.mclauncher.api.common.IObservable;
 import sk.tomsik68.mclauncher.api.common.IObserver;
-import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.impl.common.Platform;
-import sk.tomsik68.mclauncher.impl.common.mc.VanillaMinecraftInstance;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfileIO;
-import sk.tomsik68.mclauncher.impl.versions.mcassets.MCAssetsVersion;
 import sk.tomsik68.mclauncher.impl.versions.mcassets.MCAssetsVersionList;
 
 public class TestMCAssetsLaunch {
@@ -35,7 +33,7 @@ public class TestMCAssetsLaunch {
         final ISession session = service.login(profiles[0]);
         profileIO.write(profiles);
         System.out.println("Success! Launching...");
-        final IMinecraftInstance mc = new VanillaMinecraftInstance(new File("testmc"));
+        final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
 
         MCAssetsVersionList list = new MCAssetsVersionList();
         list.addObserver(new IObserver<IVersion>() {
@@ -45,7 +43,7 @@ public class TestMCAssetsLaunch {
 
                     System.out.println("Found version: " + changed.getDisplayName());
                     try {
-                        List<String> launchCommand = changed.getLauncher().getLaunchCommand(session, mc, null, (MCAssetsVersion) changed, new ILaunchSettings() {
+                        List<String> launchCommand = changed.getLauncher().getLaunchCommand(session, mc, null, changed, new ILaunchSettings() {
 
                             @Override
                             public boolean isModifyAppletOptions() {

@@ -4,10 +4,9 @@ import org.junit.Test;
 
 import sk.tomsik68.mclauncher.api.common.IObservable;
 import sk.tomsik68.mclauncher.api.common.IObserver;
-import sk.tomsik68.mclauncher.api.common.mc.IMinecraftInstance;
+import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
-import sk.tomsik68.mclauncher.impl.common.mc.VanillaMinecraftInstance;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
 
 public class TestMCDownloadInstall {
@@ -15,7 +14,7 @@ public class TestMCDownloadInstall {
     @Test
     public void test() {
         MCDownloadVersionList list = new MCDownloadVersionList();
-        final IMinecraftInstance mc = new VanillaMinecraftInstance(new File("testmc"));
+        final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
         list.addObserver(new IObserver<IVersion>() {
             private boolean installed = false;
 
