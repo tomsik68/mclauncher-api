@@ -23,6 +23,7 @@ final class LinuxOS implements IOperatingSystem {
         return os.contains("unix") || os.contains("linux");
     }
 
+    // Minecraft on *Nix systems will live defaultly in ~/.minecraft
     @Override
     public File getWorkingDirectory() {
         if (workDir != null)

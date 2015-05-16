@@ -13,7 +13,7 @@ final class LegacyLoginEncryptionProcessor {
     private static final long SALT = 43287234L;
     private static final String PBE_KEY_STR = "passwordfile";
 
-    // notchcode
+    // notchcode begin
     private static Cipher getCipher(int mode) throws Exception {
         Random random = new Random(SALT);
         byte[] salt = new byte[8];
@@ -25,6 +25,7 @@ final class LegacyLoginEncryptionProcessor {
         cipher.init(mode, pbeKey, pbeParamSpec);
         return cipher;
     }
+    // notchcode end
 
     final InputStream decrypt(InputStream is) throws Exception {
         Cipher cipher = getCipher(MODE_DECRYPT);

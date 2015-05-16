@@ -5,6 +5,12 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
 
 import java.io.File;
 
+/**
+ * JAR provider specifically for MCAssetsVersions.
+ * Model:
+ * Minecraft 1.4 jar location:  .minecraft/bin/1.4.jar
+ * Natives location:            .minecraft/natives
+ */
 @Deprecated
 final class MCAJarManager {
     private final File binDirectory;

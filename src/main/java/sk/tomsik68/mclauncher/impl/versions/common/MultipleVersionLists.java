@@ -9,6 +9,10 @@ import sk.tomsik68.mclauncher.impl.common.Observable;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Helper class which is useful if you want to join more IVersionLists into one.
+ * It just sends events from all lists given in constructor.
+ */
 public final class MultipleVersionLists extends Observable<IVersion> implements IVersionList, IObserver<IVersion> {
     private final List<IVersionList> versionLists;
 

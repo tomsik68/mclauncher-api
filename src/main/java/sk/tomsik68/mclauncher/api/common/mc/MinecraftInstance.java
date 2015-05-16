@@ -15,7 +15,7 @@ public class MinecraftInstance {
     }
 
     /**
-     * @return Working directory
+     * @return Working directory .minecraft as {@link File} object
      */
     public final File getLocation(){
         return dir;

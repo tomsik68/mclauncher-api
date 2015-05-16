@@ -7,6 +7,9 @@ import java.security.Permission;
 import java.security.PermissionCollection;
 import java.util.Enumeration;
 
+/**
+ * Class loader that allows us to add URL to classpath and doesn't take META-INF folder into account
+ */
 @Deprecated
 final class CustomClassLoader extends URLClassLoader {
     public CustomClassLoader() {

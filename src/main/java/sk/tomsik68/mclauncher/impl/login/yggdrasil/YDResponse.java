@@ -2,6 +2,9 @@ package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
 import net.minidev.json.JSONObject;
 
+/**
+ * Any response we can get from YggDrassil login system
+ */
 class YDResponse {
     private String error, message;
 

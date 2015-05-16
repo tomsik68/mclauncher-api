@@ -24,6 +24,10 @@ public class FoundServerInfo extends ServerInfo {
         return source;
     }
 
+    /**
+     *
+     * @return {@link Map} of Information about found server. Each server finder implementation may put something else into the map. There's no guidelines or limits on what should be in there...
+     */
     public Map<String, Object> getInformation() {
         return info;
     }

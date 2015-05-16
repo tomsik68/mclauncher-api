@@ -5,8 +5,8 @@ import sk.tomsik68.mclauncher.impl.common.Platform;
 import java.util.logging.Logger;
 
 /**
- * This is main control class of MCLauncherAPI. It stores some constants and
- * information needed by other components of the API.
+ * This is main control class of MCLauncherAPI.
+ * It stores global constants like Minecraft launcher version it's compatible with and global logger.
  *
  * @author Tomsik68
  */

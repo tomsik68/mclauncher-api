@@ -8,6 +8,9 @@ import sk.tomsik68.mclauncher.impl.common.Observable;
 import java.io.IOException;
 import java.net.*;
 
+/**
+ * Wrapper for thread that listens for servers on LAN.
+ */
 public final class VanillaServerFinder extends Observable<FoundServerInfo> implements IServerFinder {
     private static final String SOCKET_GROUP_ADDRESS = "224.0.2.60";
     private Thread thread;
@@ -19,9 +22,11 @@ public final class VanillaServerFinder extends Observable<FoundServerInfo> imple
 
     @Override
     public void run() {
+        // create socket
         MulticastSocket socket = null;
         byte[] buffer = new byte[1024];
         try {
+            // assign it to group
             socket = new MulticastSocket(4445);
             socket.setSoTimeout(5000);
             socket.joinGroup(this.broadcastAddress);
@@ -32,6 +37,7 @@ public final class VanillaServerFinder extends Observable<FoundServerInfo> imple
         final FoundServerInfoBuilder builder = new FoundServerInfoBuilder();
         builder.finder(this);
         while (socket != null && isActive()) {
+            // try to receive a packet
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             try {
                 socket.receive(packet);
@@ -40,13 +46,17 @@ public final class VanillaServerFinder extends Observable<FoundServerInfo> imple
             } catch (Exception e) {
                 // TODO: add option to handle this error!
             }
+            // if packet was received successfully,
+
             String recvString = new String(packet.getData(), packet.getOffset(), packet.getLength());
             String motd = ServerStringDecoder.parseProperty(recvString, "MOTD");
             Integer port = Integer.parseInt(ServerStringDecoder.parseProperty(recvString, "AD"));
 
+            // we can construct FoundServerInfo using given information
             builder.motd(motd).port(port).ip(packet.getAddress().getHostAddress());
             builder.property("recvString", recvString);
             FoundServerInfo server = builder.build();
+            // and notify all observers about it
             notifyObservers(server);
         }
 

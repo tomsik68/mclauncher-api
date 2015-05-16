@@ -38,9 +38,11 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
     public void install(IVersion version, MinecraftInstance mc, IProgressMonitor progress) throws Exception {
         MCAJarManager jarManager = new MCAJarManager(mc);
         String url = getVersionURL(version.getId());
+        // if the jar doesn't exist, download it
         if (!jarManager.getVersionFile(version).exists())
             FileUtils.downloadFileWithProgress(url, jarManager.getVersionFile(version), progress);
 
+        // check if LWJGL needs to be downloaded
         File[] lwjgl = getDefaultLWJGLJars(mc.getLocation());
         boolean update = false;
         for (File file : lwjgl) {
@@ -50,6 +52,7 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
         if (update) {
             updateJARs(jarManager, version, progress);
         }
+        // update resource files
         updateResources(mc.getLocation(), progress);
         notifyListeners(version);
 
@@ -62,13 +65,17 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
     }
 
     private void updateResources(File mcLocation, IProgressMonitor progress) throws Exception {
+        // parse resources
         ResourcesXMLParser parser = new ResourcesXMLParser(RESOURCES_DOWNLOAD_URL);
         List<String> resources = parser.parse();
+        // download them one by one
         for (String resource : resources) {
             File dest = getResourceLocation(mcLocation, resource);
             if (!dest.exists()) {
+                // make all directories
                 dest.mkdirs();
                 if (!resource.endsWith("/")) {
+                    // if it's a file, remove this directory and download it.
                     dest.delete();
                     FileUtils.downloadFileWithProgress(RESOURCES_DOWNLOAD_URL + URLEncoder.encode(resource, "UTF-8"), dest,
                             progress);
@@ -84,12 +91,14 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
     }
 
     private void updateJARs(MCAJarManager jarManager, IVersion version, IProgressMonitor progress) throws Exception {
+        // download LWJGL from sourceforge
         File lwjglDir = new File(jarManager.getNativesDirectory(), "lwjgl-2.9.0");
         lwjglDir.deleteOnExit();
         File dest = new File(jarManager.getNativesDirectory(), "lwjgl.zip");
         FileUtils.downloadFileWithProgress(LWJGL_DOWNLOAD_URL, dest, progress);
         jarManager.getNativesDirectory().mkdirs();
         dest.deleteOnExit();
+        // extract all things from ZIP
         ExtractUtils.extractZipWithoutRules(dest, jarManager.getNativesDirectory());
         File[] lwjgl = getDefaultLWJGLJars(jarManager.getNativesDirectory());
         // move JARs from LWJGL

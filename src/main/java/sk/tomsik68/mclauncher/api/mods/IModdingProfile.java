@@ -23,7 +23,7 @@ public interface IModdingProfile {
     public String injectAfterLibs(String separator);
 
     /**
-     *
+     * Checks if this library should be loaded with our mods.
      * @param libraryName - Name of library to test
      * @return True if specified library may be injected along with all vanilla libraries
      */

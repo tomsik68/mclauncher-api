@@ -4,14 +4,28 @@ import java.io.File;
 
 /**
  * GamePrefs are used for compatibility with the official launcher.
- *
+ * Getters/Setters are not documented, only respective fields...
  * @author Tomsik68
  */
 public class GamePrefs {
-    private File gameDirectory, javaDirectory;
-    private String name, lastVersion, javaArgs, playerUUID;
+    /** Location of .minecraft folder */
+    private File gameDirectory;
+    /** Location of JRE */
+    private File javaDirectory;
+    /** Name of GamePrefs profile */
+    private String name;
+    /** ID of last version that was played using this GamePrefs */
+    private String lastVersion;
+    /** arguments for `java` executable */
+    private String javaArgs;
+    /** UUID of player who owns these GamePrefs */
+    private String playerUUID;
+    /** Whether or not to use hopper service to report game crashes */
     private boolean useHopper;
+    /** Resolution to use for game */
     private Resolution res;
+
+    /** Launcher visibility rules(whether the launcher closes when you start game) */
     private ELauncherVisibility launcherVisibility;
 
     public File getGameDirectory() {

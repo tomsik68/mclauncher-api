@@ -10,6 +10,7 @@ public final class Platform {
     // macos was renamed to osx in 1.6, so I've created a map of changed OSs
     private static final HashMap<String, String> minecraftOsWrapper = new HashMap<String, String>();
 
+    // static OS lookup map
     static {
         oss.add(new LinuxOS());
         oss.add(new WindowsOS());
@@ -20,8 +21,10 @@ public final class Platform {
         minecraftOsWrapper.put("osx", "macos");
     }
 
+    /** our current operating system */
     private static IOperatingSystem currentOS = null;
 
+    /** tries to determine the current operating system */
     public static IOperatingSystem getCurrentPlatform() {
         if (currentOS != null)
             return currentOS;
@@ -35,10 +38,18 @@ public final class Platform {
         return currentOS;
     }
 
+    /** forces current operating system */
     public static void forcePlatform(IOperatingSystem p) {
         currentOS = p;
     }
 
+    /**
+     * Changes "old" name of operating system to "new".
+     * Old refers to names of pre-1.6 MC launcher.
+     * New refers to names of post-1.6 MC Launcher
+     * @param name - Old name of operating system
+     * @return New name of operating system
+     */
     public static String wrapName(String name) {
         if (minecraftOsWrapper.containsKey(name)) {
             name = minecraftOsWrapper.get(name);
@@ -46,6 +57,11 @@ public final class Platform {
         return name;
     }
 
+    /**
+     * Finds {@link IOperatingSystem} by name
+     * @param name "New" name of operating system
+     * @return IOperatingSystem which suits the criteria
+     */
     public static IOperatingSystem osByName(String name) {
         name = wrapName(name);
         for (IOperatingSystem os : oss) {

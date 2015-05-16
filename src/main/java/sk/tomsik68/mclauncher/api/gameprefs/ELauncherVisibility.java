@@ -9,7 +9,20 @@ import java.util.HashMap;
  * @author Tomsik68
  */
 public enum ELauncherVisibility {
-    HIDE_REOPEN("hide launcher and re-open when game closes"), CLOSE("close launcher when game starts"), KEEP_OPEN("keep the launcher open");
+    /**
+     * Launcher hides when you start the game and re-opens when game closes.
+     */
+    HIDE_REOPEN("hide launcher and re-open when game closes"),
+
+    /**
+     * Launcher is closed(exited, killed, whatever) when game is started and game is left alone.
+     */
+    CLOSE("close launcher when game starts"),
+
+    /**
+     * Launcher is open all the time
+     */
+    KEEP_OPEN("keep the launcher open");
 
     private static final HashMap<String, ELauncherVisibility> lookupMap = new HashMap<String, ELauncherVisibility>();
 
@@ -17,6 +30,7 @@ public enum ELauncherVisibility {
         addLV(lookupStr);
     }
 
+    /** addLookupValue :) */
     private void addLV(String lookupStr) {
         lookupMap.put(lookupStr, this);
     }

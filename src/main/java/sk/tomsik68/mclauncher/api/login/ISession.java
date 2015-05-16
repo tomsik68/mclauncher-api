@@ -33,6 +33,7 @@ public interface ISession {
      */
     public List<Prop> getProperties();
 
+    /** A simple class for user properties. A property is a name-value pair. */
     public final class Prop {
         public String name, value;
     }
