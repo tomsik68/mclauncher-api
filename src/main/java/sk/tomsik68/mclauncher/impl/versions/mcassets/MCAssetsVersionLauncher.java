@@ -21,6 +21,7 @@ public final class MCAssetsVersionLauncher implements IVersionLauncher {
     @Override
     public List<String> getLaunchCommand(ISession session, MinecraftInstance mc, ServerInfo server, IVersion version, ILaunchSettings settings, IModdingProfile mods)
             throws Exception {
+        MCAJarManager jarManager = new MCAJarManager(mc);
         String pathToJar = Relauncher.class.getProtectionDomain().getCodeSource().getLocation().getFile();
         List<String> command = new ArrayList<String>();
         if (settings.getCommandPrefix() != null && !settings.getCommandPrefix().isEmpty())
@@ -43,7 +44,7 @@ public final class MCAssetsVersionLauncher implements IVersionLauncher {
         command.add("-dir");
         command.add(mc.getLocation().toString());
         command.add("-jar");
-        command.add(mc.getJarProvider().getVersionFile(version).getPath());
+        command.add(jarManager.getVersionFile(version).getPath());
         File[] files = MCAssetsVersionInstaller.getDefaultLWJGLJars(mc.getLocation());
         command.add("-lib");
         StringBuilder sb = new StringBuilder();
@@ -67,9 +68,9 @@ public final class MCAssetsVersionLauncher implements IVersionLauncher {
             command.add("true");
         }
         command.add("-lwjgl");
-        command.add(mc.getLibraryProvider().getNativesDirectory(version).getAbsolutePath());
+        command.add(jarManager.getNativesDirectory().getAbsolutePath());
         command.add("-jlibpath");
-        command.add(mc.getLibraryProvider().getNativesDirectory(version).getAbsolutePath());
+        command.add(jarManager.getNativesDirectory().getAbsolutePath());
         if(mods != null){
             MCLauncherAPI.log.warning("You're trying to use mods with MCAssets version. MCAssets versions are deprecated, so mods won't load correctly.");
         }
