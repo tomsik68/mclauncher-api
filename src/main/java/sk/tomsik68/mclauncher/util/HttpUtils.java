@@ -13,7 +13,7 @@ import java.security.cert.Certificate;
 /**
  * Http communication utilities
  */
-public class HttpUtils {
+public final class HttpUtils {
 
     /**
      * Executes a simple HTTP-GET request
