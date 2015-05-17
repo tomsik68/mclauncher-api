@@ -45,7 +45,7 @@ public class ExtractUtils {
         }
     }
 
-    public static void extractZipEntry(ZipFile zf, ZipEntry zipEntry, File dir) throws Exception {
+    private static void extractZipEntry(ZipFile zf, ZipEntry zipEntry, File dir) throws Exception {
         File destFile = new File(dir, zipEntry.getName());
         if (zipEntry.isDirectory())
             destFile.mkdirs();
