@@ -90,7 +90,7 @@ final class Library {
      *
      * @return True if this library is compatible with the current operating system
      */
-    public boolean isCompatible() {
+    boolean isCompatible() {
         Action action = Action.DISALLOW;
         for (Rule rule : rules) {
             // rule may only change resulting action if it's effective...
