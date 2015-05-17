@@ -61,6 +61,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
     public List<String> getLaunchCommand(ISession session,
                                          MinecraftInstance mc, ServerInfo server, IVersion v,
                                          ILaunchSettings settings, IModdingProfile mods) throws Exception {
+        boolean moddingProfileSpecified = (mods != null);
         MCDResourcesInstaller resourcesInstaller = new MCDResourcesInstaller(mc);
         MCDJarManager jarManager = new MCDJarManager(mc);
         LibraryProvider libraryProvider = new LibraryProvider(mc);
@@ -114,7 +115,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         StringBuilder sb = new StringBuilder();
         final String LIBRARY_SEPARATOR = System.getProperty("path.separator");
         //// mods can inject JARs before libraries
-        if(mods != null) {
+        if(moddingProfileSpecified) {
             String inject = mods.injectBeforeLibs(LIBRARY_SEPARATOR);
             if(inject != null) {
                 if(!inject.endsWith(LIBRARY_SEPARATOR))
@@ -126,7 +127,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         //// now add library files
         for (Library lib : version.getLibraries()) {
             // each library has to be compatible, installed and allowed by modding profile
-            if (lib.isCompatible() && (mods == null || mods.isLibraryAllowed(lib.getName()))) {
+            if (lib.isCompatible() && (!moddingProfileSpecified || mods.isLibraryAllowed(lib.getName()))) {
                 if (!libraryProvider.isInstalled(lib)) {
                     throw new FileNotFoundException("Library file wasn't found");
                 }
@@ -135,7 +136,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
             }
         }
         //// mods can inject JARs after libraries
-        if(mods != null) {
+        if(moddingProfileSpecified) {
             String inject = mods.injectAfterLibs(LIBRARY_SEPARATOR);
             if(inject != null) {
                 if(!inject.endsWith(LIBRARY_SEPARATOR))
@@ -145,7 +146,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         }
         // append the game JAR at the end
         String jarToUse = jarFile.getAbsolutePath();
-        if(mods != null && mods.getCustomGameJar() != null) {
+        if(moddingProfileSpecified && mods.getCustomGameJar() != null) {
             jarToUse = mods.getCustomGameJar();
         }
         sb = sb.append(jarToUse);
@@ -154,7 +155,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
 
         // look for the main class
         String mainClass = version.getMainClass();
-        if(mods != null && mods.getMainClass() != null){
+        if(moddingProfileSpecified && mods.getMainClass() != null){
             mainClass = mods.getMainClass();
         }
         command.add(mainClass);
@@ -162,7 +163,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         String[] arguments = getMinecraftArguments(mc, resourcesInstaller.getAssetsDirectory(), session, settings,
                 version);
         // give mods opportunity to change minecraft arguments
-        if(mods != null){
+        if(moddingProfileSpecified){
             String[] args = mods.changeMinecraftArguments(arguments);
             if(args != null)
                 arguments = args;
@@ -179,7 +180,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
             command.add("" + server.getPort());
         }
         // mods have final chance to add parameters
-        if(mods != null){
+        if(moddingProfileSpecified){
             command.addAll(mods.getLastParameters());
         }
 
