@@ -77,7 +77,7 @@ final class Rule {
      */
     // they're pretty self-explanatory. There's really nothing more to write about it.
     // maybe just the fact that Action is not the only thing that decides whether a Rule is effective
-    public static enum Action {
+    public enum Action {
         ALLOW,
         DISALLOW
     }
