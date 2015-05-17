@@ -45,24 +45,40 @@ final class Rule {
         return sb.toString();
     }
 
+    /**
+     *
+     * @return True if this rule is effective, false otherwise
+     */
     public boolean applies() {
+        // if there's no OS specified, it applies to all OSs
         if (getRestrictedOs() == null) {
             return true;
         } else {
+            // if our OS is the restricted OS
             if (getRestrictedOs() == Platform.getCurrentPlatform()) {
+                // see if there's a version specified
                 if (restrictedOsVersionPattern == null) {
+                    // if there's no version, it applies to all versions
                     return true;
                 } else {
+                    // if there's a version specified, compile it to a pattern and try to match it against system property "os.version"
                     boolean result = Pattern.matches(restrictedOsVersionPattern, System.getProperty("os.version"));
                     return result;
                 }
             } else {
+                // our OS is not restricted by this rule
                 return false;
             }
         }
     }
 
+    /**
+     * All possible actions for rules
+     */
+    // they're pretty self-explanatory. There's really nothing more to write about it.
+    // maybe just the fact that Action is not the only thing that decides whether a Rule is effective
     public static enum Action {
-        ALLOW, DISALLOW
+        ALLOW,
+        DISALLOW
     }
 }

@@ -3,6 +3,9 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 import net.minidev.json.JSONObject;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 
+/**
+ * Represents a single Asset. It may be a sound file, texture, language file etc.
+ */
 final class Asset {
     private static final String RESOURCES_URL = "http://resources.download.minecraft.net/";
 
@@ -15,21 +18,41 @@ final class Asset {
         this.key = key;
     }
 
+    /**
+     *
+     * @return Hash of this Asset
+     */
     final String getHash() {
         return hash;
     }
 
+    /**
+     *
+     * @return First 2 characters of hash
+     */
     final String getPreHash() {
         return hash.substring(0, 2);
     }
 
+    /**
+     * Size of this Asset
+     * @return Size in bytes
+     */
     final int getSize() {
         return size;
     }
 
+    /**
+     *
+     * @return URL where this asset can be downloaded
+     */
     final String getUrl() {
         return RESOURCES_URL + getPreHash() + "/" + hash;
     }
 
+    /**
+     *
+     * @return Key/Name of this asset in JSON structure
+     */
     final String getKey(){ return key; }
 }

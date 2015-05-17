@@ -7,6 +7,9 @@ import sk.tomsik68.mclauncher.util.IExtractRules;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 
+/**
+ * Library extraction filter
+ */
 final class LibraryExtractRules implements IExtractRules {
     private ArrayList<String> exclude = new ArrayList<String>();
 
@@ -17,6 +20,11 @@ final class LibraryExtractRules implements IExtractRules {
         }
     }
 
+    /**
+     *
+     * @param entry Entry that is being thinked about right now
+     * @return True if entry may be extracted, otherwise false
+     */
     @Override
     public boolean accepts(ZipEntry entry) {
         String path = entry.getName();

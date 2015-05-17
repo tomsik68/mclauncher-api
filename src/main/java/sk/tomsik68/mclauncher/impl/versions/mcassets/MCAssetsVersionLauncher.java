@@ -68,23 +68,23 @@ public final class MCAssetsVersionLauncher implements IVersionLauncher {
         if (sb.length() > 0)
             sb = sb.deleteCharAt(sb.length() - 1);
         command.add(sb.toString());
-        // custom parameters for relauncher
+        //// custom parameters for relauncher
         if (settings.getCustomParameters() != null && settings.getCustomParameters().size() > 0) {
             JSONObject params = new JSONObject(settings.getCustomParameters());
             command.add("-args");
             command.add(params.toJSONString(JSONStyle.NO_COMPRESS));
         }
-        // multiplayer server
+        //// multiplayer server
         if (server != null) {
             command.add("-mp");
             command.add(server.getIP() + ":" + server.getPort());
         }
-        // modify applet options
+        //// modify applet options
         if (settings.isModifyAppletOptions()) {
             command.add("-ap");
             command.add("true");
         }
-        // native library path
+        //// native library path
         command.add("-lwjgl");
         command.add(jarManager.getNativesDirectory().getAbsolutePath());
         command.add("-jlibpath");

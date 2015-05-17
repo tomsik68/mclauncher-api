@@ -3,10 +3,18 @@ package sk.tomsik68.mclauncher.util;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+/**
+ * Replaces certain parts of string
+ *
+ */
 public class StringSubstitutor {
     private final String template;
     private HashMap<String, String> variables = new HashMap<String, String>();
 
+    /**
+     * Creates a StringSubstitutor that replaces variable in a way like you specify in template.
+     * @param tmp - for example <code>${%s}</code> will substitute %s for key and then replace it by value
+     */
     public StringSubstitutor(String tmp) {
         template = tmp;
     }

@@ -20,6 +20,16 @@ final class ResourcesXMLParser {
         this.url = url;
     }
 
+    /**
+     * This method's responsibility is to parse some XML into a list of strings
+     * The structure of XML: ListBucketResult -> Contents -> Key
+     * In return, we get list of strings in all Key tags.
+     * This is actually used while parsing resources list for pre-1.6 minecraft versions.
+     * @return List of Strings in all Key tags
+     * @throws SAXException
+     * @throws IOException
+     * @throws ParserConfigurationException
+     */
     List<String> parse() throws SAXException, IOException, ParserConfigurationException {
         List<String> result = new ArrayList<String>();
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url);
@@ -35,6 +45,11 @@ final class ResourcesXMLParser {
         return result;
     }
 
+    /**
+     * Translates an XML node's children tag-names and text values to a Map
+     * @param node Node whose children should be transfered
+     * @return
+     */
     private Map<String, String> translateNode(Node node) {
         NodeList nl = node.getChildNodes();
         HashMap<String, String> result = new HashMap<String, String>();

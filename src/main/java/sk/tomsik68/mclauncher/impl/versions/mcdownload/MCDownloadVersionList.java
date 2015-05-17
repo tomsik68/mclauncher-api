@@ -15,16 +15,19 @@ public final class MCDownloadVersionList extends Observable<IVersion> implements
 
     @Override
     public void startDownload() throws Exception {
+        // at first, we download the complete version list
         String jsonString = HttpUtils.httpGet(JSONVERSION_LIST_URL);
         JSONObject versionInformation = (JSONObject) JSONValue.parse(jsonString);
         JSONArray versions = (JSONArray) versionInformation.get("versions");
+        // and then, for each version...
         for (Object object : versions) {
             JSONObject versionObject = (JSONObject) object;
-
+            // ... we download the full version file (1.8.json etc)
             String fullVersionJSONString = HttpUtils.httpGet(FULL_VERSION_URL_TEMPLATE.replace("<VERSION>", versionObject.get("id").toString()));
             JSONObject fullVersionObject = (JSONObject) JSONValue.parse(fullVersionJSONString);
-
+            // ,create a MCDownloadVersion based on it
             MCDownloadVersion version = new MCDownloadVersion(fullVersionObject);
+            // and finally notify observers about a new version
             notifyObservers(version);
         }
     }

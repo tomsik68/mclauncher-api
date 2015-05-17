@@ -27,11 +27,13 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
 
     @Override
     public void install(IVersion v, MinecraftInstance mc, IProgressMonitor progress) throws Exception {
+        // create jar manager and library provider as we'll need them
         MCDJarManager jarManager = new MCDJarManager(mc);
         LibraryProvider libraryProvider = new LibraryProvider(mc);
         Logger log = MCLauncherAPI.log;
         log.info("Checking compatibility...");
         MCDownloadVersion version = (MCDownloadVersion) v;
+        // check compatibility of this version
         if (!version.isCompatible())
             throw new VersionIncompatibleException(v);
         log.info("Version compatible");
@@ -39,6 +41,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         List<Library> toExtract = new ArrayList<Library>();
         log.info("Fetching libraries...");
         log.info("Platform: " + Platform.getCurrentPlatform().getDisplayName());
+        // install all libraries that are needed
         for (Library lib : toInstall) {
             if (lib.isCompatible()) {
                 if (!libraryProvider.isInstalled(lib)) {
@@ -50,6 +53,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
                         log.info("Failed to install " + lib.getName());
                     }
                 }
+                // if library has natives, it needs to be extracted...
                 if (lib.hasNatives()) {
                     toExtract.add(lib);
                 }
@@ -60,7 +64,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
 
         log.info("Extracting natives...");
         File nativesDir = new File(jarManager.getVersionFolder(version), "natives");
-        // purge old natives
+        // purge old natives if they are present
         if (nativesDir.exists()) {
             File[] contains = nativesDir.listFiles();
             for (File f : contains) {
@@ -68,6 +72,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
             }
         }
         log.info("Extracting libraries...");
+        // extract the new natives
         for (Library lib : toExtract) {
             File libFile = libraryProvider.getLibraryFile(lib);
             ExtractUtils.extractZipWithRules(libFile, nativesDir, lib.getExtractRules());
@@ -78,16 +83,14 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         File jarDest = jarManager.getVersionJAR(version);
         File jsonDest = jarManager.getInfoFile(version);
         // always overwrite json file
-        // if (!jsonDest.exists())
         FileUtils.writeFile(jsonDest, version.toJSON().toJSONString(JSONStyle.LT_COMPRESS));
         // and jar file
-        // if (!jarDest.exists()) 
         try {
             FileUtils.downloadFileWithProgress(JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        // notify listeners that installation is finished
         notifyListeners(version);
         if (progress != null)
             progress.finish();

@@ -10,8 +10,17 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.cert.Certificate;
 
+/**
+ * Http communication utilities
+ */
 public class HttpUtils {
 
+    /**
+     * Executes a simple HTTP-GET request
+     * @param url URL to request
+     * @return The result of request
+     * @throws Exception I/O Exception or HTTP errors
+     */
     public static String httpGet(String url) throws Exception {
         URL u = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) u.openConnection();
@@ -26,6 +35,14 @@ public class HttpUtils {
         return response.toString();
     }
 
+    /**
+     * Execute a secured POST request
+     * @param url URL to request
+     * @param keyInput the secret key to be used
+     * @param parameters Parameters in form <code>name=Tom&password=pass123</code>. They needn't to be URL-encoded(it will be done automatically)
+     * @return The result of request
+     * @throws Exception I/O Exception, HTTP errors or invalid key
+     */
     public static String securePostWithKey(String url, InputStream keyInput, String parameters) throws Exception {
         URL u = new URL(url);
         HttpsURLConnection connection = (HttpsURLConnection) u.openConnection();
@@ -64,6 +81,13 @@ public class HttpUtils {
         return response.toString();
     }
 
+    /**
+     * Posts a JSON object to URL and returns result
+     * @param url URL to request
+     * @param request the object to send using post. It will be serialized to JSON string
+     * @return Result of request
+     * @throws Exception I/O Exception or HTTP errors
+     */
     public static String doJSONPost(String url, IJSONSerializable request) throws Exception {
         URL u = new URL(url);
         String json = request.toJSON().toJSONString(JSONStyle.LT_COMPRESS);

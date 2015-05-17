@@ -16,10 +16,23 @@ public class ExtractUtils {
         }
     };
 
+    /**
+     * Extracts a ZIP-compatible(even JAR) file to specified directory
+     * @param jar The archive to be extracted
+     * @param dir Where to extract the archive
+     * @throws Exception I/O errors or decompression errors
+     */
     public static void extractZipWithoutRules(File jar, File dir) throws Exception {
         extractZipWithRules(jar, dir, anarchy);
     }
 
+    /**
+     * Extract a ZIP-compatible(even JAR) file to specified directory respecting the specified rules
+     * @param jar The archive to be extracted
+     * @param dir Where to extract the archive
+     * @param rules Rules to be used during extraction
+     * @throws Exception I/O errors or decompression errors
+     */
     public static void extractZipWithRules(File jar, File dir, IExtractRules rules) throws Exception {
         if (rules == null)
             rules = anarchy;

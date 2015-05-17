@@ -16,6 +16,7 @@ final class Relauncher {
     public static void main(String[] args) {
         try {
             HashMap<String, String> arguments = new HashMap<String, String>();
+            // setup default values for parameters
             arguments.put("-dm", "false");
             arguments.put("-ap", "false");
             arguments.put("-m", "false");
@@ -23,6 +24,7 @@ final class Relauncher {
             arguments.put("-h", "600");
             arguments.put("-dlt", "deprecated");
             arguments.put("-lv", "deprecated");
+            // parse arguments
             for (int i = 0; i < args.length; ++i) {
                 if ((args[i].equalsIgnoreCase("--user-name") || args[i].equalsIgnoreCase("-un")) && (i + 1) < args.length) {
                     arguments.put("-un", args[i + 1]);
@@ -59,6 +61,7 @@ final class Relauncher {
             for (Entry<String, String> argument : arguments.entrySet()) {
                 System.out.println(argument.getKey() + ": '" + argument.getValue() + "'");
             }
+            // load parameter values to variables
             String userName = arguments.get("-un");
             String sessionID = arguments.get("-sid");
             String lastVer = arguments.get("-lv");
@@ -74,13 +77,16 @@ final class Relauncher {
             int h = Integer.parseInt(arguments.get("-h"));
             boolean maximize = Boolean.parseBoolean(arguments.get("-m"));
             boolean changeOptions = Boolean.parseBoolean(arguments.get("-ap"));
+            // create custom class loader and add all desired URLs
             CustomClassLoader loader = new CustomClassLoader();
             loader.addJAR(gameFile.toURI().toURL());
             for (File lib : libraries) {
                 loader.addJAR(lib.toURI().toURL());
             }
+            // setup LWJGL native library path
             System.setProperty("org.lwjgl.librarypath", new File(arguments.get("-lwjgl")).getAbsolutePath());
             System.setProperty("net.java.games.input.librarypath", new File(arguments.get("-jlibpath")).getAbsolutePath());
+            // initialize launcher component to be used
             LauncherComponent launcher = new LauncherComponent(loader);
             launcher.setParameter("username", userName);
             launcher.setParameter("sessionid", sessionID);
@@ -88,26 +94,28 @@ final class Relauncher {
             launcher.setParameter("latestversion", lastVer);
             launcher.setParameter("stand-alone", "true");
             launcher.setParameter("demo", arguments.get("-dm"));
-            /*
-             * if(options.has(multiplayerOption)){ String ipPort =
-             * options.valueOf(multiplayerOption);
-             */
+
+            // if there are any information about multiplayer server,
             if (arguments.containsKey("-mp")) {
+                // parse IP and port
                 final String ipPort = arguments.get("-mp");
                 final String ip = ipPort.split(":")[0];
                 String port = "25565";
                 if (ipPort.contains(":"))
                     port = ipPort.split(":")[1];
                 System.out.println("MP: " + ipPort);
+                // and pass them to launcher component
                 launcher.setParameter("server", ip);
                 launcher.setParameter("port", port);
             }
-            // }
-            // if(options.has(gameDirOption)){
+            // if game directory is supposed to be changed,
             if (arguments.containsKey("-dir")) {
+                // change it using reflection in net.minecraft.client.Minecraft
                 Class<?> mcClass = loader.findClass("net.minecraft.client.Minecraft");
                 Field[] fields = mcClass.getDeclaredFields();
                 for (Field field : fields) {
+                    // the directory is stored in field whose name is obfuscated, so very little we know about it.
+                    // however, we know it's static and its class is File, so it should be sufficient
                     if (field.getType() == File.class && Modifier.isStatic(field.getModifiers())) {
                         field.setAccessible(true);
                         field.set(null, gameDir);
@@ -115,16 +123,13 @@ final class Relauncher {
                     }
                 }
             }
-            // }
-            /*
-             * if(options.has(argsOption)){ JSONObject params = (JSONObject)
-             * JSONValue.parse(options.valueOf(argsOption));
-             */
+            // pass all custom parameters specified in '-args' to launcher component
             JSONObject params = null;
             if (arguments.containsKey("-args")) {
                 params = (JSONObject) JSONValue.parse(arguments.get("-args"));
                 launcher.setAll(params);
             }
+            // create a Frame for launcher
             JFrame frame = new JFrame();
             frame.setSize(w, h);
             // TODO change title feature
@@ -136,6 +141,8 @@ final class Relauncher {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.getContentPane().add(launcher);
             frame.setVisible(true);
+            // start the frame. if users wants to modify applet options, table will be displayed before starting minecraft
+            // in the other case, we can directly run minecraft
             if (changeOptions) {
                 launcher.start();
             } else

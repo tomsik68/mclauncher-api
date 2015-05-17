@@ -121,6 +121,10 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         return libraries;
     }
 
+    /**
+     *
+     * @return True if this version is compatible with our current operating system
+     */
     public final boolean isCompatible() {
         Action action = null;
         for (Rule rule : rules) {
