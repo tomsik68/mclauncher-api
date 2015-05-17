@@ -7,7 +7,7 @@ import java.util.Map.Entry;
  * Replaces certain parts of string
  *
  */
-public class StringSubstitutor {
+public final class StringSubstitutor {
     private final String template;
     private HashMap<String, String> variables = new HashMap<String, String>();
 
@@ -21,12 +21,12 @@ public class StringSubstitutor {
 
     public String substitute(String s) {
         for (Entry<String, String> variable : variables.entrySet()) {
-            s = s.replace(String.format(template, variable.getKey()), variable.getValue());
+            s = s.replace(variable.getKey(), variable.getValue());
         }
         return s;
     }
 
     public void setVariable(String key, String val) {
-        variables.put(key, val);
+        variables.put(String.format(template, key), val);
     }
 }
