@@ -30,8 +30,10 @@ public final class YDLoginService implements ILoginService {
         YDLoginResponse response;
         if (profile instanceof LegacyProfile)
             response = doPasswordLogin(profile);
-        else {
+        else if(profile instanceof YDAuthProfile) {
             response = doSessionLogin(profile);
+        } else {
+            throw new IllegalArgumentException("YDLoginService can't deal with custom profile class: "+profile.getClass().getName());
         }
 
         YDSession result = new YDSession(response);
