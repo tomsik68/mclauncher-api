@@ -26,3 +26,8 @@
 /tools/servicefinder/versions.json
 /Official-MCLauncher
 /target/
+/mcCommand.txt
+/mcerr.log
+/mclauncher-api.iml
+/mcout.log
+/servers_savetest.dat
