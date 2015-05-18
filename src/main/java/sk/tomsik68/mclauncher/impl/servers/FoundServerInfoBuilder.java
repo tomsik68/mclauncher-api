@@ -1,11 +1,14 @@
-package sk.tomsik68.mclauncher.api.servers;
+package sk.tomsik68.mclauncher.impl.servers;
+
+import sk.tomsik68.mclauncher.api.servers.FoundServerInfo;
+import sk.tomsik68.mclauncher.api.servers.IServerFinder;
 
 import java.util.HashMap;
 
 /**
  * Builder class for FoundServerInfo. May be used in server finders
  */
-public final class FoundServerInfoBuilder {
+final class FoundServerInfoBuilder {
     private String motd, ip, icon;
     private int port;
     private IServerFinder finder;
