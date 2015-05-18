@@ -32,8 +32,6 @@ public final class YDLoginService implements ILoginService {
             response = doPasswordLogin(profile);
         else {
             response = doSessionLogin(profile);
-            if (profile instanceof YDAuthProfile)
-                ((YDAuthProfile) profile).setPassword(response.getSessionID());
         }
 
         YDSession result = new YDSession(response);
