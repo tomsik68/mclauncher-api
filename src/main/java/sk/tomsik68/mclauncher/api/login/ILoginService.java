@@ -11,7 +11,7 @@ public interface ILoginService extends IOnlineService {
      * Logs in using specified profile
      * @param profile - Profile to log in
      * @return {@link ISession} object if successful
-     * @throws Exception - Connection or login failed
+     * @throws Exception - Connection failed, or LoginException if login failed
      */
     public ISession login(IProfile profile) throws Exception;
 

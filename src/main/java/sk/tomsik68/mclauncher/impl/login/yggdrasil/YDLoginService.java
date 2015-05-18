@@ -4,9 +4,11 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
+import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.login.ILoginService;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
+import sk.tomsik68.mclauncher.api.login.LoginException;
 import sk.tomsik68.mclauncher.api.services.IServicesAvailability;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
 import sk.tomsik68.mclauncher.util.HttpUtils;
@@ -30,10 +32,10 @@ public final class YDLoginService implements ILoginService {
         YDLoginResponse response;
         if (profile instanceof LegacyProfile)
             response = doPasswordLogin(profile);
-        else {
+        else if(profile instanceof YDAuthProfile) {
             response = doSessionLogin(profile);
-            if (profile instanceof YDAuthProfile)
-                ((YDAuthProfile) profile).setPassword(response.getSessionID());
+        } else {
+            throw new IllegalArgumentException("YDLoginService can't deal with custom profile class: "+profile.getClass().getName());
         }
 
         YDSession result = new YDSession(response);
@@ -41,17 +43,30 @@ public final class YDLoginService implements ILoginService {
         return result;
     }
 
+    // performs a HTTP POST request and checks if response from the system is error-less
+    private YDLoginResponse doCheckedLoginPost(String url, IJSONSerializable req) throws Exception {
+        String jsonString = HttpUtils.doJSONPost(url, req);
+        JSONObject jsonObject = (JSONObject)JSONValue.parse(jsonString);
+        YDLoginResponse response = new YDLoginResponse(jsonObject);
+        if(response.getError() != null){
+            throw new LoginException("Error ".concat(response.getError()).concat(" : ").concat(response.getMessage()));
+        }
+        return response;
+    }
+
     private YDLoginResponse doSessionLogin(IProfile profile) throws Exception {
         YDSessionLoginRequest request = new YDSessionLoginRequest(profile.getPassword(), clientToken.toString());
-        String result = HttpUtils.doJSONPost(SESSION_LOGIN_URL, request);
-        YDLoginResponse response = new YDLoginResponse((JSONObject) JSONValue.parse(result));
+
+        YDLoginResponse response = doCheckedLoginPost(SESSION_LOGIN_URL, request);
+
         return response;
     }
 
     private YDLoginResponse doPasswordLogin(IProfile profile) throws Exception {
         YDPasswordLoginRequest request = new YDPasswordLoginRequest(profile.getName(), profile.getPassword(), clientToken.toString());
-        String result = HttpUtils.doJSONPost(PASSWORD_LOGIN_URL, request);
-        YDLoginResponse response = new YDLoginResponse((JSONObject) JSONValue.parse(result));
+
+        YDLoginResponse response = doCheckedLoginPost(PASSWORD_LOGIN_URL, request);
+
         return response;
     }
 
@@ -106,7 +121,7 @@ public final class YDLoginService implements ILoginService {
         if (result.length() > 0) {
             YDResponse response = new YDResponse((JSONObject) JSONValue.parse(result));
             if (response.getError() != null) {
-                throw new RuntimeException(response.getError() + " " + response.getMessage());
+                throw new LoginException("Logout failed:" + response.getError() + " " + response.getMessage());
             }
         }
     }
