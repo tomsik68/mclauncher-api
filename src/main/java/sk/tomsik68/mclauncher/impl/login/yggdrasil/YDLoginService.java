@@ -7,6 +7,7 @@ import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.login.ILoginService;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
+import sk.tomsik68.mclauncher.api.login.LoginException;
 import sk.tomsik68.mclauncher.api.services.IServicesAvailability;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
 import sk.tomsik68.mclauncher.util.HttpUtils;
@@ -106,7 +107,7 @@ public final class YDLoginService implements ILoginService {
         if (result.length() > 0) {
             YDResponse response = new YDResponse((JSONObject) JSONValue.parse(result));
             if (response.getError() != null) {
-                throw new RuntimeException(response.getError() + " " + response.getMessage());
+                throw new LoginException("Logout failed:" + response.getError() + " " + response.getMessage());
             }
         }
     }
