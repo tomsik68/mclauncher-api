@@ -4,6 +4,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
+import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.login.ILoginService;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
@@ -42,17 +43,30 @@ public final class YDLoginService implements ILoginService {
         return result;
     }
 
+    // performs a HTTP POST request and checks if response from the system is error-less
+    private YDLoginResponse doCheckedLoginPost(String url, IJSONSerializable req) throws Exception {
+        String jsonString = HttpUtils.doJSONPost(url, req);
+        JSONObject jsonObject = (JSONObject)JSONValue.parse(jsonString);
+        YDLoginResponse response = new YDLoginResponse(jsonObject);
+        if(response.getError() != null){
+            throw new LoginException("Error ".concat(response.getError()).concat(" : ").concat(response.getMessage()));
+        }
+        return response;
+    }
+
     private YDLoginResponse doSessionLogin(IProfile profile) throws Exception {
         YDSessionLoginRequest request = new YDSessionLoginRequest(profile.getPassword(), clientToken.toString());
-        String result = HttpUtils.doJSONPost(SESSION_LOGIN_URL, request);
-        YDLoginResponse response = new YDLoginResponse((JSONObject) JSONValue.parse(result));
+
+        YDLoginResponse response = doCheckedLoginPost(SESSION_LOGIN_URL, request);
+
         return response;
     }
 
     private YDLoginResponse doPasswordLogin(IProfile profile) throws Exception {
         YDPasswordLoginRequest request = new YDPasswordLoginRequest(profile.getName(), profile.getPassword(), clientToken.toString());
-        String result = HttpUtils.doJSONPost(PASSWORD_LOGIN_URL, request);
-        YDLoginResponse response = new YDLoginResponse((JSONObject) JSONValue.parse(result));
+
+        YDLoginResponse response = doCheckedLoginPost(PASSWORD_LOGIN_URL, request);
+
         return response;
     }
 
