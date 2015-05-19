@@ -15,12 +15,14 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     private static final MCDownloadVersionInstaller installer = new MCDownloadVersionInstaller();
     private static final IVersionLauncher launcher = new MCDownloadVersionLauncher();
     private static final String DEFAULT_ASSETS_INDEX = "legacy";
-    private final String id, time, releaseTime, type, minecraftArgs, mainClass;
-    private final int minimumLauncherVersion;
-    private final JSONObject json;
+    private String id, time, releaseTime, type, minecraftArgs, mainClass;
+    private int minimumLauncherVersion;
+    private JSONObject json;
     private String incompatibilityReason, processArgs, assets, inheritsFrom;
     private ArrayList<Rule> rules = new ArrayList<Rule>();
     private ArrayList<Library> libraries = new ArrayList<Library>();
+
+    private boolean inherited = false;
 
     MCDownloadVersion(JSONObject json) {
         this.json = json;
@@ -145,5 +147,35 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
 
     final String getAssetsIndexName() {
         return assets;
+    }
+
+    final boolean isInherited(){ return inherited; }
+
+    final void doInherit(MCDownloadVersion parent) {
+        if(!parent.getId().equals(getInheritsFrom())){
+            throw new IllegalArgumentException("Wrong inheritance version passed!");
+        }
+
+        if(minecraftArgs == null)
+            minecraftArgs = parent.getMinecraftArgs();
+
+        if(mainClass == null)
+            mainClass = parent.getMainClass();
+
+        if(incompatibilityReason == null)
+            incompatibilityReason = parent.getIncompatibilityReason();
+
+        if(assets == null)
+            assets = parent.getAssetsIndexName();
+
+        if(libraries.isEmpty()) {
+            libraries.addAll(parent.getLibraries());
+            rules.addAll(parent.rules);
+        }
+
+        if(rules.isEmpty())
+            rules.addAll(parent.rules);
+
+        inherited = true;
     }
 }

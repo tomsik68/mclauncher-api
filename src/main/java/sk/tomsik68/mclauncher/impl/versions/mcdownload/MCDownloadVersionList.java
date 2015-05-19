@@ -3,7 +3,6 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
-import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionList;
 import sk.tomsik68.mclauncher.impl.common.Observable;
@@ -40,17 +39,19 @@ public final class MCDownloadVersionList extends Observable<IVersion> implements
         // resolve inheritsFrom in versions
         for(MCDownloadVersion version : versionMap.values()){
             // if version needs to get dependencies
-            if(version.getInheritsFrom() != null){
-                resolveDependencies(version);
+            if(version.getInheritsFrom() != null && !version.isInherited()){
+                resolveInheritance(version);
             }
         }
     }
 
-    private void resolveDependencies(MCDownloadVersion version){
+    private void resolveInheritance(MCDownloadVersion version){
         // parent's parent needs to be resolved first
         MCDownloadVersion parent = versionMap.get(version.getInheritsFrom());
         if(parent.getInheritsFrom() != null)
-            resolveDependencies(parent);
-
+            resolveInheritance(parent);
+        else {
+            version.doInherit(parent);
+        }
     }
 }
