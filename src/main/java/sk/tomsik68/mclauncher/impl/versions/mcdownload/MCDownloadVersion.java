@@ -18,7 +18,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     private final String id, time, releaseTime, type, minecraftArgs, mainClass;
     private final int minimumLauncherVersion;
     private final JSONObject json;
-    private String incompatibilityReason, processArgs, assets;
+    private String incompatibilityReason, processArgs, assets, inheritsFrom;
     private ArrayList<Rule> rules = new ArrayList<Rule>();
     private ArrayList<Library> libraries = new ArrayList<Library>();
 
@@ -52,6 +52,8 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         }
         if (json.containsKey("incompatibilityReason"))
             incompatibilityReason = json.get("incompatibilityReason").toString();
+        if (json.containsKey("inheritsFrom"))
+            inheritsFrom = json.get("inheritsFrom").toString();
     }
 
     @Override
@@ -101,6 +103,8 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     final String getMainClass() {
         return mainClass;
     }
+
+    final String getInheritsFrom(){ return inheritsFrom; }
 
     @Override
     public String getIncompatibilityReason() {
