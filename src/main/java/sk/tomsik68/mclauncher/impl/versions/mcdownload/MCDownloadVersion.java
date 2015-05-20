@@ -22,7 +22,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     private ArrayList<Rule> rules = new ArrayList<Rule>();
     private ArrayList<Library> libraries = new ArrayList<Library>();
 
-    private boolean inherited = false;
+    private boolean needsInheritance;
 
     MCDownloadVersion(JSONObject json) {
         this.json = json;
@@ -54,8 +54,11 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         }
         if (json.containsKey("incompatibilityReason"))
             incompatibilityReason = json.get("incompatibilityReason").toString();
-        if (json.containsKey("inheritsFrom"))
+        if (json.containsKey("inheritsFrom")) {
             inheritsFrom = json.get("inheritsFrom").toString();
+            needsInheritance = true;
+        } else
+            needsInheritance = false;
     }
 
     @Override
@@ -149,7 +152,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         return assets;
     }
 
-    final boolean isInherited(){ return inherited; }
+    final boolean needsInheritance(){ return needsInheritance; }
 
     final void doInherit(MCDownloadVersion parent) {
         if(!parent.getId().equals(getInheritsFrom())){
@@ -176,6 +179,6 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         if(rules.isEmpty())
             rules.addAll(parent.rules);
 
-        inherited = true;
+        needsInheritance = false;
     }
 }

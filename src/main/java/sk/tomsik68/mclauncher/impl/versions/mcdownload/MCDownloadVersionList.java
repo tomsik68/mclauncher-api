@@ -39,7 +39,7 @@ public final class MCDownloadVersionList extends Observable<IVersion> implements
         // resolve inheritsFrom in versions
         for(MCDownloadVersion version : versionMap.values()){
             // if version needs to get dependencies
-            if(version.getInheritsFrom() != null && !version.isInherited()){
+            if(version.needsInheritance()){
                 resolveInheritance(version);
             }
         }
