@@ -36,6 +36,10 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         // check compatibility of this version
         if (!version.isCompatible())
             throw new VersionIncompatibleException(v);
+        // check if inheritance was completed
+        if(version.needsInheritance())
+            throw new VersionInheritanceException(v);
+
         log.info("Version compatible");
         List<Library> toInstall = version.getLibraries();
         List<Library> toExtract = new ArrayList<Library>();

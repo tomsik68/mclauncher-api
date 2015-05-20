@@ -80,6 +80,10 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         if (!version.isCompatible()) {
             throw new VersionIncompatibleException(version);
         }
+        // check if everything's inherited
+        if(version.needsInheritance())
+            throw new VersionInheritanceException(version);
+
         // check if we can launch it using the current version of MCLauncherAPI
         if (version.getMinimumLauncherVersion() > MCLauncherAPI.MC_LAUNCHER_VERSION) {
             throw new RuntimeException(
