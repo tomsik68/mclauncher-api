@@ -9,7 +9,7 @@ import java.net.URLConnection;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 
-public class FileUtils {
+public final class FileUtils {
     public static void createFileSafely(File file) throws Exception {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();

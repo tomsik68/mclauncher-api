@@ -8,7 +8,7 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class ExtractUtils {
+public final class ExtractUtils {
     private static final IExtractRules anarchy = new IExtractRules() {
         @Override
         public boolean accepts(ZipEntry entry) {
