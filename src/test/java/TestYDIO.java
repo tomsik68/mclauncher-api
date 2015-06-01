@@ -12,8 +12,7 @@ public class TestYDIO {
 
     @Test
     public void test() {
-        new File("savetest-json").mkdir();
-        YDProfileIO io = new YDProfileIO(new File("savetest-json"));
+        YDProfileIO io = new YDProfileIO(new File("testmc"));
         YDAuthProfile profile = new YDAuthProfile("Tomsik68@gmail.com", "Tomsik68", "blahblahblahsessionID", "blahblahblahblahyuuid", "blahblahblahuserid");
         IProfile[] profiles = null;
         try {
@@ -24,7 +23,6 @@ public class TestYDIO {
         }
         assertEquals(profile.getPassword(), profiles[0].getPassword());
         assertEquals(profile.getName(), profiles[0].getName());
-
     }
 
 }

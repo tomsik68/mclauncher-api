@@ -4,6 +4,7 @@ import java.io.File;
 
 import org.junit.Test;
 
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.IProfileIO;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
@@ -13,7 +14,9 @@ public class TestLegacyIO {
 
     @Test
     public void test() {
-        IProfileIO io = new LegacyProfileIO(new File("savetest"));
+        File dest = new File("lastlogin");
+        MCLauncherAPI.log.info("Saving login info to "+dest.getAbsolutePath());
+        IProfileIO io = new LegacyProfileIO(dest);
         IProfile profile = new LegacyProfile("Tomsik68", "mypassword");
         IProfile[] profiles = null;
         try {
