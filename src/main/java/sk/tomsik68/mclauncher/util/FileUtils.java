@@ -11,6 +11,7 @@ import java.security.MessageDigest;
 
 public class FileUtils {
     public static void createFileSafely(File file) throws Exception {
+        file.delete();
         file.mkdirs();
         file.delete();
         file.createNewFile();
