@@ -22,12 +22,18 @@ public class TestMCAssetsInstall {
             e1.printStackTrace();
         }
         final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
-        MCAssetsVersionList list = new MCAssetsVersionList();
-        list.addObserver(new IObserver<IVersion>() {
+        final MCAssetsVersionList list = new MCAssetsVersionList();
+        list.addObserver(new IObserver<String>() {
             private boolean installed = false;
 
             @Override
-            public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
+            public void onUpdate(IObservable<String> observable, String id) {
+                IVersion changed = null;
+                try {
+                    changed = list.retrieveVersionInfo(id);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if (!installed) {
                     installed = true;
                     System.out.println("Found version: " + changed.getDisplayName() + " installing");

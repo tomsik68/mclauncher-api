@@ -40,14 +40,20 @@ public class TestMCDownloadForgeLaunch {
                     new File("testmc"));
             /*final BasicModdingProfile mods = new BasicModdingProfile();
             mods.addCoreMod(new File(mc.getLocation(), "coremods/forge-1.8-11.14.0.1299-universal.jar"));*/
-            MCDownloadVersionList versionList = new MCDownloadVersionList();
-            versionList.addObserver(new IObserver<IVersion>() {
+            final MCDownloadVersionList versionList = new MCDownloadVersionList();
+            versionList.addObserver(new IObserver<String>() {
 
                 private boolean launched = false;
 
                 @Override
-                public void onUpdate(IObservable<IVersion> observable,
-                                     IVersion changed) {
+                public void onUpdate(IObservable<String> observable,
+                                     String id) {
+                    IVersion changed = null;
+                    try {
+                        changed = versionList.retrieveVersionInfo(id);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     if (changed.getId().equalsIgnoreCase("1.8")) {
                         try {
                             List<String> launchCommand = changed.getLauncher()

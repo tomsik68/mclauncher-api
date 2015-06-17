@@ -11,10 +11,10 @@ public class TestMCAssetsVersionList {
     @Test
     public void test() {
         MCAssetsVersionList list = new MCAssetsVersionList();
-        list.addObserver(new IObserver<IVersion>() {
+        list.addObserver(new IObserver<String>() {
             @Override
-            public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
-                System.out.println("Found version: "+changed.getDisplayName());
+            public void onUpdate(IObservable<String> observable, String id) {
+                System.out.println("Found version: "+id);
             }
         });
         try {
