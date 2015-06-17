@@ -10,10 +10,10 @@ public class TestMCDownloadList {
     @Test
     public void test() {
         MCDownloadVersionList list = new MCDownloadVersionList();
-        list.addObserver(new IObserver<IVersion>() {
+        list.addObserver(new IObserver<String>() {
             @Override
-            public void onUpdate(IObservable<IVersion> observable, IVersion changed) {
-                System.out.println(changed.getDisplayName());
+            public void onUpdate(IObservable<String> observable, String changed) {
+                System.out.println(changed);
             }
         });
         try {

@@ -11,10 +11,10 @@ import java.security.MessageDigest;
 
 public final class FileUtils {
     public static void createFileSafely(File file) throws Exception {
-        if (!file.getParentFile().exists())
-            file.getParentFile().mkdirs();
-        if (!file.exists())
-            file.createNewFile();
+        file.delete();
+        file.mkdirs();
+        file.delete();
+        file.createNewFile();
     }
 
     public static void downloadFileWithProgress(String url, File dest, IProgressMonitor progress) throws Exception {

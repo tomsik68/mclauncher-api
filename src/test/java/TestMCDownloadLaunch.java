@@ -41,15 +41,21 @@ public class TestMCDownloadLaunch {
 	    profileIO.write(profiles);
 	    System.out.println("Success! Launching...");
 	    final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
-	    MCDownloadVersionList versionList = new MCDownloadVersionList();
-	    versionList.addObserver(new IObserver<IVersion>() {
+	    final MCDownloadVersionList versionList = new MCDownloadVersionList();
+	    versionList.addObserver(new IObserver<String>() {
 
 		private boolean launched = false;
 
 		@Override
-		public void onUpdate(IObservable<IVersion> observable,
-			IVersion changed) {
-		    if (!launched) {
+		public void onUpdate(IObservable<String> observable,
+			String id) {
+			IVersion changed = null;
+			try {
+				changed = versionList.retrieveVersionInfo(id);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (!launched) {
 			launched = true;
 			try {
 			    List<String> launchCommand = changed.getLauncher()

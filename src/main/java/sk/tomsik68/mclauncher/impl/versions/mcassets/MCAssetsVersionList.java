@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * @author Tomsik68
  */
 @Deprecated
-public final class MCAssetsVersionList extends Observable<IVersion> implements IVersionList {
+public final class MCAssetsVersionList extends Observable<String> implements IVersionList {
     private static final Pattern snapshotPattern = Pattern.compile("((\\d\\d\\w\\d\\d\\w)|(\\d_\\d-pre)|(\\d_\\d-pre\\d)|(rc)|(rc\\d))");
 
     public static final boolean isSnapshot(IVersion version) {
@@ -30,7 +30,12 @@ public final class MCAssetsVersionList extends Observable<IVersion> implements I
             Node node = doc.getElementsByTagName("ListBucketResult").item(0).getChildNodes().item(i);
             if ((node != null) && ("Contents".equalsIgnoreCase(node.getNodeName())) && (node.getChildNodes().getLength() > 0))
                 if (("Key".equals(node.getFirstChild().getNodeName())) && (node.getFirstChild().getTextContent().contains("minecraft.jar")))
-                    notifyObservers(new MCAssetsVersion(node.getFirstChild().getTextContent().split("/")[0]));
+                    notifyObservers(node.getFirstChild().getTextContent().split("/")[0]);
         }
+    }
+
+    @Override
+    public IVersion retrieveVersionInfo(String id) throws Exception {
+        return new MCAssetsVersion(id);
     }
 }
