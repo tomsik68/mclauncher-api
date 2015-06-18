@@ -28,11 +28,13 @@ public final class MCDownloadVersionList extends Observable<String> implements I
 
     private void resolveInheritance(MCDownloadVersion version) throws Exception{
         // version's parent needs to be resolved first
-        MCDownloadVersion parent = (MCDownloadVersion)retrieveVersionInfo(version.getInheritsFrom());
-        if(parent.getInheritsFrom() != null)
-            resolveInheritance(parent);
-        else {
-            version.doInherit(parent);
+        if(version.getInheritsFrom() != null && version.getInheritsFrom().length() > 0) {
+            MCDownloadVersion parent = (MCDownloadVersion) retrieveVersionInfo(version.getInheritsFrom());
+            if(parent.getInheritsFrom() != null)
+                resolveInheritance(parent);
+            else {
+                version.doInherit(parent);
+            }
         }
     }
     @Override
