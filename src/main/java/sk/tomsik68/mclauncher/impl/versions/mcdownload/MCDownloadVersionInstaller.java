@@ -86,9 +86,11 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         updateResources(mc, version, progress);
         File jarDest = jarManager.getVersionJAR(version);
         File jsonDest = jarManager.getInfoFile(version);
+        log.info("Writing version info JSON file...");
         // always overwrite json file
         FileUtils.writeFile(jsonDest, version.toJSON().toJSONString(JSONStyle.LT_COMPRESS));
         // and jar file
+        log.info("Downloading game JAR...");
         try {
             FileUtils.downloadFileWithProgress(JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
         } catch (Exception e) {
