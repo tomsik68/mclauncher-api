@@ -108,8 +108,6 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
     }
 
     private void downloadLibrary(String url, File dest, IProgressMonitor p) throws Exception {
-        dest.mkdirs();
-        dest.delete();
         FileUtils.downloadFileWithProgress(url, dest, p);
     }
 
