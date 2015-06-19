@@ -15,7 +15,6 @@ public class TestMCDownloadInstall {
 
     @Test
     public void test() {
-        MCLauncherAPI.log.info("Test for a test");
         final MCDownloadVersionList list = new MCDownloadVersionList();
         final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
         list.addObserver(new IObserver<String>() {

@@ -11,9 +11,14 @@ import java.security.MessageDigest;
 
 public final class FileUtils {
     public static void createFileSafely(File file) throws Exception {
-        file.delete();
-        file.mkdirs();
-        file.delete();
+        File parentFile = new File(file.getParent());
+        if(!parentFile.exists()){
+            if(!parentFile.mkdirs()){
+                throw new IOException("Unable to create parent file: "+file.getParent());
+            }
+        }
+        if(file.exists())
+            file.delete();
         file.createNewFile();
     }
 
