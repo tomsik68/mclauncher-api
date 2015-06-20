@@ -4,8 +4,8 @@ import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 
 import java.io.*;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 
@@ -24,17 +24,24 @@ public final class FileUtils {
 
     public static void downloadFileWithProgress(String url, File dest, IProgressMonitor progress) throws Exception {
         // System.out.println("Downloading "+url);
-        createFileSafely(dest);
         String md5 = null;
         if (dest.exists()) {
             md5 = getMD5(dest);
         }
 
         URL u = new URL(url);
-        URLConnection connection = u.openConnection();
+        HttpURLConnection connection = (HttpURLConnection)u.openConnection();
         if (md5 != null)
             connection.setRequestProperty("If-None-Match", md5);
         connection.connect();
+
+        // local copy is up-to-date
+        if(connection.getResponseCode() == 304){
+            if(progress != null)
+                progress.finish();
+            return;
+        }
+        createFileSafely(dest);
 
         BufferedInputStream in = new BufferedInputStream(connection.getInputStream());
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dest));
