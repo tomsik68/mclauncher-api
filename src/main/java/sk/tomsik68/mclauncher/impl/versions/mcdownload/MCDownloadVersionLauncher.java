@@ -116,16 +116,15 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         command.add("-Djava.library.path=" + nativesDir.getAbsolutePath());
         // build classpath
         command.add("-cp");
-        StringBuilder sb = new StringBuilder();
+        StringBuilder librariesString = new StringBuilder();
         final String LIBRARY_SEPARATOR = System.getProperty("path.separator");
         //// mods can inject JARs before libraries
         if(moddingProfileSpecified) {
-            String inject = mods.injectBeforeLibs(LIBRARY_SEPARATOR);
-            if(inject != null) {
-                if(!inject.endsWith(LIBRARY_SEPARATOR))
-                    inject = inject.concat(LIBRARY_SEPARATOR);
-                sb = sb.append(inject);
-
+            File[] customFiles = mods.injectBeforeLibs(LIBRARY_SEPARATOR);
+            if(customFiles != null) {
+                for (File file : customFiles) {
+                    librariesString.append(file.getAbsolutePath()).append(LIBRARY_SEPARATOR);
+                }
             }
         }
         //// now add library files
@@ -135,27 +134,27 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
                 if (!libraryProvider.isInstalled(lib)) {
                     throw new FileNotFoundException("Library file wasn't found");
                 }
-                sb = sb.append(libraryProvider.getLibraryFile(lib).getAbsolutePath()).append(
+                librariesString = librariesString.append(libraryProvider.getLibraryFile(lib).getAbsolutePath()).append(
                         LIBRARY_SEPARATOR);
             }
         }
         //// mods can inject JARs after libraries
         if(moddingProfileSpecified) {
-            String inject = mods.injectAfterLibs(LIBRARY_SEPARATOR);
-            if(inject != null) {
-                if(!inject.endsWith(LIBRARY_SEPARATOR))
-                    inject = inject.concat(LIBRARY_SEPARATOR);
-                sb = sb.append(inject);
+            File[] customFiles = mods.injectAfterLibs(LIBRARY_SEPARATOR);
+            if(customFiles != null) {
+                for (File file : customFiles) {
+                    librariesString.append(file.getAbsolutePath()).append(LIBRARY_SEPARATOR);
+                }
             }
         }
         // append the game JAR at the end
         String jarToUse = jarFile.getAbsolutePath();
         if(moddingProfileSpecified && mods.getCustomGameJar() != null) {
-            jarToUse = mods.getCustomGameJar();
+            jarToUse = mods.getCustomGameJar().getAbsolutePath();
         }
-        sb = sb.append(jarToUse);
+        librariesString = librariesString.append(jarToUse);
         // append the whole classpath to command
-        command.add(sb.toString());
+        command.add(librariesString.toString());
 
         // look for the main class
         String mainClass = version.getMainClass();
@@ -184,7 +183,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
             command.add("" + server.getPort());
         }
         // mods have final chance to add parameters
-        if(moddingProfileSpecified){
+        if(moddingProfileSpecified && mods.getLastParameters() != null){
             command.addAll(mods.getLastParameters());
         }
 
