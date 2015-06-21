@@ -33,7 +33,6 @@ public final class LegacyLoginService implements ILoginService {
                 + encode(profile.getName()) + "&password=" + encode(profile.getPassword()) + "&version=13");
         MCLauncherAPI.log.fine("Got response! Parsing response...");
         ISession result = factory.createSession(loginResponse.split(":"));
-        profile.update(result);
         return result;
     }
 

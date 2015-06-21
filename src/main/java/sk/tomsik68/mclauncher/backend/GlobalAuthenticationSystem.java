@@ -64,8 +64,7 @@ public final class GlobalAuthenticationSystem {
         }
         // obtain session object from the profile
         ISession result = loginService.login(selectedProfile);
-        // update the profile and write out the new authentication ID
-        selectedProfile.update(result);
+        // save the new authentication ID
         profileIO.write(profiles);
         return result;
     }
