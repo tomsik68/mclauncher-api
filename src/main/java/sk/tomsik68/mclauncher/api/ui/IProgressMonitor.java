@@ -29,9 +29,4 @@ public interface IProgressMonitor {
      */
     public void incrementProgress(int amount);
 
-    /**
-     * This is to indicate that the part of progress this monitor was attached
-     * to is done.
-     */
-    public void finish();
 }
