@@ -10,6 +10,17 @@ import java.io.File;
 
 public final class MinecraftAuthentication {
 
+    public static String[] getProfileNames() throws Exception {
+        File workingDirectory = Platform.getCurrentPlatform().getWorkingDirectory();
+        YDProfileIO profileIO = new YDProfileIO(workingDirectory);
+        IProfile[] profiles = profileIO.read();
+        String[] profileNames = new String[profiles.length];
+        for(int i = 0; i < profiles.length; ++i){
+            profileNames[i] = profiles[i].getName();
+        }
+        return profileNames;
+    }
+
     public static ISession login(String name) throws Exception {
         // initialise login service in the working directory
         File workingDirectory = Platform.getCurrentPlatform().getWorkingDirectory();
@@ -22,7 +33,10 @@ public final class MinecraftAuthentication {
         // select first profile.
         IProfile selectedProfile = profiles[0];
         // if there are more profiles and name is not empty
-        if(profiles.length > 1 && name != null && name.length() > 0) {
+        if(profiles.length > 1) {
+            selectedProfile = null;
+            if(name == null || name.length() == 0)
+                throw new ProfileSelectionException();
             // try to find profile with specified name
             for (IProfile profile : profiles) {
                 if (profile.getName().equals(name)) {
