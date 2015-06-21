@@ -38,7 +38,7 @@ final class Rule {
         StringBuilder sb = new StringBuilder("Rule:{");
         sb.append("Action:").append(action).append(',');
         if (restrictedOs != null)
-            sb.append("OS:").append(restrictedOs).append(',');
+            sb.append("OS:").append(restrictedOs.getDisplayName()).append(',');
         if (restrictedOsVersionPattern != null)
             sb.append("version:").append(restrictedOsVersionPattern);
         sb.append('}');
