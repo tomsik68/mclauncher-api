@@ -38,32 +38,7 @@ public class TestMCAssetsInstall {
                     installed = true;
                     System.out.println("Found version: " + changed.getDisplayName() + " installing");
                     try {
-                        changed.getInstaller().install(changed, mc, new IProgressMonitor() {
-
-                            @Override
-                            public void setProgress(int progress) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void setMax(int len) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void incrementProgress(int amount) {
-                                // TODO Auto-generated method stub
-
-                            }
-
-                            @Override
-                            public void finish() {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
+                        changed.getInstaller().install(changed, mc, null);
                     } catch (Exception e) {
                         e.printStackTrace();
                         fail(e.getMessage());
