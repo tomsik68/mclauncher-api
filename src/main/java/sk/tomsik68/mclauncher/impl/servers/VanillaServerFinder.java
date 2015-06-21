@@ -14,7 +14,7 @@ import java.net.*;
 public final class VanillaServerFinder extends Observable<FoundServerInfo> implements IServerFinder {
     private static final String SOCKET_GROUP_ADDRESS = "224.0.2.60";
     private Thread thread;
-    private InetAddress broadcastAddress;
+    private final InetAddress broadcastAddress;
 
     public VanillaServerFinder() throws UnknownHostException {
         broadcastAddress = InetAddress.getByName(SOCKET_GROUP_ADDRESS);

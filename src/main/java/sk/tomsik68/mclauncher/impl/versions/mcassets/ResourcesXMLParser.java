@@ -47,7 +47,7 @@ final class ResourcesXMLParser {
 
     /**
      * Translates an XML node's children tag-names and text values to a Map
-     * @param node Node whose children should be transfered
+     * @param node Node whose children should be transferred
      * @return
      */
     private Map<String, String> translateNode(Node node) {
