@@ -65,7 +65,6 @@ public final class Platform {
      * @return IOperatingSystem which suits the criteria
      */
     public static IOperatingSystem osByName(String name) {
-        name = wrapName(name);
         for (IOperatingSystem os : oss) {
             if (os.getMinecraftName().equalsIgnoreCase(name) || name.contains(os.getMinecraftName()) || os.getMinecraftName().contains(name))
                 return os;
