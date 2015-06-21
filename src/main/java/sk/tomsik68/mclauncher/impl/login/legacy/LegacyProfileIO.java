@@ -33,8 +33,10 @@ public final class LegacyProfileIO implements IProfileIO {
         }
         // create the file if it doesn't exist
         if (!dest.exists()) {
+            MCLauncherAPI.log.fine("lastlogin file doesn't exist. Creating it...");
             dest.getParentFile().mkdirs();
             dest.createNewFile();
+            MCLauncherAPI.log.fine("lastlogin file created.");
         }
         // write the profile as 2 UTF strings encrypted with LegacyLoginEncryptionProcessor
         DataOutputStream out = new DataOutputStream(proc.encrypt(new FileOutputStream(dest)));

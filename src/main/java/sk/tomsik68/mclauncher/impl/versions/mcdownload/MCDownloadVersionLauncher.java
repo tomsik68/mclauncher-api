@@ -67,7 +67,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         LibraryProvider libraryProvider = new LibraryProvider(mc);
         // get local JSON information about the version
         File jsonFile = jarManager.getInfoFile(v);
-        System.out.println("Looking for " + jsonFile.getAbsolutePath());
+        MCLauncherAPI.log.fine("Looking for ".concat(jsonFile.getAbsolutePath()));
         if (!jsonFile.exists()) {
             throw new FileNotFoundException(
                     "You need to download the version at first! (JSON description file not found!)");
@@ -77,19 +77,22 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
                 (JSONObject) JSONValue.parse(new FileInputStream(jsonFile)));
         File jarFile = jarManager.getVersionJAR(version);
         // check if the version is compatible with our OS
+        MCLauncherAPI.log.fine("Checking version compatibility...");
         if (!version.isCompatible()) {
             throw new VersionIncompatibleException(version);
         }
+        MCLauncherAPI.log.fine("Checking version inheritance...");
         // check if everything's inherited
         if(version.needsInheritance())
             throw new VersionInheritanceException(version);
-
+        MCLauncherAPI.log.fine("Checking minecraft launcher API version...");
         // check if we can launch it using the current version of MCLauncherAPI
         if (version.getMinimumLauncherVersion() > MCLauncherAPI.MC_LAUNCHER_VERSION) {
             throw new RuntimeException(
                     "You need to update MCLauncher-API to run this minecraft version! Required API version: "
                             + version.getMinimumLauncherVersion());
         }
+        MCLauncherAPI.log.fine("Building the launch command...");
         // build the huge command!
         ArrayList<String> command = new ArrayList<String>();
         // prefix
@@ -122,11 +125,13 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         if(moddingProfileSpecified) {
             File[] customFiles = mods.injectBeforeLibs(LIBRARY_SEPARATOR);
             if(customFiles != null) {
+                MCLauncherAPI.log.fine("Injecting custom libraries before library list");
                 for (File file : customFiles) {
                     librariesString.append(file.getAbsolutePath()).append(LIBRARY_SEPARATOR);
                 }
             }
         }
+        MCLauncherAPI.log.fine("Adding library files");
         //// now add library files
         for (Library lib : version.getLibraries()) {
             // each library has to be compatible, installed and allowed by modding profile
@@ -134,6 +139,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
                 if (!libraryProvider.isInstalled(lib)) {
                     throw new FileNotFoundException("Library file wasn't found");
                 }
+                MCLauncherAPI.log.finest("Adding ".concat(lib.getName()));
                 librariesString = librariesString.append(libraryProvider.getLibraryFile(lib).getAbsolutePath()).append(
                         LIBRARY_SEPARATOR);
             }
@@ -142,6 +148,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         if(moddingProfileSpecified) {
             File[] customFiles = mods.injectAfterLibs(LIBRARY_SEPARATOR);
             if(customFiles != null) {
+                MCLauncherAPI.log.fine("Injecting custom libraries after library list");
                 for (File file : customFiles) {
                     librariesString.append(file.getAbsolutePath()).append(LIBRARY_SEPARATOR);
                 }
@@ -150,6 +157,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         // append the game JAR at the end
         String jarToUse = jarFile.getAbsolutePath();
         if(moddingProfileSpecified && mods.getCustomGameJar() != null) {
+            MCLauncherAPI.log.fine("Replacing game JAR");
             jarToUse = mods.getCustomGameJar().getAbsolutePath();
         }
         librariesString = librariesString.append(jarToUse);
@@ -159,6 +167,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         // look for the main class
         String mainClass = version.getMainClass();
         if(moddingProfileSpecified && mods.getMainClass() != null){
+            MCLauncherAPI.log.fine("Replacing main class");
             mainClass = mods.getMainClass();
         }
         command.add(mainClass);
@@ -168,8 +177,10 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         // give mods opportunity to change minecraft arguments
         if(moddingProfileSpecified){
             String[] args = mods.changeMinecraftArguments(arguments);
-            if(args != null)
+            if(args != null) {
                 arguments = args;
+                MCLauncherAPI.log.fine("Replacing minecraft arguments");
+            }
         }
         // now append all minecraft arguments to the command
         for (String arg : arguments) {
@@ -185,8 +196,9 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         // mods have final chance to add parameters
         if(moddingProfileSpecified && mods.getLastParameters() != null){
             command.addAll(mods.getLastParameters());
+            MCLauncherAPI.log.fine("Adding last parameters after the entire command");
         }
-
+        MCLauncherAPI.log.fine("Launching command is now ready.");
         return command;
     }
 }

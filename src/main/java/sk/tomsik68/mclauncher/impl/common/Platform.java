@@ -1,6 +1,7 @@
 package sk.tomsik68.mclauncher.impl.common;
 
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -40,6 +41,7 @@ public final class Platform {
 
     /** forces current operating system */
     public static void forcePlatform(IOperatingSystem p) {
+        MCLauncherAPI.log.fine("Current platform: ".concat(p.getDisplayName()));
         currentOS = p;
     }
 
