@@ -37,8 +37,4 @@ public final class LegacyProfile implements IProfile {
         return url.toString();
     }
 
-    @Override
-    public void update(ISession session) {
-    }
-
 }
