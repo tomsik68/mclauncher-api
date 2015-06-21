@@ -37,8 +37,6 @@ public final class FileUtils {
 
         // local copy is up-to-date
         if(connection.getResponseCode() == 304){
-            if(progress != null)
-                progress.finish();
             return;
         }
         createFileSafely(dest);
@@ -65,8 +63,6 @@ public final class FileUtils {
         out.flush();
         out.close();
         in.close();
-        if (progress != null)
-            progress.finish();
     }
 
     public static void copyFile(File from, File to) throws Exception {
