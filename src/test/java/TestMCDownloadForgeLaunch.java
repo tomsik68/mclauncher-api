@@ -66,11 +66,6 @@ public class TestMCDownloadForgeLaunch {
                                                 }
 
                                                 @Override
-                                                public boolean isErrorStreamRedirected() {
-                                                    return true;
-                                                }
-
-                                                @Override
                                                 public File getJavaLocation() {
                                                     return null;
                                                 }
