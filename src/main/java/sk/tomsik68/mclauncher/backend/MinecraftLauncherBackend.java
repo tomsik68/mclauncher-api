@@ -17,6 +17,7 @@ import java.util.List;
  */
 public final class MinecraftLauncherBackend {
     private final MinecraftInstance minecraftInstance;
+    private static final ILaunchSettings DEFAULT_LAUNCH_SETTINGS = new DefaultLaunchSettings();
 
     public MinecraftLauncherBackend(File minecraftDirectory){
         minecraftInstance = new MinecraftInstance(minecraftDirectory);
@@ -59,12 +60,11 @@ public final class MinecraftLauncherBackend {
      * Returns a {@link ProcessBuilder} which has minecraft command inside of it. Use <code>ProcessBuilder.start()</code> to start the process.
      * @param session - Authentication session
      * @param versionID - Version ID to run
-     * @param launchSettings - Launch settings(amount of RAM etc)
      * @return ProcessBuilder which has minecraft command inside of it. No other things are setup.
      * @throws Exception
      */
-    public ProcessBuilder launchMinecraft(ISession session, String versionID, ILaunchSettings launchSettings) throws Exception {
-        return launchMinecraft(session, null, versionID, launchSettings, null);
+    public ProcessBuilder launchMinecraft(ISession session, String versionID) throws Exception {
+        return launchMinecraft(session, null, versionID, DEFAULT_LAUNCH_SETTINGS, null);
     }
 
     /**
