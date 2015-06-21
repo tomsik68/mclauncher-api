@@ -29,6 +29,7 @@ public final class YDLoginService implements ILoginService {
 
     @Override
     public ISession login(IProfile profile) throws Exception {
+        MCLauncherAPI.log.fine("Logging in using yggdrassil...");
         YDLoginResponse response;
         if (profile instanceof LegacyProfile)
             response = doPasswordLogin(profile);
@@ -37,9 +38,10 @@ public final class YDLoginService implements ILoginService {
         } else {
             throw new IllegalArgumentException("YDLoginService can't deal with custom profile class: "+profile.getClass().getName());
         }
-
+        MCLauncherAPI.log.fine("Login successful. Updating profile...");
         YDSession result = new YDSession(response);
-        profile.update(result);
+        if(profile instanceof YDAuthProfile)
+            ((YDAuthProfile)profile).update(result);
         return result;
     }
 
@@ -49,12 +51,14 @@ public final class YDLoginService implements ILoginService {
         JSONObject jsonObject = (JSONObject)JSONValue.parse(jsonString);
         YDLoginResponse response = new YDLoginResponse(jsonObject);
         if(response.getError() != null){
+            MCLauncherAPI.log.fine("Login response error. JSON STRING: '".concat(jsonString).concat("'"));
             throw new LoginException("Error ".concat(response.getError()).concat(" : ").concat(response.getMessage()));
         }
         return response;
     }
 
     private YDLoginResponse doSessionLogin(IProfile profile) throws Exception {
+        MCLauncherAPI.log.fine("Using session ID login");
         YDSessionLoginRequest request = new YDSessionLoginRequest(profile.getPassword(), clientToken.toString());
 
         YDLoginResponse response = doCheckedLoginPost(SESSION_LOGIN_URL, request);
@@ -63,6 +67,7 @@ public final class YDLoginService implements ILoginService {
     }
 
     private YDLoginResponse doPasswordLogin(IProfile profile) throws Exception {
+        MCLauncherAPI.log.fine("Using password-based login");
         YDPasswordLoginRequest request = new YDPasswordLoginRequest(profile.getName(), profile.getPassword(), clientToken.toString());
 
         YDLoginResponse response = doCheckedLoginPost(PASSWORD_LOGIN_URL, request);
@@ -83,6 +88,7 @@ public final class YDLoginService implements ILoginService {
     public void saveTo(File file) throws Exception {
         JSONObject obj = new JSONObject();
         if (file.exists()) {
+            MCLauncherAPI.log.fine("The file already exists. YDLoginService won't overwrite client token.");
             try {
                 obj = (JSONObject) JSONValue.parse(new FileReader(file));
                 if (obj.containsKey("clientToken"))
@@ -93,6 +99,7 @@ public final class YDLoginService implements ILoginService {
             file.delete();
 
         }
+        MCLauncherAPI.log.fine("Writing client token...");
         // file.createNewFile();
         obj.put("clientToken", clientToken.toString());
         FileWriter fw = new FileWriter(file);
@@ -110,7 +117,7 @@ public final class YDLoginService implements ILoginService {
         if (file.exists()) {
             JSONObject obj = (JSONObject) JSONValue.parse(new FileReader(file));
             clientToken = UUID.fromString(obj.get("clientToken").toString());
-            //MCLauncherAPI.log.info("Loaded client token: " + clientToken.toString());
+            MCLauncherAPI.log.fine("Loaded client token: " + clientToken.toString());
         }
     }
 
@@ -121,8 +128,11 @@ public final class YDLoginService implements ILoginService {
         if (result.length() > 0) {
             YDResponse response = new YDResponse((JSONObject) JSONValue.parse(result));
             if (response.getError() != null) {
+                MCLauncherAPI.log.fine("Login response error. JSON STRING: '".concat(result).concat("'"));
                 throw new LoginException("Logout failed:" + response.getError() + " " + response.getMessage());
             }
+        } else {
+            MCLauncherAPI.log.fine("Logout successful.");
         }
     }
 
