@@ -1,4 +1,4 @@
-package sk.tomsik68.mclauncher.util.auth;
+package sk.tomsik68.mclauncher.backend;
 
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
@@ -8,7 +8,7 @@ import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfileIO;
 
 import java.io.File;
 
-public final class MinecraftAuthentication {
+public final class GlobalAuthenticationSystem {
 
     public static String[] getProfileNames() throws Exception {
         File workingDirectory = Platform.getCurrentPlatform().getWorkingDirectory();
