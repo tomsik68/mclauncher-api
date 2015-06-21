@@ -55,6 +55,7 @@ final class MCDResourcesInstaller {
      */
     private void downloadAssetList(AssetIndex index, IProgressMonitor progress) throws Exception {
         for(Asset asset : index.getAssets()){
+            MCLauncherAPI.log.info("Updating asset file: ".concat(asset.getKey()).concat(" (size:").concat(""+asset.getSize()).concat("B)"));
             File dest = getDestFile(index, asset);
             dest.getParentFile().mkdirs();
             if (!dest.exists() || dest.length() != asset.getSize()) {
