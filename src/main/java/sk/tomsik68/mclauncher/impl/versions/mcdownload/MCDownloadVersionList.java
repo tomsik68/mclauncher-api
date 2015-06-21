@@ -5,6 +5,7 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionList;
+import sk.tomsik68.mclauncher.api.versions.LatestVersionInformation;
 import sk.tomsik68.mclauncher.impl.common.Observable;
 import sk.tomsik68.mclauncher.util.HttpUtils;
 
@@ -46,5 +47,14 @@ public final class MCDownloadVersionList extends Observable<String> implements I
         // resolve inheritance if needed
         resolveInheritance(version);
         return version;
+    }
+
+    @Override
+    public LatestVersionInformation getLatestVersionInformation() throws Exception {
+        String jsonString = HttpUtils.httpGet(JSONVERSION_LIST_URL);
+        JSONObject versionInformation = (JSONObject) JSONValue.parse(jsonString);
+        JSONObject latest = (JSONObject)versionInformation.get("latest");
+        LatestVersionInformation result = new LatestVersionInformation(latest.get("release").toString(), latest.get("snapshot").toString());
+        return result;
     }
 }
