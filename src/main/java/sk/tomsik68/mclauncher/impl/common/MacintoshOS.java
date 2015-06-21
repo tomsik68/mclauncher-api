@@ -14,7 +14,7 @@ final class MacintoshOS implements IOperatingSystem {
 
     @Override
     public String getMinecraftName() {
-        return "macos";
+        return "osx";
     }
 
     @Override

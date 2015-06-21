@@ -80,6 +80,8 @@ final class Library {
         if (!natives.isEmpty()) {
             IOperatingSystem os = Platform.getCurrentPlatform();
             String osName = os.getMinecraftName();
+            if(!natives.containsKey(osName))
+                osName = Platform.wrapName(osName);
             result = result.append('-').append(natives.get(osName));
         }
         result = result.append(".jar");
@@ -103,7 +105,7 @@ final class Library {
         // library is compatible if:
         //    (there are no rules) OR ((action is allow) AND (there are EITHER ((no natives) OR (natives for this platform are available))))
         return rules.isEmpty()
-                || (action == Action.ALLOW && (!hasNatives() || natives.containsKey(Platform.getCurrentPlatform().getMinecraftName())));
+                || (action == Action.ALLOW && (!hasNatives() || natives.containsKey(Platform.getCurrentPlatform().getMinecraftName()) || natives.containsKey(Platform.wrapName(Platform.getCurrentPlatform().getMinecraftName())) ));
     }
 
     /**

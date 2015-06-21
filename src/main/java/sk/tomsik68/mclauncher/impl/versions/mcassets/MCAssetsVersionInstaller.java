@@ -106,7 +106,7 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
             FileUtils.copyFile(new File(lwjglDir + File.separator + "jar", file.getName()), file);
         }
         // move natives
-        File[] nativeThings = new File(lwjglDir, "native" + File.separator + Platform.getCurrentPlatform().getMinecraftName()).listFiles();
+        File[] nativeThings = new File(lwjglDir, "native" + File.separator + Platform.wrapName(Platform.getCurrentPlatform().getMinecraftName())).listFiles();
         for (File file : nativeThings) {
             FileUtils.copyFile(file, new File(jarManager.getNativesDirectory(), file.getName()));
         }

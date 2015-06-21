@@ -22,7 +22,7 @@ import java.util.List;
 
 final class MCDownloadVersionLauncher implements IVersionLauncher {
 
-    public String[] getMinecraftArguments(MinecraftInstance mc, File assetsDir,
+    private String[] getMinecraftArguments(MinecraftInstance mc, File assetsDir,
                                           ISession session, ILaunchSettings settings,
                                           MCDownloadVersion version) {
         // TODO tooo lazy to finish options
