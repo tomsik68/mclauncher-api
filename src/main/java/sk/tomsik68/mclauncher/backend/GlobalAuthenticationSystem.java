@@ -33,7 +33,7 @@ public final class GlobalAuthenticationSystem {
 
     /**
      * Tries to perform login using profile with specified name
-     * @param name Name of profile you want to use. If there are
+     * @param name Name of profile you want to use. If there are more profiles available, you need to specify name of profile you want to use. If there is only one profile, API will use that profile automatically.
      * @return ISession which is necessary to play the game
      * @throws Exception File I/O, JSON parsing, Network I/O, Profile Selection errors
      */
