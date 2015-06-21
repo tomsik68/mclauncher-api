@@ -33,11 +33,11 @@ public final class GlobalAuthenticationSystem {
 
     /**
      * Tries to perform login using profile with specified name
-     * @param name Name of profile you want to use. If there are more profiles available, you need to specify name of profile you want to use. If there is only one profile, API will use that profile automatically.
+     * @param profileName Name of profile you want to use. If there are more profiles available, you need to specify name of profile you want to use. If there is only one profile, API will use that profile automatically.
      * @return ISession which is necessary to play the game
      * @throws Exception File I/O, JSON parsing, Network I/O, Profile Selection errors
      */
-    public static ISession login(String name) throws Exception {
+    public static ISession login(String profileName) throws Exception {
         // initialise login service in the working directory
         File workingDirectory = Platform.getCurrentPlatform().getWorkingDirectory();
         YDLoginService loginService = new YDLoginService();
@@ -53,11 +53,11 @@ public final class GlobalAuthenticationSystem {
         // if there are more profiles and name is not empty
         if(profiles.length > 1) {
             selectedProfile = null;
-            if(name == null || name.length() == 0)
+            if(profileName == null || profileName.length() == 0)
                 throw new ProfileSelectionException();
             // try to find profile with specified name
             for (IProfile profile : profiles) {
-                if (profile.getName().equals(name)) {
+                if (profile.getName().equals(profileName)) {
                     selectedProfile = profile;
                 }
             }
