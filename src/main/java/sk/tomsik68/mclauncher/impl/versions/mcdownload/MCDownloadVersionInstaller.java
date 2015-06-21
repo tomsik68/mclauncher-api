@@ -98,8 +98,6 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         }
         // notify listeners that installation is finished
         notifyListeners(version);
-        if (progress != null)
-            progress.finish();
     }
 
     private void updateResources(MinecraftInstance mc, MCDownloadVersion version, IProgressMonitor progress) throws Exception {
