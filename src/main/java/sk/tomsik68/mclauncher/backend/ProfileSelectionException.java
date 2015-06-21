@@ -2,7 +2,10 @@ package sk.tomsik68.mclauncher.backend;
 
 
 public final class ProfileSelectionException extends Exception {
+    ProfileSelectionException(String message){
+        super(message);
+    }
     ProfileSelectionException(){
-        super("There are more profiles. Please specify profile name to be used for authentication.");
+        this("There are more profiles. Please specify profile name to be used for authentication.");
     }
 }
