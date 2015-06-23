@@ -25,7 +25,9 @@ public final class Platform {
     /** our current operating system */
     private static IOperatingSystem currentOS = null;
 
-    /** tries to determine the current operating system */
+    /** tries to determine the current operating system
+     *  @return Current operating system
+     * */
     public static IOperatingSystem getCurrentPlatform() {
         if (currentOS != null)
             return currentOS;
@@ -39,7 +41,10 @@ public final class Platform {
         return currentOS;
     }
 
-    /** forces current operating system */
+    /** Forces current operating system. This can be used to override the default setting
+     * in case OS detection goes wrong(it doesn't go wrong very often) or for testing.
+     * @param p - The operating system we want to use
+     * */
     public static void forcePlatform(IOperatingSystem p) {
         MCLauncherAPI.log.fine("Current platform: ".concat(p.getDisplayName()));
         currentOS = p;

@@ -34,7 +34,7 @@ public final class FoundServerInfoBuilder {
     /**
      *
      * @param ico - Icon image encoded as base64 string
-     * @return
+     * @return <code>this</code> for chaining
      */
     public final FoundServerInfoBuilder icon(String ico){
         icon = ico;

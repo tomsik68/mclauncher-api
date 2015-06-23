@@ -7,7 +7,7 @@ package sk.tomsik68.mclauncher.api.services;
  */
 public interface IOnlineService {
     /**
-     * @param availability
+     * @param availability - Availability object retrieved from central server
      * @return True if this service is available. The result is to be determined using availability specified
      */
     public boolean isAvailable(IServicesAvailability availability);

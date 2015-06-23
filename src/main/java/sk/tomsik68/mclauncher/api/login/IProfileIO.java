@@ -1,7 +1,7 @@
 package sk.tomsik68.mclauncher.api.login;
 
 /**
- * ProfileIO can read & write profiles. One IO can contain more profiles.
+ * ProfileIO can read and write profiles. One IO can contain more profiles.
  *
  * @author Tomsik68
  */

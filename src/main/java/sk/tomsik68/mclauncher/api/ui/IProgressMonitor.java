@@ -9,9 +9,11 @@ package sk.tomsik68.mclauncher.api.ui;
  */
 public interface IProgressMonitor {
     /**
-     * Sets current progress
+     * Sets current progress. <B>Please note this value is between 0 and max_progress.
+     * You need to scale it yourself in order to get progress information between 0 and 100.</B>
      *
      * @param progress New progress value
+     * @see IProgressMonitor#setMax(int)
      */
     public void setProgress(int progress);
 
@@ -25,7 +27,7 @@ public interface IProgressMonitor {
     /**
      * Increments current progress value by <code>amount</code>
      *
-     * @param amount
+     * @param amount How much
      */
     public void incrementProgress(int amount);
 

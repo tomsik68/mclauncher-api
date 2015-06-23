@@ -1,7 +1,7 @@
 package sk.tomsik68.mclauncher.api.login;
 
 /**
- * Represents a profile - saved username & password
+ * Represents a profile - saved username and password
  *
  * @author Tomsik68
  */

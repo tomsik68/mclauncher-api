@@ -39,7 +39,7 @@ public final class HttpUtils {
      * Execute a secured POST request
      * @param url URL to request
      * @param keyInput the secret key to be used
-     * @param parameters Parameters in form <code>name=Tom&password=pass123</code>. They needn't to be URL-encoded(it will be done automatically)
+     * @param parameters Parameters in form <code>name=Tom&amp;password=pass123</code>. They needn't to be URL-encoded(it will be done automatically)
      * @return The result of request
      * @throws Exception I/O Exception, HTTP errors or invalid key
      */

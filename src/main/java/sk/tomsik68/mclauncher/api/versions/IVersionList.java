@@ -18,16 +18,16 @@ public interface IVersionList extends IObservable<String> {
 
     /**
      * Retrieves IVersion object with this ID
-     * @param id
+     * @param id ID of version to retrieve (e.g. "1.8")
      * @return IVersion object for the passed ID
-     * @throws Exception
+     * @throws Exception - Network errors, JSON parsing errors, version inheritance problems
      */
     public IVersion retrieveVersionInfo(String id) throws Exception;
 
     /**
      *
      * @return LatestVersionInformation object
-     * @throws Exception
+     * @throws Exception - Network errors, JSON parsing errors
      */
     public LatestVersionInformation getLatestVersionInformation() throws Exception;
 }

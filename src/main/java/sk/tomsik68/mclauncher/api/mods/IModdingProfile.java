@@ -44,7 +44,7 @@ public interface IModdingProfile {
     /**
      * Minecraft arguments are arguments that will be available in minecraft's main method.
      * These contain mostly user information, but also assets path, saves path etc, which might be useful...
-     * @param minecraftArguments
+     * @param minecraftArguments Array of minecraft arguments created by launcher
      * @return Array of string which is formatted in the same way as the input array. If you don't want to make any changes, return null or <code>minecraftArguments</code>
      */
     public String[] changeMinecraftArguments(String[] minecraftArguments);
