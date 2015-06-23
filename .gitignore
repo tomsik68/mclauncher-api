@@ -31,3 +31,6 @@
 /mclauncher-api.iml
 /mcout.log
 /servers_savetest.dat
+/build/
+/.gradle/
+/build.gradle.idea/
