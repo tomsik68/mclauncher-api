@@ -124,16 +124,8 @@ public final class YDLoginService implements ILoginService {
     @Override
     public void logout(ISession session) throws Exception {
         YDLogoutRequest request = new YDLogoutRequest(session, clientToken);
-        String result = HttpUtils.doJSONPost(SESSION_LOGOUT_URL, request);
-        if (result.length() > 0) {
-            YDResponse response = new YDResponse((JSONObject) JSONValue.parse(result));
-            if (response.getError() != null) {
-                MCLauncherAPI.log.fine("Login response error. JSON STRING: '".concat(result).concat("'"));
-                throw new LoginException("Logout failed:" + response.getError() + " " + response.getMessage());
-            }
-        } else {
-            MCLauncherAPI.log.fine("Logout successful.");
-        }
+        YDLoginResponse response = doCheckedLoginPost(SESSION_LOGOUT_URL, request);
+        MCLauncherAPI.log.fine("Logout successful.");
     }
 
 }
