@@ -37,13 +37,7 @@ public final class VanillaServerStorage {
 
         if(ipString.contains(":")){
             ip = ipString.split(":")[0];
-            try {
-                port = Integer.parseInt(ipString.split(":")[1]);
-            } catch(NumberFormatException exce){
-                MCLauncherAPI.log.severe("Bad port number format: '"+ipString.split(":")[1]+"' ");
-                exce.printStackTrace();
-                return null;
-            }
+            port = Integer.parseInt(ipString.split(":")[1]);
         } else {
             ip = ipString;
             port = DEFAULT_PORT;
