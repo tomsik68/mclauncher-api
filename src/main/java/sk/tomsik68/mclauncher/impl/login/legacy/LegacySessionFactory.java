@@ -12,10 +12,7 @@ final class LegacySessionFactory {
     final ISession createSession(String[] params) throws Exception {
         if (params == null)
             throw new LoginException("Unable to login!");
-        else if(params.length <= 1) {
-            MCLauncherAPI.log.fine("There is either one or no parameters.");
-            throw new LoginException(params[0]);
-        }else if(params.length != 5) {
+        else if(params.length != 5) {
             MCLauncherAPI.log.fine("Parameter count is not 5.");
             throw new LoginException("Invalid parameters array length!");
         }
