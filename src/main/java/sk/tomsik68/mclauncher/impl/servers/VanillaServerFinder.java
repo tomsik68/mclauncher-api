@@ -1,5 +1,6 @@
 package sk.tomsik68.mclauncher.impl.servers;
 
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.servers.FoundServerInfo;
 import sk.tomsik68.mclauncher.api.servers.FoundServerInfoBuilder;
 import sk.tomsik68.mclauncher.api.servers.IServerFinder;
@@ -14,7 +15,7 @@ import java.net.*;
 public final class VanillaServerFinder extends Observable<FoundServerInfo> implements IServerFinder {
     private static final String SOCKET_GROUP_ADDRESS = "224.0.2.60";
     private Thread thread;
-    private InetAddress broadcastAddress;
+    private final InetAddress broadcastAddress;
 
     public VanillaServerFinder() throws UnknownHostException {
         broadcastAddress = InetAddress.getByName(SOCKET_GROUP_ADDRESS);
@@ -22,6 +23,7 @@ public final class VanillaServerFinder extends Observable<FoundServerInfo> imple
 
     @Override
     public void run() {
+        MCLauncherAPI.log.fine("Starting server finder...");
         // create socket
         MulticastSocket socket = null;
         byte[] buffer = new byte[1024];
@@ -51,7 +53,7 @@ public final class VanillaServerFinder extends Observable<FoundServerInfo> imple
             String recvString = new String(packet.getData(), packet.getOffset(), packet.getLength());
             String motd = ServerStringDecoder.parseProperty(recvString, "MOTD");
             Integer port = Integer.parseInt(ServerStringDecoder.parseProperty(recvString, "AD"));
-
+            MCLauncherAPI.log.finer("Discovered server: '".concat(recvString).concat("'"));
             // we can construct FoundServerInfo using given information
             builder.motd(motd).port(port).ip(packet.getAddress().getHostAddress());
             builder.property("recvString", recvString);

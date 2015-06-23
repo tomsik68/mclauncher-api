@@ -3,6 +3,7 @@ package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.IProfileIO;
@@ -42,6 +43,7 @@ public final class YDProfileIO implements IProfileIO {
             jRoot = new JSONObject();
             authDb = new JSONObject();
         } else {
+            MCLauncherAPI.log.fine("Existing profile storage file found. Loading profiles in case they would be overwritten.");
             jRoot = (JSONObject) JSONValue.parse(new FileInputStream(dest));
             authDb = (JSONObject) jRoot.get("authenticationDatabase");
         }

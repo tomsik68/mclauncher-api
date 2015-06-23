@@ -10,6 +10,7 @@ import sk.tomsik68.mclauncher.util.ExtractUtils;
 import sk.tomsik68.mclauncher.util.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,10 +74,12 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
             File dest = getResourceLocation(mcLocation, resource);
             if (!dest.exists()) {
                 // make all directories
-                dest.mkdirs();
+                if(!dest.mkdirs())
+                    throw new IOException("Failed to mkdirs for '".concat(dest.getAbsolutePath()).concat("'"));
                 if (!resource.endsWith("/")) {
                     // if it's a file, remove this directory and download it.
-                    dest.delete();
+                    if(!dest.delete())
+                        throw new IOException("Failed to remove file: '".concat(dest.getAbsolutePath()).concat("'"));
                     FileUtils.downloadFileWithProgress(RESOURCES_DOWNLOAD_URL + URLEncoder.encode(resource, "UTF-8"), dest,
                             progress);
                 }

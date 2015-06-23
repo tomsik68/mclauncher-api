@@ -31,7 +31,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         MCDJarManager jarManager = new MCDJarManager(mc);
         LibraryProvider libraryProvider = new LibraryProvider(mc);
         Logger log = MCLauncherAPI.log;
-        log.info("Checking compatibility...");
+        log.fine("Checking compatibility...");
         MCDownloadVersion version = (MCDownloadVersion) v;
         // check compatibility of this version
         if (!version.isCompatible())
@@ -40,21 +40,21 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         if(version.needsInheritance())
             throw new VersionInheritanceException(v);
 
-        log.info("Version compatible");
+        log.fine("Version compatible");
         List<Library> toInstall = version.getLibraries();
         List<Library> toExtract = new ArrayList<Library>();
-        log.info("Fetching libraries...");
-        log.info("Platform: " + Platform.getCurrentPlatform().getDisplayName());
+        log.fine("Fetching libraries...");
+        log.fine("Platform: " + Platform.getCurrentPlatform().getDisplayName());
         // install all libraries that are needed
         for (Library lib : toInstall) {
             if (lib.isCompatible()) {
                 if (!libraryProvider.isInstalled(lib)) {
-                    log.info("Installing " + lib.getName());
+                    log.finest("Installing " + lib.getName());
                     try {
                         downloadLibrary(lib.getDownloadURL(), libraryProvider.getLibraryFile(lib), progress);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        log.info("Failed to install " + lib.getName());
+                        log.finest("Failed to install " + lib.getName());
                     }
                 }
                 // if library has natives, it needs to be extracted...
@@ -62,11 +62,11 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
                     toExtract.add(lib);
                 }
             } else {
-                log.info(lib.getName() + " is not compatible.");
+                log.finest(lib.getName() + " is not compatible.");
             }
         }
 
-        log.info("Extracting natives...");
+        log.fine("Extracting natives...");
         File nativesDir = new File(jarManager.getVersionFolder(version), "natives");
         // purge old natives if they are present
         if (nativesDir.exists()) {
@@ -75,22 +75,22 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
                 f.delete();
             }
         }
-        log.info("Extracting libraries...");
+        log.fine("Extracting libraries...");
         // extract the new natives
         for (Library lib : toExtract) {
             File libFile = libraryProvider.getLibraryFile(lib);
             ExtractUtils.extractZipWithRules(libFile, nativesDir, lib.getExtractRules());
         }
 
-        log.info("Updating resources...");
+        log.fine("Updating resources...");
         updateResources(mc, version, progress);
         File jarDest = jarManager.getVersionJAR(version);
         File jsonDest = jarManager.getInfoFile(version);
-        log.info("Writing version info JSON file...");
+        log.fine("Writing version info JSON file...");
         // always overwrite json file
         FileUtils.writeFile(jsonDest, version.toJSON().toJSONString(JSONStyle.LT_COMPRESS));
         // and jar file
-        log.info("Downloading game JAR...");
+        log.fine("Downloading game JAR...");
         try {
             FileUtils.downloadFileWithProgress(JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
         } catch (Exception e) {
@@ -98,8 +98,6 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         }
         // notify listeners that installation is finished
         notifyListeners(version);
-        if (progress != null)
-            progress.finish();
     }
 
     private void updateResources(MinecraftInstance mc, MCDownloadVersion version, IProgressMonitor progress) throws Exception {

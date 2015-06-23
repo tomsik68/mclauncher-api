@@ -1,6 +1,7 @@
 package sk.tomsik68.mclauncher.impl.common;
 
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 
 import java.io.File;
 
@@ -30,6 +31,7 @@ final class LinuxOS implements IOperatingSystem {
             return workDir;
         String userHome = System.getProperty("user.home");
         workDir = new File(userHome, ".minecraft");
+        MCLauncherAPI.log.fine("Minecraft working directory: ".concat(workDir.getAbsolutePath()));
         return workDir;
     }
 

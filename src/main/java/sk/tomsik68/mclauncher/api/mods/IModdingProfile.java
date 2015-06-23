@@ -13,14 +13,14 @@ public interface IModdingProfile {
      * @param separator - String used to separate files
      * @return Null for none.
      */
-    public String injectBeforeLibs(String separator);
+    public File[] injectBeforeLibs(String separator);
 
     /**
      * Returns <code>separator</code>-separated list of absolute paths to JAR files that will be injected after libraries
      * @param separator - String used to separate files
      * @return Null for none.
      */
-    public String injectAfterLibs(String separator);
+    public File[] injectAfterLibs(String separator);
 
     /**
      * Checks if this library should be loaded with our mods.
@@ -33,7 +33,7 @@ public interface IModdingProfile {
      *
      * @return Custom game JAR file to use. If you don't want to change it, return null
      */
-    public String getCustomGameJar();
+    public File getCustomGameJar();
 
     /**
      *

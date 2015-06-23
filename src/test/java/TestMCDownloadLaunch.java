@@ -68,11 +68,6 @@ public class TestMCDownloadLaunch {
 						}
 
 						@Override
-						public boolean isErrorStreamRedirected() {
-						    return true;
-						}
-
-						@Override
 						public File getJavaLocation() {
 						    return null;
 						}

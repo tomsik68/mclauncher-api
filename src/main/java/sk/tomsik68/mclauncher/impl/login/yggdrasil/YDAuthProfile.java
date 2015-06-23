@@ -89,8 +89,7 @@ public final class YDAuthProfile implements IProfile, IJSONSerializable {
         return url.toString();
     }
 
-    @Override
-    public void update(ISession session) {
+    final void update(ISession session) {
         setPassword(session.getSessionID());
     }
 

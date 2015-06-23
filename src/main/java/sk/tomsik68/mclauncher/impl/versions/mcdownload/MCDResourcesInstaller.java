@@ -33,6 +33,7 @@ final class MCDResourcesInstaller {
     void installAssetsForVersion(MCDownloadVersion version, IProgressMonitor progress) throws Exception {
         // let's see which asset index is needed by this version
         String index = version.getAssetsIndexName();
+        MCLauncherAPI.log.fine("Installing asset index ".concat(index));
         File indexDest = new File(indexesDir, index + ".json");
         String indexDownloadURL = RESOURCES_INDEX_URL + index + ".json";
         // download this asset index
@@ -43,6 +44,7 @@ final class MCDResourcesInstaller {
         AssetIndex assets = new AssetIndex(index, jsonAssets);
         // and download individual assets inside it
         downloadAssetList(assets, progress);
+        MCLauncherAPI.log.fine("Finished installing asset index ".concat(index));
     }
 
     File getAssetsDirectory(){ return assetsDir; }
@@ -59,7 +61,10 @@ final class MCDResourcesInstaller {
             File dest = getDestFile(index, asset);
             dest.getParentFile().mkdirs();
             if (!dest.exists() || dest.length() != asset.getSize()) {
+                MCLauncherAPI.log.finest("Downloading ".concat(asset.getKey()));
                 FileUtils.downloadFileWithProgress(asset.getUrl(), dest, progress);
+            } else {
+                MCLauncherAPI.log.finest("No need to update ".concat(asset.getKey()));
             }
         }
     }

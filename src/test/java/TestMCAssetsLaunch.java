@@ -57,11 +57,6 @@ public class TestMCAssetsLaunch {
                             }
 
                             @Override
-                            public boolean isErrorStreamRedirected() {
-                                return true;
-                            }
-
-                            @Override
                             public String getInitHeap() {
                                 return "2G";
                             }

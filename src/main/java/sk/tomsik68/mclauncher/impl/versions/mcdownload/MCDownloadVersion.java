@@ -2,6 +2,7 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;
@@ -155,6 +156,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     final boolean needsInheritance(){ return needsInheritance; }
 
     final void doInherit(MCDownloadVersion parent) {
+        MCLauncherAPI.log.finer("Inheriting version ".concat(id).concat(" from ").concat(parent.getId()));
         if(!parent.getId().equals(getInheritsFrom())){
             throw new IllegalArgumentException("Wrong inheritance version passed!");
         }
@@ -180,5 +182,6 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
             rules.addAll(parent.rules);
 
         needsInheritance = false;
+        MCLauncherAPI.log.finer("Inheriting version ".concat(id).concat(" finished."));
     }
 }

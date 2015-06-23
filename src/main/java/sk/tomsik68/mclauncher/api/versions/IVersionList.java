@@ -23,4 +23,11 @@ public interface IVersionList extends IObservable<String> {
      * @throws Exception
      */
     public IVersion retrieveVersionInfo(String id) throws Exception;
+
+    /**
+     *
+     * @return LatestVersionInformation object
+     * @throws Exception
+     */
+    public LatestVersionInformation getLatestVersionInformation() throws Exception;
 }

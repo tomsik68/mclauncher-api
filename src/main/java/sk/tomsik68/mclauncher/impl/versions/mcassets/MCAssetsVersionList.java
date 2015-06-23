@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionList;
+import sk.tomsik68.mclauncher.api.versions.LatestVersionInformation;
 import sk.tomsik68.mclauncher.impl.common.Observable;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,8 +19,9 @@ import java.util.regex.Pattern;
 @Deprecated
 public final class MCAssetsVersionList extends Observable<String> implements IVersionList {
     private static final Pattern snapshotPattern = Pattern.compile("((\\d\\d\\w\\d\\d\\w)|(\\d_\\d-pre)|(\\d_\\d-pre\\d)|(rc)|(rc\\d))");
+    private static final LatestVersionInformation LATEST_VERSION_INFORMATION = new LatestVersionInformation("1_5_2", "13w11a");
 
-    public static final boolean isSnapshot(IVersion version) {
+    public static boolean isSnapshot(IVersion version) {
         return snapshotPattern.matcher(version.getId()).matches();
     }
 
@@ -37,5 +39,10 @@ public final class MCAssetsVersionList extends Observable<String> implements IVe
     @Override
     public IVersion retrieveVersionInfo(String id) throws Exception {
         return new MCAssetsVersion(id);
+    }
+
+    @Override
+    public LatestVersionInformation getLatestVersionInformation() {
+        return LATEST_VERSION_INFORMATION;
     }
 }

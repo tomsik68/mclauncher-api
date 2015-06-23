@@ -1,6 +1,7 @@
 package sk.tomsik68.mclauncher.impl.common;
 
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 
 import java.io.File;
 
@@ -27,6 +28,7 @@ final class MacintoshOS implements IOperatingSystem {
         if (workDir != null)
             return workDir;
         workDir = new File(System.getProperty("user.home"), "Library/Application Support/.minecraft");
+        MCLauncherAPI.log.fine("Minecraft working directory: ".concat(workDir.getAbsolutePath()));
         return workDir;
     }
 
