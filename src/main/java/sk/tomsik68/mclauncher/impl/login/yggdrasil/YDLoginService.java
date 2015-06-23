@@ -14,6 +14,7 @@ import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
 import sk.tomsik68.mclauncher.util.HttpUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.UUID;
@@ -89,13 +90,9 @@ public final class YDLoginService implements ILoginService {
         JSONObject obj = new JSONObject();
         if (file.exists()) {
             MCLauncherAPI.log.fine("The file already exists. YDLoginService won't overwrite client token.");
-            try {
-                obj = (JSONObject) JSONValue.parse(new FileReader(file));
-                if (obj.containsKey("clientToken"))
-                    return;
-            } catch (Exception e) {
-
-            }
+            obj = (JSONObject) JSONValue.parse(new FileReader(file));
+            if (obj.containsKey("clientToken"))
+                return;
             file.delete();
 
         }
@@ -114,26 +111,16 @@ public final class YDLoginService implements ILoginService {
     }
 
     public void loadFrom(File file) throws Exception {
-        if (file.exists()) {
-            JSONObject obj = (JSONObject) JSONValue.parse(new FileReader(file));
-            clientToken = UUID.fromString(obj.get("clientToken").toString());
-            MCLauncherAPI.log.fine("Loaded client token: " + clientToken.toString());
-        }
+        JSONObject obj = (JSONObject) JSONValue.parse(new FileReader(file));
+        clientToken = UUID.fromString(obj.get("clientToken").toString());
+        MCLauncherAPI.log.fine("Loaded client token: " + clientToken.toString());
     }
 
     @Override
     public void logout(ISession session) throws Exception {
         YDLogoutRequest request = new YDLogoutRequest(session, clientToken);
-        String result = HttpUtils.doJSONPost(SESSION_LOGOUT_URL, request);
-        if (result.length() > 0) {
-            YDResponse response = new YDResponse((JSONObject) JSONValue.parse(result));
-            if (response.getError() != null) {
-                MCLauncherAPI.log.fine("Login response error. JSON STRING: '".concat(result).concat("'"));
-                throw new LoginException("Logout failed:" + response.getError() + " " + response.getMessage());
-            }
-        } else {
-            MCLauncherAPI.log.fine("Logout successful.");
-        }
+        YDLoginResponse response = doCheckedLoginPost(SESSION_LOGOUT_URL, request);
+        MCLauncherAPI.log.fine("Logout successful.");
     }
 
 }

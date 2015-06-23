@@ -29,17 +29,17 @@ final class LegacyLoginEncryptionProcessor {
 
     final InputStream decrypt(InputStream is) throws Exception {
         Cipher cipher = getCipher(MODE_DECRYPT);
-        if (cipher == null)
-            return is;
-        else
+        if (cipher == null) {
+            throw new RuntimeException("Failed to create cipher for login stream decryption");
+        } else
             return new CipherInputStream(is, cipher);
     }
 
     final OutputStream encrypt(OutputStream os) throws Exception {
         Cipher cipher = getCipher(MODE_ENCRYPT);
-        if (cipher == null)
-            return os;
-        else
+        if (cipher == null) {
+            throw new RuntimeException("Failed to create cipher for login stream encryption");
+        }else
             return new CipherOutputStream(os, cipher);
     }
 

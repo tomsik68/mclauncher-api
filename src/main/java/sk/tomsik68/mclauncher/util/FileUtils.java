@@ -18,8 +18,10 @@ public final class FileUtils {
             }
         }
         if(file.exists())
-            file.delete();
-        file.createNewFile();
+            if(!file.delete())
+                throw new IOException("Couldn't delete '".concat(file.getAbsolutePath()).concat("'"));
+        if(!file.createNewFile())
+            throw new IOException("Couldn't create '".concat(file.getAbsolutePath()).concat("'"));
     }
 
     public static void downloadFileWithProgress(String url, File dest, IProgressMonitor progress) throws Exception {

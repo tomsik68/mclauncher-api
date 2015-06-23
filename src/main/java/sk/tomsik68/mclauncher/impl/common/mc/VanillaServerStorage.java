@@ -37,13 +37,7 @@ public final class VanillaServerStorage {
 
         if(ipString.contains(":")){
             ip = ipString.split(":")[0];
-            try {
-                port = Integer.parseInt(ipString.split(":")[1]);
-            } catch(NumberFormatException exce){
-                MCLauncherAPI.log.severe("Bad port number format: '"+ipString.split(":")[1]+"' ");
-                exce.printStackTrace();
-                return null;
-            }
+            port = Integer.parseInt(ipString.split(":")[1]);
         } else {
             ip = ipString;
             port = DEFAULT_PORT;
@@ -92,7 +86,8 @@ public final class VanillaServerStorage {
 
     public void saveServers(ServerInfo[] servers) throws IOException {
         if(file.exists())
-            file.delete();
+            if(!file.delete())
+                throw new IOException("Could not overwrite '".concat(file.getAbsolutePath()).concat("'"));
         final FileOutputStream fos = new FileOutputStream(file);
         NBTOutputStream nbtOutputStream = new NBTOutputStream(fos, false);
         ArrayList<CompoundTag> serversList = new ArrayList<CompoundTag>();
