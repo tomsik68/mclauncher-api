@@ -90,13 +90,9 @@ public final class YDLoginService implements ILoginService {
         JSONObject obj = new JSONObject();
         if (file.exists()) {
             MCLauncherAPI.log.fine("The file already exists. YDLoginService won't overwrite client token.");
-            try {
-                obj = (JSONObject) JSONValue.parse(new FileReader(file));
-                if (obj.containsKey("clientToken"))
-                    return;
-            } catch (Exception e) {
-
-            }
+            obj = (JSONObject) JSONValue.parse(new FileReader(file));
+            if (obj.containsKey("clientToken"))
+                return;
             file.delete();
 
         }
