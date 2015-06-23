@@ -86,7 +86,8 @@ public final class VanillaServerStorage {
 
     public void saveServers(ServerInfo[] servers) throws IOException {
         if(file.exists())
-            file.delete();
+            if(!file.delete())
+                throw new IOException("Could not overwrite '".concat(file.getAbsolutePath()).concat("'"));
         final FileOutputStream fos = new FileOutputStream(file);
         NBTOutputStream nbtOutputStream = new NBTOutputStream(fos, false);
         ArrayList<CompoundTag> serversList = new ArrayList<CompoundTag>();
