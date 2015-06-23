@@ -14,6 +14,7 @@ import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
 import sk.tomsik68.mclauncher.util.HttpUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.UUID;
@@ -114,11 +115,9 @@ public final class YDLoginService implements ILoginService {
     }
 
     public void loadFrom(File file) throws Exception {
-        if (file.exists()) {
-            JSONObject obj = (JSONObject) JSONValue.parse(new FileReader(file));
-            clientToken = UUID.fromString(obj.get("clientToken").toString());
-            MCLauncherAPI.log.fine("Loaded client token: " + clientToken.toString());
-        }
+        JSONObject obj = (JSONObject) JSONValue.parse(new FileReader(file));
+        clientToken = UUID.fromString(obj.get("clientToken").toString());
+        MCLauncherAPI.log.fine("Loaded client token: " + clientToken.toString());
     }
 
     @Override
