@@ -16,12 +16,8 @@ public class TestMCAssetsInstall {
 
     @Test
     public void test() {
-        try {
-            Runtime.getRuntime().exec("mkdir testmc");
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
         final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
+        mc.getLocation().mkdirs();
         final MCAssetsVersionList list = new MCAssetsVersionList();
         list.addObserver(new IObserver<String>() {
             private boolean installed = false;
