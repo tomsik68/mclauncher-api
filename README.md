@@ -36,3 +36,4 @@ Here's a list of people who supported the project so far:
 + mathwhiz19
 + mrzban
 + laci200270
++ SlipsWhitley
