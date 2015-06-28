@@ -31,4 +31,12 @@ public interface IProgressMonitor {
      */
     public void incrementProgress(int amount);
 
+
+    /**
+     * Set's the current status message
+     *
+     * @param string status
+     */
+	public void setStatus(String status);
+
 }
