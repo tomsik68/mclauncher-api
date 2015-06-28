@@ -7,6 +7,7 @@ import sk.tomsik68.mclauncher.api.mods.IModdingProfile;
 import sk.tomsik68.mclauncher.api.servers.ServerInfo;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
+import sk.tomsik68.mclauncher.api.versions.LatestVersionInformation;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
 
 import java.io.File;
@@ -26,6 +27,11 @@ public final class MinecraftLauncherBackend {
     private IVersion findVersion(String versionID) throws Exception {
         MCDownloadVersionList mcDownloadVersionList = new MCDownloadVersionList();
         return mcDownloadVersionList.retrieveVersionInfo(versionID);
+    }
+
+    public LatestVersionInformation getLatestVersionInformation() throws Exception {
+        MCDownloadVersionList mcDownloadVersionList = new MCDownloadVersionList();
+        return mcDownloadVersionList.getLatestVersionInformation();
     }
 
     /**
