@@ -27,6 +27,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
 
     @Override
     public void install(IVersion v, MinecraftInstance mc, IProgressMonitor progress) throws Exception {
+        final boolean haveProgress = (progress != null);
+
         // create jar manager and library provider as we'll need them
         MCDJarManager jarManager = new MCDJarManager(mc);
         LibraryProvider libraryProvider = new LibraryProvider(mc);
@@ -44,7 +46,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         List<Library> toInstall = version.getLibraries();
         List<Library> toExtract = new ArrayList<Library>();
         log.fine("Fetching libraries...");
-        progress.setStatus("Fetching Libraries...");
+        if(haveProgress)
+            progress.setStatus("Fetching Libraries...");
         
         log.fine("Platform: " + Platform.getCurrentPlatform().getDisplayName());
         // install all libraries that are needed
@@ -52,7 +55,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
             if (lib.isCompatible()) {
                 if (!libraryProvider.isInstalled(lib)) {
                     log.finest("Installing " + lib.getName());
-                    progress.setStatus("Installing " + lib.getName());
+                    if(haveProgress)
+                        progress.setStatus("Installing " + lib.getName());
                     try {
                         downloadLibrary(lib.getDownloadURL(), libraryProvider.getLibraryFile(lib), progress);
                     } catch (Exception e) {
@@ -70,7 +74,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         }
 
         log.fine("Extracting natives...");
-        progress.setStatus("Extracting natives...");
+        if(haveProgress)
+            progress.setStatus("Extracting natives...");
         
         File nativesDir = new File(jarManager.getVersionFolder(version), "natives");
         // purge old natives if they are present
@@ -81,7 +86,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
             }
         }
         log.fine("Extracting libraries...");
-        progress.setStatus("Extracting Libraries...");
+        if(haveProgress)
+            progress.setStatus("Extracting Libraries...");
         
         // extract the new natives
         for (Library lib : toExtract) {
@@ -90,7 +96,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         }
 
         log.fine("Updating resources...");
-        progress.setStatus("Updating Resource...");
+        if(haveProgress)
+            progress.setStatus("Updating Resource...");
         updateResources(mc, version, progress);
         File jarDest = jarManager.getVersionJAR(version);
         File jsonDest = jarManager.getInfoFile(version);
@@ -99,7 +106,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         FileUtils.writeFile(jsonDest, version.toJSON().toJSONString(JSONStyle.LT_COMPRESS));
         // and jar file
         log.fine("Downloading game JAR...");
-        progress.setStatus("Downloading Game Jar...");
+        if(haveProgress)
+            progress.setStatus("Downloading Game Jar...");
         try {
             FileUtils.downloadFileWithProgress(JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
         } catch (Exception e) {
