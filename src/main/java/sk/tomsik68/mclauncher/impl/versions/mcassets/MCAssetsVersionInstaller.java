@@ -51,7 +51,7 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
         }
         update = update || !jarManager.getNativesDirectory().exists();
         if (update) {
-            updateJARs(jarManager, version, progress);
+            updateJARs(jarManager, mc, version, progress);
         }
         // update resource files
         updateResources(mc.getLocation(), progress);
@@ -93,7 +93,7 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
         return file;
     }
 
-    private void updateJARs(MCAJarManager jarManager, IVersion version, IProgressMonitor progress) throws Exception {
+    private void updateJARs(MCAJarManager jarManager, MinecraftInstance mc, IVersion version, IProgressMonitor progress) throws Exception {
         // download LWJGL from sourceforge
         File lwjglDir = new File(jarManager.getNativesDirectory(), "lwjgl-2.9.0");
         lwjglDir.deleteOnExit();
@@ -103,7 +103,7 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
         dest.deleteOnExit();
         // extract all things from ZIP
         ExtractUtils.extractZipWithoutRules(dest, jarManager.getNativesDirectory());
-        File[] lwjgl = getDefaultLWJGLJars(jarManager.getNativesDirectory());
+        File[] lwjgl = getDefaultLWJGLJars(mc.getLocation());
         // move JARs from LWJGL
         for (File file : lwjgl) {
             FileUtils.copyFile(new File(lwjglDir + File.separator + "jar", file.getName()), file);
