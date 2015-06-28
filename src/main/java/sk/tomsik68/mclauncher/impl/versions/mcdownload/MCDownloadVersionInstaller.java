@@ -44,12 +44,15 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         List<Library> toInstall = version.getLibraries();
         List<Library> toExtract = new ArrayList<Library>();
         log.fine("Fetching libraries...");
+        progress.setStatus("Fetching Libraries...");
+        
         log.fine("Platform: " + Platform.getCurrentPlatform().getDisplayName());
         // install all libraries that are needed
         for (Library lib : toInstall) {
             if (lib.isCompatible()) {
                 if (!libraryProvider.isInstalled(lib)) {
                     log.finest("Installing " + lib.getName());
+                    progress.setStatus("Installing " + lib.getName());
                     try {
                         downloadLibrary(lib.getDownloadURL(), libraryProvider.getLibraryFile(lib), progress);
                     } catch (Exception e) {
@@ -67,6 +70,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         }
 
         log.fine("Extracting natives...");
+        progress.setStatus("Extracting natives...");
+        
         File nativesDir = new File(jarManager.getVersionFolder(version), "natives");
         // purge old natives if they are present
         if (nativesDir.exists()) {
@@ -76,6 +81,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
             }
         }
         log.fine("Extracting libraries...");
+        progress.setStatus("Extracting Libraries...");
+        
         // extract the new natives
         for (Library lib : toExtract) {
             File libFile = libraryProvider.getLibraryFile(lib);
@@ -83,6 +90,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         }
 
         log.fine("Updating resources...");
+        progress.setStatus("Updating Resource...");
         updateResources(mc, version, progress);
         File jarDest = jarManager.getVersionJAR(version);
         File jsonDest = jarManager.getInfoFile(version);
@@ -91,6 +99,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         FileUtils.writeFile(jsonDest, version.toJSON().toJSONString(JSONStyle.LT_COMPRESS));
         // and jar file
         log.fine("Downloading game JAR...");
+        progress.setStatus("Downloading Game Jar...");
         try {
             FileUtils.downloadFileWithProgress(JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
         } catch (Exception e) {

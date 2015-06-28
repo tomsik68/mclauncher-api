@@ -1,5 +1,8 @@
 package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 
+import java.io.File;
+import java.io.FileReader;
+
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
@@ -7,10 +10,6 @@ import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.util.FilePathBuilder;
 import sk.tomsik68.mclauncher.util.FileUtils;
-
-import java.io.File;
-import java.io.FileReader;
-import java.util.Map.Entry;
 
 final class MCDResourcesInstaller {
 
@@ -58,6 +57,8 @@ final class MCDResourcesInstaller {
     private void downloadAssetList(AssetIndex index, IProgressMonitor progress) throws Exception {
         for(Asset asset : index.getAssets()){
             MCLauncherAPI.log.info("Updating asset file: ".concat(asset.getKey()).concat(" (size:").concat(""+asset.getSize()).concat("B)"));
+            progress.setStatus("Updating asset file: " + asset.getKey());
+            
             File dest = getDestFile(index, asset);
             dest.getParentFile().mkdirs();
             if (!dest.exists() || dest.length() != asset.getSize()) {
