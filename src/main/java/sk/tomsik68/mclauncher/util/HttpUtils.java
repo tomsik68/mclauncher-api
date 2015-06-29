@@ -88,8 +88,7 @@ public final class HttpUtils {
      * @param url URL to request
      * @param request the object to send using post. It will be serialized to JSON string
      * @return Result of request
-     * @throws IOException 
-     * @throws Exception I/O Exception or HTTP errors
+     * @throws IOException I/O Exception or HTTP errors
      */
     public static String doJSONPost(String url, IJSONSerializable request) throws IOException {
         

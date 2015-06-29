@@ -35,7 +35,7 @@ public interface IProgressMonitor {
     /**
      * Set's the current status message
      *
-     * @param string status
+     * @param status - Status message to display to user near progress bar (e.g. "Downlading library net.minecraft:launchwrapper:0.1")
      */
 	public void setStatus(String status);
 
