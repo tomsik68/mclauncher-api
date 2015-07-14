@@ -32,12 +32,12 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h3>
-<a name="what-is-mclauncher-api" class="anchor" href="#what-is-mclauncher-api"><span class="octicon octicon-link"></span></a>What is MCLauncher-API?</h3>
+<a id="what-is-mclauncher-api" class="anchor" href="#what-is-mclauncher-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is MCLauncher-API?</h3>
 
 <p>MCLauncher-API is a work-in-progress API for creating Minecraft launchers with ease. MCLauncher-API will take care of backend stuff like listing versions, downloading game, resources, libraries neccessary for minecraft, so your only job will be to create the GUI for the launcher. Basically, it's an SDK/API/framework for minecraft launchers.</p>
 
 <h3>
-<a name="project-goals" class="anchor" href="#project-goals"><span class="octicon octicon-link"></span></a>Project goals</h3>
+<a id="project-goals" class="anchor" href="#project-goals" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project goals</h3>
 
 <ul>
 <li>Bring back simplicity to create MineCraft launcher</li>
@@ -50,33 +50,41 @@
 <li>More security - the official launcher still doesn't save your password in the best way possible. Maybe there's someone else out there who can save it better?</li>
 <li>There's always a room for improvement - API is split up into several pieces which interact together through interfaces, so you can replace some parts of code by your own!</li>
 <li>Freedom - This API was written to be used. It doesn't provide any thread management code, GUI templates etc., everything is left up to you.</li>
-</ul><h3>
-<a name="what-languages-is-it-available-in" class="anchor" href="#what-languages-is-it-available-in"><span class="octicon octicon-link"></span></a>What languages is it available in?</h3>
+</ul>
+
+<h3>
+<a id="what-languages-is-it-available-in" class="anchor" href="#what-languages-is-it-available-in" aria-hidden="true"><span class="octicon octicon-link"></span></a>What languages is it available in?</h3>
 
 <h4>
-<a name="java" class="anchor" href="#java"><span class="octicon octicon-link"></span></a>Java</h4>
+<a id="java" class="anchor" href="#java" aria-hidden="true"><span class="octicon octicon-link"></span></a>Java</h4>
 
 <ul>
 <li>OFFICIAL: <a href="https://github.com/Tomsik68" class="user-mention">@Tomsik68</a> - <a href="https://github.com/tomsik68/mclauncher-api/">https://github.com/tomsik68/mclauncher-api/</a>
 </li>
-</ul><h4>
-<a name="delphi" class="anchor" href="#delphi"><span class="octicon octicon-link"></span></a>Delphi</h4>
+</ul>
+
+<h4>
+<a id="delphi" class="anchor" href="#delphi" aria-hidden="true"><span class="octicon octicon-link"></span></a>Delphi</h4>
 
 <ul>
 <li>
 <a href="https://github.com/mrzban" class="user-mention">@mrzban</a> - <a href="https://github.com/mrzban/Charm-Launcher-API">https://github.com/mrzban/Charm-Launcher-API</a>
 </li>
-</ul><h4>
-<a name="python" class="anchor" href="#python"><span class="octicon octicon-link"></span></a>Python</h4>
+</ul>
+
+<h4>
+<a id="python" class="anchor" href="#python" aria-hidden="true"><span class="octicon octicon-link"></span></a>Python</h4>
 
 <ul>
 <li>
 <a href="https://github.com/Podshot" class="user-mention">@Podshot</a> - <a href="https://github.com/Podshot/mclauncher-api">https://github.com/Podshot/mclauncher-api</a>
 </li>
-</ul><p>I really appreciate if someone decides to rewrite API to another language. If you decide to do so, you can fork this repo or just toss me an e-mail with your repo so I can add it to the list above. Huge thanks to porters, because they're just programming using my wiki :)</p>
+</ul>
+
+<p>I really appreciate if someone decides to rewrite API to another language. If you decide to do so, you can fork this repo or just toss me an e-mail with your repo so I can add it to the list above. Huge thanks to porters, because they're just programming using my wiki :)</p>
 
 <h3>
-<a name="how-do-i-rewrite-the-api-to-other-language" class="anchor" href="#how-do-i-rewrite-the-api-to-other-language"><span class="octicon octicon-link"></span></a>How do I rewrite the API to other language?</h3>
+<a id="how-do-i-rewrite-the-api-to-other-language" class="anchor" href="#how-do-i-rewrite-the-api-to-other-language" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I rewrite the API to other language?</h3>
 
 <p>You obviously need to know the language before rewriting the API ;) 
 For more information, look at the documentation here: <a href="https://github.com/tomsik68/mclauncher-api/wiki#documentation">https://github.com/tomsik68/mclauncher-api/wiki#documentation</a></p>
@@ -84,31 +92,41 @@ For more information, look at the documentation here: <a href="https://github.co
 <p>When rewriting the API to other language, consider writing API guides or at least some example code, so users know how to work with it.</p>
 
 <h3>
-<a name="how-do-i-work-with-the-api" class="anchor" href="#how-do-i-work-with-the-api"><span class="octicon octicon-link"></span></a>How do I work with the API?</h3>
+<a id="how-do-i-work-with-the-api" class="anchor" href="#how-do-i-work-with-the-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I work with the API?</h3>
 
 <p>The official repo contains API Guides on wiki here ---&gt; <a href="https://github.com/tomsik68/mclauncher-api/wiki/API-Guide">https://github.com/tomsik68/mclauncher-api/wiki/API-Guide</a>
 If you're looking for API guides for a port, you need to ask their authors to write them, because I can't know all the programming languages.</p>
 
+<p>Javadocs for the API are available at: </p>
+
+<ul>
+<li><a href="https://tomsik68.github.io/mclauncher-api/javadoc/0.3.1">https://tomsik68.github.io/mclauncher-api/javadoc/0.3.1</a></li>
+<li><a href="https://tomsik68.github.io/mclauncher-api/javadoc/0.3">https://tomsik68.github.io/mclauncher-api/javadoc/0.3</a></li>
+<li><a href="https://tomsik68.github.io/mclauncher-api/javadoc/0.2.1">https://tomsik68.github.io/mclauncher-api/javadoc/0.2.1</a></li>
+</ul>
+
 <h3>
-<a name="whats-the-latest-version" class="anchor" href="#whats-the-latest-version"><span class="octicon octicon-link"></span></a>What's the latest version?</h3>
+<a id="whats-the-latest-version" class="anchor" href="#whats-the-latest-version" aria-hidden="true"><span class="octicon octicon-link"></span></a>What's the latest version?</h3>
 
 <p>The latest version can be found in releases section on github --&gt; <a href="https://github.com/tomsik68/mclauncher-api/releases">https://github.com/tomsik68/mclauncher-api/releases</a></p>
 
 <h3>
-<a name="this-project-is-so-inactive" class="anchor" href="#this-project-is-so-inactive"><span class="octicon octicon-link"></span></a>This project is so inactive...</h3>
+<a id="this-project-is-so-inactive" class="anchor" href="#this-project-is-so-inactive" aria-hidden="true"><span class="octicon octicon-link"></span></a>This project is so inactive...</h3>
 
 <p>No. That's certainly not true. I'm working on the project every week for at least half an hour, but some changes are really really small, so I don't commit them. Working on the project isn't just about commiting the code, you know. Please keep in mind I've also got to write wiki, which consumes time aswell and I'm also messing around with minecraft on openpandora and stuff. And on top of that, I've got plenty of other projects on my github, so you can go check them out. </p>
 
 <h3>
-<a name="rss-news" class="anchor" href="#rss-news"><span class="octicon octicon-link"></span></a>RSS News</h3>
+<a id="rss-news" class="anchor" href="#rss-news" aria-hidden="true"><span class="octicon octicon-link"></span></a>RSS News</h3>
 
 <p>I've created 2 RSS threads for you:</p>
 
 <ul>
 <li><p>Minecraft Launcher Updates - This is for people who port API to other languages: <a href="https://dl.dropboxusercontent.com/u/29628587/mclauncher-api.rss">https://dl.dropboxusercontent.com/u/29628587/mclauncher-api.rss</a></p></li>
 <li><p>MCLauncherAPI Changes - This is for people who write launchers and want to be notified when something changes in the API. <a href="https://dl.dropboxusercontent.com/u/29628587/mclauncherapi-changes.rss">https://dl.dropboxusercontent.com/u/29628587/mclauncherapi-changes.rss</a></p></li>
-</ul><h3>
-<a name="background" class="anchor" href="#background"><span class="octicon octicon-link"></span></a>Background</h3>
+</ul>
+
+<h3>
+<a id="background" class="anchor" href="#background" aria-hidden="true"><span class="octicon octicon-link"></span></a>Background</h3>
 
 <p><a href="https://github.com/Tomsik68" class="user-mention">@Tomsik68</a> is junior java coder, who has been creating bukkit plugins for some time. He became interested in minecraft launchers by decompiling the official one and finding out how simple it is to write your own launcher(the old launcher only had around 5 classes, so it wasn't that complex). Before his launcher was released to the public, mojang changed their launching system, so that he was sad, because his launcher didn't work. With all this, he turned away from the project and threw source code of a working launcher away. However, he picked the project back up to bring that simplicity back. However, that's not so easy, so cross your fingers for him, please :)</p>
 
@@ -120,7 +138,7 @@ If you're looking for API guides for a port, you need to ask their authors to wr
 or you can add me on skype: tomsik68</p>
 
 <h3>
-<a name="how-can-i-support" class="anchor" href="#how-can-i-support"><span class="octicon octicon-link"></span></a>How can I support?</h3>
+<a id="how-can-i-support" class="anchor" href="#how-can-i-support" aria-hidden="true"><span class="octicon octicon-link"></span></a>How can I support?</h3>
 
 <p>Well, I'd say you can donate, but I'm not good at accepting money, so there are only 3 things you can do: </p>
 
@@ -128,8 +146,10 @@ or you can add me on skype: tomsik68</p>
 <li>Add me on skype to say "Hi, your MCLauncher-API is awesome :)"</li>
 <li>Contribute to the project (improve the code, write some wiki)</li>
 <li>Share the project with your friends who might be interested, so it gets more famous :)</li>
-</ol><h3>
-<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h3>
+</ol>
+
+<h3>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h3>
 
 <p>This project is now licensed under MIT license. You can find the whole license text in repository(<a href="https://github.com/tomsik68/mclauncher-api/">https://github.com/tomsik68/mclauncher-api/</a>)</p>
       </section>
@@ -139,7 +159,7 @@ or you can add me on skype: tomsik68</p>
     <div id="footer_wrap" class="outer">
       <footer class="inner">
         <p class="copyright">MCLauncher-API maintained by <a href="https://github.com/tomsik68">tomsik68</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
 
