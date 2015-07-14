@@ -17,8 +17,8 @@ final class MCDJarManager {
     }
 
 
-    File getVersionJAR(IVersion version) {
-        return new File(getVersionFolder(version), version.getId() + ".jar");
+    File getVersionJAR(MCDownloadVersion version) {
+        return new File(new File(versionsFolder, version.getJarVersion()), version.getJarVersion() + ".jar");
     }
 
     File getInfoFile(IVersion version){
