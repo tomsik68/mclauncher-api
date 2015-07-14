@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public final class Platform {
-    public static final LinkedList<IOperatingSystem> oss = new LinkedList<IOperatingSystem>();
     // macos was renamed to osx in 1.6, so I've created a map of changed OSs
     private static final HashMap<String, String> minecraftOsWrapper = new HashMap<String, String>();
 
@@ -17,13 +16,9 @@ public final class Platform {
     public static final IOperatingSystem UNIX  = new LinuxOS();
     public static final IOperatingSystem UNKNOWN = new UnknownOS();
 
-    // static OS lookup map
+    public static final IOperatingSystem[] operatingSystems = new IOperatingSystem[]{ WINDOWS, MAC, SOLARIS, UNIX, UNKNOWN };
+
     static {
-        oss.add(UNIX);
-        oss.add(WINDOWS);
-        oss.add(MAC);
-        oss.add(SOLARIS);
-        oss.add(UNKNOWN);
         //                    newName | oldName
         minecraftOsWrapper.put("osx", "macos");
     }
@@ -37,7 +32,7 @@ public final class Platform {
     public static IOperatingSystem getCurrentPlatform() {
         if (currentOS != null)
             return currentOS;
-        for (IOperatingSystem os : oss) {
+        for (IOperatingSystem os : operatingSystems) {
             if (os.isCurrent()) {
                 forcePlatform(os);
                 return currentOS;
@@ -76,7 +71,7 @@ public final class Platform {
      * @return IOperatingSystem which suits the criteria
      */
     public static IOperatingSystem osByName(String name) {
-        for (IOperatingSystem os : oss) {
+        for (IOperatingSystem os : operatingSystems) {
             if (os.getMinecraftName().equalsIgnoreCase(name) || name.contains(os.getMinecraftName()) || os.getMinecraftName().contains(name))
                 return os;
         }
