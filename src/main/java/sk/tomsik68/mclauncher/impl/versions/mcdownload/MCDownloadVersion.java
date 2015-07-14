@@ -183,10 +183,9 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         if(assets == null)
             assets = parent.getAssetsIndexName();
 
-        if(libraries.isEmpty()) {
-            libraries.addAll(parent.getLibraries());
-            rules.addAll(parent.rules);
-        }
+        libraries.addAll(parent.getLibraries());
+        rules.addAll(parent.rules);
+
 
         if(jarVersion == null || jarVersion.isEmpty()){
             jarVersion = parent.getJarVersion();
