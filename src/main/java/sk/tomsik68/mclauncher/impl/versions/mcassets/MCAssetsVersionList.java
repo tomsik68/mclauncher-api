@@ -6,13 +6,14 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionList;
 import sk.tomsik68.mclauncher.api.versions.LatestVersionInformation;
 import sk.tomsik68.mclauncher.impl.common.Observable;
+import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadOnlineVersionList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.regex.Pattern;
 
 /**
  * This is the old list, which still works, but you're highly encouraged to use
- * {@link sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList} instead!
+ * {@link MCDownloadOnlineVersionList} instead!
  *
  * @author Tomsik68
  */

@@ -9,7 +9,7 @@ import sk.tomsik68.mclauncher.api.versions.LatestVersionInformation;
 import sk.tomsik68.mclauncher.impl.common.Observable;
 import sk.tomsik68.mclauncher.util.HttpUtils;
 
-public final class MCDownloadVersionList extends Observable<String> implements IVersionList{
+final class MCDownloadOnlineVersionList extends Observable<String> implements IVersionList{
 
     private static final String JSONVERSION_LIST_URL = "http://s3.amazonaws.com/Minecraft.Download/versions/versions.json";
     private static final String FULL_VERSION_URL_TEMPLATE = "http://s3.amazonaws.com/Minecraft.Download/versions/<VERSION>/<VERSION>.json";
