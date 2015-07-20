@@ -107,6 +107,6 @@ public final class FileUtils {
             stream.close();
         }
 
-        return String.format("%1$032x", new BigInteger(1, stream.getMessageDigest().digest())});
+        return String.format("%1$032x", new BigInteger(1, stream.getMessageDigest().digest()));
     }
 }
