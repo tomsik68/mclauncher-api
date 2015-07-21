@@ -7,13 +7,13 @@ import sk.tomsik68.mclauncher.api.common.IObservable;
 import sk.tomsik68.mclauncher.api.common.IObserver;
 import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
-import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadOnlineVersionList;
+import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
 
 public class TestMCDownloadInstall {
 
     @Test
     public void test() {
-        final MCDownloadOnlineVersionList list = new MCDownloadOnlineVersionList();
+        final MCDownloadVersionList list = new MCDownloadVersionList();
         final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
         list.addObserver(new IObserver<String>() {
             private boolean installed = false;

@@ -8,7 +8,7 @@ import sk.tomsik68.mclauncher.api.servers.ServerInfo;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.LatestVersionInformation;
-import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadOnlineVersionList;
+import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
 
 import java.io.File;
 import java.util.List;
@@ -25,12 +25,12 @@ public final class MinecraftLauncherBackend {
     }
 
     private IVersion findVersion(String versionID) throws Exception {
-        MCDownloadOnlineVersionList mcDownloadVersionList = new MCDownloadOnlineVersionList();
+        MCDownloadVersionList mcDownloadVersionList = new MCDownloadVersionList();
         return mcDownloadVersionList.retrieveVersionInfo(versionID);
     }
 
     public LatestVersionInformation getLatestVersionInformation() throws Exception {
-        MCDownloadOnlineVersionList mcDownloadVersionList = new MCDownloadOnlineVersionList();
+        MCDownloadVersionList mcDownloadVersionList = new MCDownloadVersionList();
         return mcDownloadVersionList.getLatestVersionInformation();
     }
 
@@ -41,7 +41,7 @@ public final class MinecraftLauncherBackend {
      */
     public List<String> getVersionList() throws Exception {
         AddToListObserver observer = new AddToListObserver();
-        MCDownloadOnlineVersionList mcDownloadVersionList = new MCDownloadOnlineVersionList();
+        MCDownloadVersionList mcDownloadVersionList = new MCDownloadVersionList();
         mcDownloadVersionList.addObserver(observer);
         mcDownloadVersionList.startDownload();
 

@@ -17,7 +17,7 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfileIO;
-import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadOnlineVersionList;
+import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
 
 public class TestMCDownloadLaunch {
 
@@ -41,7 +41,7 @@ public class TestMCDownloadLaunch {
 	    profileIO.write(profiles);
 	    System.out.println("Success! Launching...");
 	    final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
-	    final MCDownloadOnlineVersionList versionList = new MCDownloadOnlineVersionList();
+	    final MCDownloadVersionList versionList = new MCDownloadVersionList();
 	    versionList.addObserver(new IObserver<String>() {
 
 		private boolean launched = false;

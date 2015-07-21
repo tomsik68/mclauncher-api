@@ -17,7 +17,7 @@ import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfileIO;
-import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadOnlineVersionList;
+import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
 
 public class TestMCDownloadForgeLaunch {
 
@@ -40,7 +40,7 @@ public class TestMCDownloadForgeLaunch {
                     new File("testmc"));
             /*final BasicModdingProfile mods = new BasicModdingProfile();
             mods.addCoreMod(new File(mc.getLocation(), "coremods/forge-1.8-11.14.0.1299-universal.jar"));*/
-            final MCDownloadOnlineVersionList versionList = new MCDownloadOnlineVersionList();
+            final MCDownloadVersionList versionList = new MCDownloadVersionList();
             versionList.addObserver(new IObserver<String>() {
 
                 private boolean launched = false;
