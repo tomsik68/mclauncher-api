@@ -2,6 +2,7 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 
 import sk.tomsik68.mclauncher.api.common.IObservable;
 import sk.tomsik68.mclauncher.api.common.IObserver;
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionList;
@@ -19,13 +20,14 @@ public final class MCDownloadVersionList extends Observable<String> implements I
     /**
      * This constructor uses the default minecraft instance for local versions
      */
-    public MCDownloadVersionList(){
+    public MCDownloadVersionList() {
         this(new MinecraftInstance(Platform.getCurrentPlatform().getWorkingDirectory()));
     }
 
-    public MCDownloadVersionList(MinecraftInstance mc){
-        localVersionList = new MCDownloadLocalVersionList(mc);
+    public MCDownloadVersionList(MinecraftInstance mc) {
         onlineVersionList = new MCDownloadOnlineVersionList();
+        localVersionList = new MCDownloadLocalVersionList(mc);
+
         onlineVersionList.addObserver(this);
         localVersionList.addObserver(this);
     }
@@ -40,14 +42,26 @@ public final class MCDownloadVersionList extends Observable<String> implements I
     public IVersion retrieveVersionInfo(String id) throws Exception {
         IVersion result;
         result = localVersionList.retrieveVersionInfo(id);
-        if(result == null)
+        if (result == null)
             result = onlineVersionList.retrieveVersionInfo(id);
+
+        if(result != null)
+            resolveInheritance((MCDownloadVersion)result);
         return result;
     }
 
     @Override
     public LatestVersionInformation getLatestVersionInformation() throws Exception {
         return onlineVersionList.getLatestVersionInformation();
+    }
+
+    void resolveInheritance(MCDownloadVersion version) throws Exception {
+        // version's parent needs to be resolved first
+        if (version.getInheritsFrom() != null) {
+            MCDownloadVersion parent = (MCDownloadVersion) retrieveVersionInfo(version.getInheritsFrom());
+            resolveInheritance(parent);
+            version.doInherit(parent);
+        }
     }
 
     @Override

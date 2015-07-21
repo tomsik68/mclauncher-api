@@ -14,6 +14,9 @@ final class MCDownloadOnlineVersionList extends Observable<String> implements IV
     private static final String JSONVERSION_LIST_URL = "http://s3.amazonaws.com/Minecraft.Download/versions/versions.json";
     private static final String FULL_VERSION_URL_TEMPLATE = "http://s3.amazonaws.com/Minecraft.Download/versions/<VERSION>/<VERSION>.json";
 
+    MCDownloadOnlineVersionList(){
+    }
+
     @Override
     public void startDownload() throws Exception {
         // at first, we download the complete version list
@@ -27,25 +30,12 @@ final class MCDownloadOnlineVersionList extends Observable<String> implements IV
         }
     }
 
-    private void resolveInheritance(MCDownloadVersion version) throws Exception{
-        // version's parent needs to be resolved first
-        if(version.getInheritsFrom() != null && version.getInheritsFrom().length() > 0) {
-            MCDownloadVersion parent = (MCDownloadVersion) retrieveVersionInfo(version.getInheritsFrom());
-            if(parent.getInheritsFrom() != null)
-                resolveInheritance(parent);
-            else {
-                version.doInherit(parent);
-            }
-        }
-    }
     @Override
     public IVersion retrieveVersionInfo(String id) throws Exception{
         String fullVersionJSONString = HttpUtils.httpGet(FULL_VERSION_URL_TEMPLATE.replace("<VERSION>", id));
         JSONObject fullVersionObject = (JSONObject) JSONValue.parse(fullVersionJSONString);
         // ,create a MCDownloadVersion based on it
         MCDownloadVersion version = new MCDownloadVersion(fullVersionObject);
-        // resolve inheritance if needed
-        resolveInheritance(version);
         return version;
     }
 

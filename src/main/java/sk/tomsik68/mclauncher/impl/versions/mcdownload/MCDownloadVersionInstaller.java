@@ -12,6 +12,7 @@ import sk.tomsik68.mclauncher.util.ExtractUtils;
 import sk.tomsik68.mclauncher.util.FileUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,6 +20,12 @@ import java.util.logging.Logger;
 final class MCDownloadVersionInstaller implements IVersionInstaller {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
     private static final String JAR_DOWNLOAD_URL = "https://s3.amazonaws.com/Minecraft.Download/versions/<VERSION>/<VERSION>.jar";
+
+    private final MCDownloadVersionList versionList;
+
+    public MCDownloadVersionInstaller(){
+        versionList = new MCDownloadVersionList();
+    }
 
     @Override
     public void addVersionInstallListener(IVersionInstallListener listener) {
@@ -40,7 +47,22 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
             throw new VersionIncompatibleException(v);
         // check if inheritance was completed
         if(version.needsInheritance())
-            throw new VersionInheritanceException(v);
+            versionList.resolveInheritance(version);
+
+        // if we're inheriting from a version
+        if(version.getInheritsFrom() != null && version.getInheritsFrom().length() > 0){
+            MCLauncherAPI.log.fine("Looks like we're inheriting a version. Checking parent version...");
+            // and the parent version isn't installed
+            File jsonFile = jarManager.getInfoFile(v);
+            MCLauncherAPI.log.fine("Looking for ".concat(jsonFile.getAbsolutePath()));
+            if (!jsonFile.exists()) {
+                MCLauncherAPI.log.info("Installing parent version...");
+                // download the parent version
+                IVersion parent = versionList.retrieveVersionInfo(version.getInheritsFrom());
+                parent.getInstaller().install(parent, mc, progress);
+            }
+        }
+
 
         log.fine("Version compatible");
         List<Library> toInstall = version.getLibraries();
@@ -106,12 +128,16 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         FileUtils.writeFile(jsonDest, version.toJSON().toJSONString(JSONStyle.LT_COMPRESS));
         // and jar file
         log.fine("Downloading game JAR...");
-        if(haveProgress)
-            progress.setStatus("Downloading Game Jar...");
-        try {
-            FileUtils.downloadFileWithProgress(JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
-        } catch (Exception e) {
-            e.printStackTrace();
+        // if this version uses its own jar
+        if(version.getJarVersion().equals(version.getId())) {
+            // download it
+            if(haveProgress)
+                progress.setStatus("Downloading Game Jar...");
+            try {
+                FileUtils.downloadFileWithProgress(JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         // notify listeners that installation is finished
         notifyListeners(version);
