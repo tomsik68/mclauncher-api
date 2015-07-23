@@ -73,8 +73,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
                     "You need to download the version at first! (JSON description file not found!)");
         }
         // create MCDownloadVersion based on this version
-        MCDownloadVersion version = new MCDownloadVersion(
-                (JSONObject) JSONValue.parse(new FileInputStream(jsonFile)));
+        MCDownloadVersion version = (MCDownloadVersion) v;
         File jarFile = jarManager.getVersionJAR(version);
         // check if the version is compatible with our OS
         MCLauncherAPI.log.fine("Checking version compatibility...");
