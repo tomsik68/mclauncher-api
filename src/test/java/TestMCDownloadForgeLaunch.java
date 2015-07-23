@@ -4,12 +4,14 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.junit.Test;
 
 import sk.tomsik68.mclauncher.api.common.ILaunchSettings;
 import sk.tomsik68.mclauncher.api.common.IObservable;
 import sk.tomsik68.mclauncher.api.common.IObserver;
+import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
@@ -23,7 +25,7 @@ public class TestMCDownloadForgeLaunch {
 
     @Test
     public void test() {
-
+        MCLauncherAPI.log.setLevel(Level.ALL);
         try {
             // finally use my minecraft credentials
             System.out.println("Logging in...");
@@ -41,90 +43,77 @@ public class TestMCDownloadForgeLaunch {
             /*final BasicModdingProfile mods = new BasicModdingProfile();
             mods.addCoreMod(new File(mc.getLocation(), "coremods/forge-1.8-11.14.0.1299-universal.jar"));*/
             final MCDownloadVersionList versionList = new MCDownloadVersionList();
-            versionList.addObserver(new IObserver<String>() {
+            IVersion toLaunch = versionList.retrieveVersionInfo("1.8-Forge11.14.3.1450");
+            System.out.println(toLaunch);
+            try {
+                toLaunch.getInstaller().install(toLaunch, mc, null);
+                List<String> launchCommand = toLaunch.getLauncher()
+                        .getLaunchCommand(session, mc, null,
+                                toLaunch, new ILaunchSettings() {
 
-                private boolean launched = false;
+                                    @Override
+                                    public boolean isModifyAppletOptions() {
+                                        return false;
+                                    }
 
-                @Override
-                public void onUpdate(IObservable<String> observable,
-                                     String id) {
-                    IVersion changed = null;
-                    try {
-                        changed = versionList.retrieveVersionInfo(id);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    if (changed.getId().equalsIgnoreCase("1.8")) {
-                        try {
-                            List<String> launchCommand = changed.getLauncher()
-                                    .getLaunchCommand(session, mc, null,
-                                            changed, new ILaunchSettings() {
+                                    @Override
+                                    public File getJavaLocation() {
+                                        return null;
+                                    }
 
-                                                @Override
-                                                public boolean isModifyAppletOptions() {
-                                                    return false;
-                                                }
+                                    @Override
+                                    public List<String> getJavaArguments() {
+                                        return Arrays
+                                                .asList("-XX:+UseConcMarkSweepGC",
+                                                        "-XX:+CMSIncrementalMode",
+                                                        "-XX:-UseAdaptiveSizePolicy",
+                                                        "-Xmn128M");
+                                    }
 
-                                                @Override
-                                                public File getJavaLocation() {
-                                                    return null;
-                                                }
+                                    @Override
+                                    public String getInitHeap() {
+                                        return "512M";
+                                    }
 
-                                                @Override
-                                                public List<String> getJavaArguments() {
-                                                    return Arrays
-                                                            .asList("-XX:+UseConcMarkSweepGC",
-                                                                    "-XX:+CMSIncrementalMode",
-                                                                    "-XX:-UseAdaptiveSizePolicy",
-                                                                    "-Xmn128M");
-                                                }
+                                    @Override
+                                    public String getHeap() {
+                                        return "1G";
+                                    }
 
-                                                @Override
-                                                public String getInitHeap() {
-                                                    return "512M";
-                                                }
+                                    @Override
+                                    public Map<String, String> getCustomParameters() {
+                                        return null;
+                                    }
 
-                                                @Override
-                                                public String getHeap() {
-                                                    return "1G";
-                                                }
-
-                                                @Override
-                                                public Map<String, String> getCustomParameters() {
-                                                    return null;
-                                                }
-
-                                                @Override
-                                                public List<String> getCommandPrefix() {
-                                                    return null;
-                                                }
-                                            }, null);
-                            for (String cmd : launchCommand) {
-                                System.out.print(cmd + " ");
-                            }
-                            System.out.println();
-                            ProcessBuilder pb = new ProcessBuilder(
-                                    launchCommand);
-                            pb.redirectError(new File("mcerr.log"));
-                            pb.redirectOutput(new File("mcout.log"));
-                            pb.directory(mc.getLocation());
-                            Process proc = pb.start();
-                            BufferedReader br = new BufferedReader(
-                                    new InputStreamReader(proc.getInputStream()));
-                            String line;
-                            while (isProcessAlive(proc)) {
-                                line = br.readLine();
-                                if (line != null && line.length() > 0)
-                                    System.out.println(line);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
+                                    @Override
+                                    public List<String> getCommandPrefix() {
+                                        return null;
+                                    }
+                                }, null);
+                for (String cmd : launchCommand) {
+                    System.out.print(cmd + " ");
                 }
-            });
-            versionList.startDownload();
+                System.out.println();
+                ProcessBuilder pb = new ProcessBuilder(
+                        launchCommand);
+                pb.redirectError(new File("mcerr.log"));
+                pb.redirectOutput(new File("mcout.log"));
+                pb.directory(mc.getLocation());
+                Process proc = pb.start();
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(proc.getInputStream()));
+                String line;
+                while (isProcessAlive(proc)) {
+                    line = br.readLine();
+                    if (line != null && line.length() > 0)
+                        System.out.println(line);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            //versionList.startDownload();
         } catch (Exception e) {
             e.printStackTrace();
         }
