@@ -9,16 +9,12 @@ import java.util.logging.Level;
 import org.junit.Test;
 
 import sk.tomsik68.mclauncher.api.common.ILaunchSettings;
-import sk.tomsik68.mclauncher.api.common.IObservable;
-import sk.tomsik68.mclauncher.api.common.IObserver;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
-import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
+import sk.tomsik68.mclauncher.backend.GlobalAuthenticationSystem;
 import sk.tomsik68.mclauncher.impl.common.Platform;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
-import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfileIO;
 import sk.tomsik68.mclauncher.impl.versions.mcdownload.MCDownloadVersionList;
 
 public class TestMCDownloadForgeLaunch {
@@ -29,19 +25,12 @@ public class TestMCDownloadForgeLaunch {
         try {
             // finally use my minecraft credentials
             System.out.println("Logging in...");
-            YDLoginService service = new YDLoginService();
-            service.load(Platform.getCurrentPlatform().getWorkingDirectory());
-            YDProfileIO profileIO = new YDProfileIO(Platform
-                    .getCurrentPlatform().getWorkingDirectory());
-            IProfile[] profiles = profileIO.read();
 
-            final ISession session = service.login(profiles[0]);
-            profileIO.write(profiles);
+
+            final ISession session = GlobalAuthenticationSystem.login(null);
             System.out.println("Success! Launching...");
             final MinecraftInstance mc = new MinecraftInstance(
-                    new File("testmc"));
-            /*final BasicModdingProfile mods = new BasicModdingProfile();
-            mods.addCoreMod(new File(mc.getLocation(), "coremods/forge-1.8-11.14.0.1299-universal.jar"));*/
+                    Platform.getCurrentPlatform().getWorkingDirectory());
             final MCDownloadVersionList versionList = new MCDownloadVersionList();
             IVersion toLaunch = versionList.retrieveVersionInfo("1.8-Forge11.14.3.1450");
             System.out.println(toLaunch);
