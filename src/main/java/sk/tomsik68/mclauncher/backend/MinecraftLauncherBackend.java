@@ -25,12 +25,12 @@ public final class MinecraftLauncherBackend {
     }
 
     private IVersion findVersion(String versionID) throws Exception {
-        MCDownloadVersionList mcDownloadVersionList = new MCDownloadVersionList();
+        MCDownloadVersionList mcDownloadVersionList = new MCDownloadVersionList(minecraftInstance);
         return mcDownloadVersionList.retrieveVersionInfo(versionID);
     }
 
     public LatestVersionInformation getLatestVersionInformation() throws Exception {
-        MCDownloadVersionList mcDownloadVersionList = new MCDownloadVersionList();
+        MCDownloadVersionList mcDownloadVersionList = new MCDownloadVersionList(minecraftInstance);
         return mcDownloadVersionList.getLatestVersionInformation();
     }
 
