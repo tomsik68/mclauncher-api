@@ -2,7 +2,6 @@ package sk.tomsik68.mclauncher.impl.servers;
 
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.servers.FoundServerInfo;
-import sk.tomsik68.mclauncher.api.servers.FoundServerInfoBuilder;
 import sk.tomsik68.mclauncher.api.servers.IServerFinder;
 import sk.tomsik68.mclauncher.impl.common.Observable;
 
