@@ -1,12 +1,10 @@
 package sk.tomsik68.mclauncher.impl.servers;
 
-import sk.tomsik68.mclauncher.api.common.IObserver;
 import sk.tomsik68.mclauncher.api.servers.ServerInfo;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 public final class ServerPingerManager {
     private static final int THREAD_COUNT = 2;
@@ -25,7 +23,7 @@ public final class ServerPingerManager {
     //////////////////////////////////////////////////////////////////////////////
 
     public final Future<ServerPingResult> pingServer(ServerInfo server){
-        return threadPool.submit(new ServerPinger(server));
+        return threadPool.submit(new ServerPinger(server, new Protocol47PingPacketFactory(server)));
     }
 
 }

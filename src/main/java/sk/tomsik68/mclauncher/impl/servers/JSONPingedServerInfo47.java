@@ -6,7 +6,7 @@ final class JSONPingedServerInfo47 extends PingedServerInfo {
     private final JSONObject jsonObject;
 
     JSONPingedServerInfo47(JSONObject jsonObject, String ip, String name, int port) {
-        super(ip, name, icon, port);
+        super(ip, name, null, port);
         this.jsonObject = jsonObject;
     }
 
