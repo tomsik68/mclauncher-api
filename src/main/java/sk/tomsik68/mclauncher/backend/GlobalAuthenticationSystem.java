@@ -3,10 +3,13 @@ package sk.tomsik68.mclauncher.backend;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.impl.common.Platform;
+import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
+import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDAuthProfile;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDLoginService;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDProfileIO;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Global(system-wide) authentication system.
@@ -69,4 +72,36 @@ public final class GlobalAuthenticationSystem {
         return result;
     }
 
+    /**
+     * Performs password login with entered user details and saves session data to GlobalAuthenticationSystem
+     * @param username
+     * @param password
+     * @return Login Session
+     * @throws Exception
+     */
+    public static ISession doPasswordLogin(String username, String password) throws Exception {
+        // initialise login service in the working directory
+        File workingDirectory = Platform.getCurrentPlatform().getWorkingDirectory();
+        YDLoginService loginService = new YDLoginService();
+        try {
+            loginService.load(workingDirectory);
+        } catch (FileNotFoundException ex) {
+            loginService.save(workingDirectory);
+        }
+
+        // create legacy profile and login
+        LegacyProfile loginProfile = new LegacyProfile(username, password);
+        ISession result = loginService.login(loginProfile);
+
+        // create (YD) profile from login data
+        IProfile profile = loginService.createProfile(result);
+
+        // save (YD) profile
+        YDProfileIO profileIO = new YDProfileIO(workingDirectory);
+        profileIO.write(new IProfile[]{ profile });
+
+        // return the obtained session
+        return result;
+
+    }
 }
