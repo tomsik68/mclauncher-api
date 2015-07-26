@@ -49,7 +49,7 @@ final class ServerPinger implements Callable<ServerPingResult> {
             return new ServerPingResult(new RuntimeException("Outdated protocol!"));
         }
         String jsonString = dis.readUTF();
-        result = new ServerPingResult(new JSONPingedServerInfo47((JSONObject)JSONValue.parse(jsonString), server.getIP(), server.getName(), server.getPort()))
+        result = new ServerPingResult(new JSONPingedServerInfo47((JSONObject)JSONValue.parse(jsonString), server.getIP(), server.getName(), server.getPort()));
         socket.close();
         return null;
     }
