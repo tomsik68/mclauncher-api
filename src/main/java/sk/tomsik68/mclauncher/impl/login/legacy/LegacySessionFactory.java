@@ -9,7 +9,7 @@ import sk.tomsik68.mclauncher.api.login.LoginException;
  */
 final class LegacySessionFactory {
 
-    final ISession createSession(String[] params) throws Exception {
+    ISession createSession(String[] params) throws Exception {
         if (params == null)
             throw new LoginException("Unable to login!");
         else if(params.length != 5) {

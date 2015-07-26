@@ -27,7 +27,7 @@ final class LegacyLoginEncryptionProcessor {
     }
     // notchcode end
 
-    final InputStream decrypt(InputStream is) throws Exception {
+    InputStream decrypt(InputStream is) throws Exception {
         Cipher cipher = getCipher(MODE_DECRYPT);
         if (cipher == null) {
             throw new RuntimeException("Failed to create cipher for login stream decryption");
@@ -35,7 +35,7 @@ final class LegacyLoginEncryptionProcessor {
             return new CipherInputStream(is, cipher);
     }
 
-    final OutputStream encrypt(OutputStream os) throws Exception {
+    OutputStream encrypt(OutputStream os) throws Exception {
         Cipher cipher = getCipher(MODE_ENCRYPT);
         if (cipher == null) {
             throw new RuntimeException("Failed to create cipher for login stream encryption");

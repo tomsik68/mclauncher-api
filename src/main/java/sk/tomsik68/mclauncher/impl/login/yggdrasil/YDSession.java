@@ -38,7 +38,7 @@ final class YDSession implements ISession {
         return ESessionType.MOJANG;
     }
 
-    final YDUserObject getUserObject() {
+    YDUserObject getUserObject() {
         return user;
     }
 

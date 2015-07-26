@@ -14,22 +14,22 @@ final class FoundServerInfoBuilder {
     private IServerFinder finder;
     private HashMap<String, Object> properties = new HashMap<String, Object>();
 
-    public final FoundServerInfoBuilder ip(String s){
+    public FoundServerInfoBuilder ip(String s){
         ip = s;
         return this;
     }
 
-    public final FoundServerInfoBuilder motd(String s){
+    public FoundServerInfoBuilder motd(String s){
         motd = s;
         return this;
     }
 
-    public final FoundServerInfoBuilder finder(IServerFinder sf){
+    public FoundServerInfoBuilder finder(IServerFinder sf){
         finder = sf;
         return this;
     }
 
-    public final FoundServerInfoBuilder port(int p){
+    public FoundServerInfoBuilder port(int p){
         port = p;
         return this;
     }
@@ -39,17 +39,17 @@ final class FoundServerInfoBuilder {
      * @param ico - Icon image encoded as base64 string
      * @return <code>this</code> for chaining
      */
-    public final FoundServerInfoBuilder icon(String ico){
+    public FoundServerInfoBuilder icon(String ico){
         icon = ico;
         return this;
     }
 
-    public final FoundServerInfoBuilder property(String key, Object value){
+    public FoundServerInfoBuilder property(String key, Object value){
         properties.put(key, value);
         return this;
     }
 
-    public final FoundServerInfo build(){
+    public FoundServerInfo build(){
         return new FoundServerInfo(finder, ip, icon, port, motd, properties);
     }
 

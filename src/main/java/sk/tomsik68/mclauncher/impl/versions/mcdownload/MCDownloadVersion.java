@@ -88,35 +88,35 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         return type.charAt(0) + getId();
     }
 
-    final String getTime() {
+    String getTime() {
         return time;
     }
 
-    final String getReleaseTime() {
+    String getReleaseTime() {
         return releaseTime;
     }
 
-    final String getType() {
+    String getType() {
         return type;
     }
 
-    final String getProcessArgs() {
+    String getProcessArgs() {
         return processArgs;
     }
 
-    final String getMinecraftArgs() {
+    String getMinecraftArgs() {
         return minecraftArgs;
     }
 
-    final int getMinimumLauncherVersion() {
+    int getMinimumLauncherVersion() {
         return minimumLauncherVersion;
     }
 
-    final String getMainClass() {
+    String getMainClass() {
         return mainClass;
     }
 
-    final String getInheritsFrom(){ return inheritsFrom; }
+    String getInheritsFrom(){ return inheritsFrom; }
 
     @Override
     public String getIncompatibilityReason() {
@@ -133,7 +133,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         return launcher;
     }
 
-    final List<Library> getLibraries() {
+    List<Library> getLibraries() {
         return libraries;
     }
 
@@ -141,7 +141,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
      *
      * @return True if this version is compatible with our current operating system
      */
-    public final boolean isCompatible() {
+    public boolean isCompatible() {
         Action action = null;
         for (Rule rule : rules) {
             if (rule.applies())
@@ -155,17 +155,17 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         return json;
     }
 
-    final String getAssetsIndexName() {
+    String getAssetsIndexName() {
         return assets;
     }
 
-    final boolean needsInheritance(){ return needsInheritance; }
+    boolean needsInheritance(){ return needsInheritance; }
 
-    final String getJarVersion(){
+    String getJarVersion(){
         return jarVersion;
     }
 
-    final void doInherit(MCDownloadVersion parent) {
+    void doInherit(MCDownloadVersion parent) {
         MCLauncherAPI.log.finer("Inheriting version ".concat(id).concat(" from ").concat(parent.getId()));
         if(!parent.getId().equals(getInheritsFrom())){
             throw new IllegalArgumentException("Wrong inheritance version passed!");

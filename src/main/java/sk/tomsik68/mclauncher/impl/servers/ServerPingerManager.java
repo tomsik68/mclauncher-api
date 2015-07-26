@@ -22,7 +22,7 @@ public final class ServerPingerManager {
 
     //////////////////////////////////////////////////////////////////////////////
 
-    public final Future<ServerPingResult> pingServer(ServerInfo server){
+    public Future<ServerPingResult> pingServer(ServerInfo server){
         return threadPool.submit(new ServerPinger(server, new Protocol47PingPacketFactory(server)));
     }
 

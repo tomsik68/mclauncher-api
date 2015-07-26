@@ -22,7 +22,7 @@ final class Asset {
      *
      * @return Hash of this Asset
      */
-    final String getHash() {
+    String getHash() {
         return hash;
     }
 
@@ -30,7 +30,7 @@ final class Asset {
      *
      * @return First 2 characters of hash
      */
-    final String getPreHash() {
+    String getPreHash() {
         return hash.substring(0, 2);
     }
 
@@ -38,7 +38,7 @@ final class Asset {
      * Size of this Asset
      * @return Size in bytes
      */
-    final int getSize() {
+    int getSize() {
         return size;
     }
 
@@ -46,7 +46,7 @@ final class Asset {
      *
      * @return URL where this asset can be downloaded
      */
-    final String getUrl() {
+    String getUrl() {
         return RESOURCES_URL + getPreHash() + "/" + hash;
     }
 
@@ -54,5 +54,5 @@ final class Asset {
      *
      * @return Key/Name of this asset in JSON structure
      */
-    final String getKey(){ return key; }
+    String getKey(){ return key; }
 }

@@ -26,10 +26,10 @@ final class AssetIndex {
         return objects;
     }
 
-    final boolean isVirtual() {
+    boolean isVirtual() {
         return virtual;
     }
 
-    final String getName(){ return name; }
+    String getName(){ return name; }
 
 }

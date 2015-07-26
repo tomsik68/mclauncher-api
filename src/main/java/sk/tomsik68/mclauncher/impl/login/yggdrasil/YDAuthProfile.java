@@ -65,24 +65,24 @@ public final class YDAuthProfile implements IProfile, IJSONSerializable {
         return uuid;
     }
 
-    final String getDisplayName() {
+    String getDisplayName() {
         return displayName;
     }
 
-    final String getProfileName() {
+    String getProfileName() {
         return profileName;
     }
 
-    final void setProfileName(String profileName) {
+    void setProfileName(String profileName) {
         this.profileName = profileName;
     }
 
-    final YDPartialGameProfile getYDGameProfile() {
+    YDPartialGameProfile getYDGameProfile() {
         YDPartialGameProfile result = new YDPartialGameProfile(userName, uuid, false);
         return result;
     }
 
-    final String getUserId() {
+    String getUserId() {
         return userId;
     }
 
@@ -93,7 +93,7 @@ public final class YDAuthProfile implements IProfile, IJSONSerializable {
         return url.toString();
     }
 
-    final void update(ISession session) {
+    void update(ISession session) {
         setPassword(session.getSessionID());
     }
 

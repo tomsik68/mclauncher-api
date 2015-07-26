@@ -70,7 +70,7 @@ public final class VanillaServerStorage {
         return result;
     }
 
-    private final CompoundMap createCompoundFromServer(ServerInfo server){
+    private CompoundMap createCompoundFromServer(ServerInfo server){
         CompoundMap result = new CompoundMap();
         result.put("name", new StringTag("name", server.getName()));
         String ipString = server.getIP();

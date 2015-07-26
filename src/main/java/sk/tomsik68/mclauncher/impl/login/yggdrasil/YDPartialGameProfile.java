@@ -18,11 +18,11 @@ final class YDPartialGameProfile implements IJSONSerializable {
 
     }
 
-    final String getName() {
+    String getName() {
         return name;
     }
 
-    final String getId() {
+    String getId() {
         return id;
     }
 
@@ -33,7 +33,7 @@ final class YDPartialGameProfile implements IJSONSerializable {
         return obj;
     }
 
-    final boolean isLegacy() {
+    boolean isLegacy() {
         return legacy;
     }
 }
