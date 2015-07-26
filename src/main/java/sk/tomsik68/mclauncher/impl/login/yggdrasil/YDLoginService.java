@@ -17,6 +17,7 @@ import sk.tomsik68.mclauncher.api.login.ISession;
 import sk.tomsik68.mclauncher.api.login.LoginException;
 import sk.tomsik68.mclauncher.api.services.IServicesAvailability;
 import sk.tomsik68.mclauncher.impl.login.legacy.LegacyProfile;
+import sk.tomsik68.mclauncher.util.FileUtils;
 import sk.tomsik68.mclauncher.util.HttpUtils;
 
 public final class YDLoginService implements ILoginService {
@@ -48,6 +49,13 @@ public final class YDLoginService implements ILoginService {
         if(profile instanceof YDAuthProfile)
             ((YDAuthProfile)profile).update(result);
         return result;
+    }
+
+    public IProfile createProfile(ISession session){
+        if(!(session instanceof YDSession)){
+            throw new IllegalArgumentException("Profile can only be created from an YDSession. Please use YDLoginService to log in.");
+        }
+        return new YDAuthProfile((YDSession) session);
     }
 
     // performs a HTTP POST request and checks if response from the system is error-less
@@ -109,7 +117,6 @@ public final class YDLoginService implements ILoginService {
             if (obj.containsKey("clientToken"))
                 return;
             file.delete();
-
         }
         FileUtils.createFileSafely(file);
         MCLauncherAPI.log.fine("Writing client token...");

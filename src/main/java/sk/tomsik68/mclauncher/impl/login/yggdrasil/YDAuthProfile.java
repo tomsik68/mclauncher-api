@@ -23,6 +23,10 @@ public final class YDAuthProfile implements IProfile, IJSONSerializable {
         this.userId = userId;
     }
 
+    YDAuthProfile(YDSession session){
+        this(session.getUsername(), session.getUsername(), session.getSessionID(), session.getUUID(), session.getUserObject().id);
+    }
+
     public YDAuthProfile(JSONObject json) {
         this.userName = json.get("username").toString();
         this.accessToken = json.get("accessToken").toString();
