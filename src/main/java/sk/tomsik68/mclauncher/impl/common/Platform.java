@@ -23,6 +23,10 @@ public final class Platform {
         minecraftOsWrapper.put("osx", "macos");
     }
 
+    private Platform(){
+        
+    }
+
     /** our current operating system */
     private static IOperatingSystem currentOS = null;
 
