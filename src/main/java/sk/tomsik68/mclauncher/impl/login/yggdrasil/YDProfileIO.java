@@ -8,6 +8,7 @@ import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.login.IProfile;
 import sk.tomsik68.mclauncher.api.login.IProfileIO;
 import sk.tomsik68.mclauncher.impl.login.yggdrasil.YDAuthProfile;
+import sk.tomsik68.mclauncher.util.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,7 +40,7 @@ public final class YDProfileIO implements IProfileIO {
     public void write(IProfile[] profiles) throws Exception {
         JSONObject jRoot, authDb;
         if (!dest.exists()) {
-            dest.createNewFile();
+            FileUtils.createFileSafely(dest);
             jRoot = new JSONObject();
             authDb = new JSONObject();
         } else {

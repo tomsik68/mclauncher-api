@@ -111,6 +111,7 @@ public final class YDLoginService implements ILoginService {
             file.delete();
 
         }
+        FileUtils.createFileSafely(file);
         MCLauncherAPI.log.fine("Writing client token...");
         // file.createNewFile();
         obj.put("clientToken", clientToken.toString());
