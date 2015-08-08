@@ -53,13 +53,13 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         // if we're inheriting from a version
         if(version.getInheritsFrom() != null && version.getInheritsFrom().length() > 0){
             MCLauncherAPI.log.fine("Looks like we're inheriting a version. Checking parent version...");
+            // download the parent version information
+            IVersion parent = versionList.retrieveVersionInfo(version.getInheritsFrom());
             // and the parent version isn't installed
-            File jsonFile = jarManager.getInfoFile(v);
+            File jsonFile = jarManager.getInfoFile(parent);
             MCLauncherAPI.log.fine("Looking for ".concat(jsonFile.getAbsolutePath()));
             if (!jsonFile.exists()) {
                 MCLauncherAPI.log.info("Installing parent version...");
-                // download the parent version
-                IVersion parent = versionList.retrieveVersionInfo(version.getInheritsFrom());
                 parent.getInstaller().install(parent, mc, progress);
             }
         }
