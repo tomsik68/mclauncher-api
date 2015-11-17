@@ -18,12 +18,10 @@ public final class MCDownloadVersionList extends Observable<String> implements I
     private final MCDownloadOnlineVersionList onlineVersionList;
 
     /**
-     * This constructor uses the default minecraft instance for local versions
+     * Creates new MCDownloadVersionList which fetches local JSON files
+     * from given minecraft instance
+     * @param mc where to fetch JSON files from
      */
-    public MCDownloadVersionList() {
-        this(new MinecraftInstance(Platform.getCurrentPlatform().getWorkingDirectory()));
-    }
-
     public MCDownloadVersionList(MinecraftInstance mc) {
         onlineVersionList = new MCDownloadOnlineVersionList();
         localVersionList = new MCDownloadLocalVersionList(mc);
