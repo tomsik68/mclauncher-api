@@ -24,122 +24,112 @@ public class TestMCDownloadLaunch {
     @Test
     public void test() {
 
-	try {
-	    // finally use my minecraft credentials
-	    System.out.println("Logging in...");
-	    YDLoginService service = new YDLoginService();
-	    service.load(Platform.getCurrentPlatform().getWorkingDirectory());
-	    YDProfileIO profileIO = new YDProfileIO(Platform
-		    .getCurrentPlatform().getWorkingDirectory());
-	    IProfile[] profiles = profileIO.read();
-	    /*
+        try {
+            // finally use my minecraft credentials
+            System.out.println("Logging in...");
+            YDLoginService service = new YDLoginService();
+            service.load(Platform.getCurrentPlatform().getWorkingDirectory());
+            YDProfileIO profileIO = new YDProfileIO(Platform
+                    .getCurrentPlatform().getWorkingDirectory());
+            IProfile[] profiles = profileIO.read();
+        /*
 	     * for (IProfile profile : profiles) {
 	     * System.out.println(profile.getName() + ";" +
 	     * profile.getPassword()); }
 	     */
-	    final ISession session = service.login(profiles[0]);
-	    profileIO.write(profiles);
-	    System.out.println("Success! Launching...");
-	    final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
-	    final MCDownloadVersionList versionList = new MCDownloadVersionList();
-	    versionList.addObserver(new IObserver<String>() {
+            final ISession session = service.login(profiles[0]);
+            profileIO.write(profiles);
+            System.out.println("Success! Launching...");
+            final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
+            final MCDownloadVersionList versionList = new MCDownloadVersionList(mc);
 
-		private boolean launched = false;
+            IVersion changed = null;
+            try {
+                changed = versionList.retrieveVersionInfo("1.8");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-		@Override
-		public void onUpdate(IObservable<String> observable,
-			String id) {
-			IVersion changed = null;
-			try {
-				changed = versionList.retrieveVersionInfo(id);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if (!launched) {
-			launched = true;
-			try {
-			    List<String> launchCommand = changed.getLauncher()
-				    .getLaunchCommand(session, mc, null,
-					    changed, new ILaunchSettings() {
+            try {
+                List<String> launchCommand = changed.getLauncher()
+                        .getLaunchCommand(session, mc, null,
+                                changed, new ILaunchSettings() {
 
-						@Override
-						public boolean isModifyAppletOptions() {
-						    return false;
-						}
+                                    @Override
+                                    public boolean isModifyAppletOptions() {
+                                        return false;
+                                    }
 
-						@Override
-						public File getJavaLocation() {
-						    return null;
-						}
+                                    @Override
+                                    public File getJavaLocation() {
+                                        return null;
+                                    }
 
-						@Override
-						public List<String> getJavaArguments() {
-						    return Arrays
-							    .asList("-XX:+UseConcMarkSweepGC",
-								    "-XX:+CMSIncrementalMode",
-								    "-XX:-UseAdaptiveSizePolicy",
-								    "-Xmn128M");
-						}
+                                    @Override
+                                    public List<String> getJavaArguments() {
+                                        return Arrays
+                                                .asList("-XX:+UseConcMarkSweepGC",
+                                                        "-XX:+CMSIncrementalMode",
+                                                        "-XX:-UseAdaptiveSizePolicy",
+                                                        "-Xmn128M");
+                                    }
 
-						@Override
-						public String getInitHeap() {
-						    return "512M";
-						}
+                                    @Override
+                                    public String getInitHeap() {
+                                        return "512M";
+                                    }
 
-						@Override
-						public String getHeap() {
-						    return "1G";
-						}
+                                    @Override
+                                    public String getHeap() {
+                                        return "1G";
+                                    }
 
-						@Override
-						public Map<String, String> getCustomParameters() {
-						    return null;
-						}
+                                    @Override
+                                    public Map<String, String> getCustomParameters() {
+                                        return null;
+                                    }
 
-						@Override
-						public List<String> getCommandPrefix() {
-						    return null;
-						}
-					    }, null);
-			    for (String cmd : launchCommand) {
-				System.out.print(cmd + " ");
-			    }
-			    System.out.println();
-			    ProcessBuilder pb = new ProcessBuilder(
-				    launchCommand);
-			    pb.redirectError(new File("mcerr.log"));
-			    pb.redirectOutput(new File("mcout.log"));
-			    pb.directory(mc.getLocation());
-			    Process proc = pb.start();
-			    BufferedReader br = new BufferedReader(
-				    new InputStreamReader(proc.getInputStream()));
-			    String line;
-			    while (isProcessAlive(proc)) {
-				line = br.readLine();
-				if (line != null && line.length() > 0)
-				    System.out.println(line);
-			    }
-			} catch (Exception e) {
-			    e.printStackTrace();
-			}
+                                    @Override
+                                    public List<String> getCommandPrefix() {
+                                        return null;
+                                    }
+                                }, null);
+                for (String cmd : launchCommand) {
+                    System.out.print(cmd + " ");
+                }
+                System.out.println();
+                ProcessBuilder pb = new ProcessBuilder(
+                        launchCommand);
+                pb.redirectError(new File("mcerr.log"));
+                pb.redirectOutput(new File("mcout.log"));
+                pb.directory(mc.getLocation());
+                Process proc = pb.start();
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(proc.getInputStream()));
+                String line;
+                while (isProcessAlive(proc)) {
+                    line = br.readLine();
+                    if (line != null && line.length() > 0)
+                        System.out.println(line);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-		    }
-		}
-	    });
-	    versionList.startDownload();
-	} catch (Exception e) {
-	    e.printStackTrace();
-	}
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected boolean isProcessAlive(Process proc) {
-	try {
-	    System.out.println("Process exited with error code:"
-		    + proc.exitValue());
-	    return false;
-	} catch (Exception e) {
-	    return true;
-	}
+        try {
+            System.out.println("Process exited with error code:"
+                    + proc.exitValue());
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
 
     }
 

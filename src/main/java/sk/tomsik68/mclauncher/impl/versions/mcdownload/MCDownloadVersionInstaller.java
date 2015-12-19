@@ -21,10 +21,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
     private static final String JAR_DOWNLOAD_URL = "https://s3.amazonaws.com/Minecraft.Download/versions/<VERSION>/<VERSION>.jar";
 
-    private final MCDownloadVersionList versionList;
-
     public MCDownloadVersionInstaller(){
-        versionList = new MCDownloadVersionList();
+
     }
 
     @Override
@@ -34,6 +32,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
 
     @Override
     public void install(IVersion v, MinecraftInstance mc, IProgressMonitor progress) throws Exception {
+        MCDownloadVersionList versionList = new MCDownloadVersionList(mc);
         final boolean haveProgress = (progress != null);
 
         // create jar manager and library provider as we'll need them

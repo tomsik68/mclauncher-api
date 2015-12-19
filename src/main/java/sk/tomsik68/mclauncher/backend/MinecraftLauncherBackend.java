@@ -41,7 +41,7 @@ public final class MinecraftLauncherBackend {
      */
     public List<String> getVersionList() throws Exception {
         AddToListObserver observer = new AddToListObserver();
-        MCDownloadVersionList mcDownloadVersionList = new MCDownloadVersionList();
+        MCDownloadVersionList mcDownloadVersionList = new MCDownloadVersionList(minecraftInstance);
         mcDownloadVersionList.addObserver(observer);
         mcDownloadVersionList.startDownload();
 

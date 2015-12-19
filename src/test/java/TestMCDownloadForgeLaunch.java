@@ -31,7 +31,7 @@ public class TestMCDownloadForgeLaunch {
             System.out.println("Success! Launching...");
             final MinecraftInstance mc = new MinecraftInstance(
                     Platform.getCurrentPlatform().getWorkingDirectory());
-            final MCDownloadVersionList versionList = new MCDownloadVersionList();
+            final MCDownloadVersionList versionList = new MCDownloadVersionList(mc);
             IVersion toLaunch = versionList.retrieveVersionInfo("1.8-Forge11.14.3.1450");
             System.out.println(toLaunch);
             try {

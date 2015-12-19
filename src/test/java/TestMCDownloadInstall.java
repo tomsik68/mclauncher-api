@@ -1,6 +1,7 @@
 import java.io.File;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 import sk.tomsik68.mclauncher.api.common.IObservable;
@@ -13,37 +14,24 @@ public class TestMCDownloadInstall {
 
     @Test
     public void test() {
-        final MCDownloadVersionList list = new MCDownloadVersionList();
-        final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
-        list.addObserver(new IObserver<String>() {
-            private boolean installed = false;
 
-            @Override
-            public void onUpdate(IObservable<String> observable, String id) {
-                IVersion changed = null;
-                try {
-                    changed = list.retrieveVersionInfo(id);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                System.out.println("Version "+changed.getId());
-                if(installed) return;
-                installed = true;
-                System.out.println("Installing " + changed.getDisplayName());
-                try {
-                    changed.getInstaller().install(changed, mc, null);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    fail();
-                }
-            }
-        });
+        final MinecraftInstance mc = new MinecraftInstance(new File("testmc"));
+        final MCDownloadVersionList list = new MCDownloadVersionList(mc);
+
+        IVersion changed = null;
         try {
-            list.startDownload();
+            changed = list.retrieveVersionInfo("1.8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Version " + changed.getId());
+        System.out.println("Installing " + changed.getDisplayName());
+        try {
+            changed.getInstaller().install(changed, mc, null);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
-
         }
     }
+
 }

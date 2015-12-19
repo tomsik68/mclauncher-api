@@ -9,7 +9,7 @@ import java.util.List;
 final class AddToListObserver implements IObserver<String> {
     private final List<String> list;
     AddToListObserver(){
-        list = new ArrayList<>();
+        list = new ArrayList<String>();
     }
     @Override
     public void onUpdate(IObservable<String> observable, String changed) {
