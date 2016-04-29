@@ -58,17 +58,21 @@ public final class YDLoginService implements ILoginService {
         return new YDAuthProfile((YDSession) session);
     }
 
+    private String doLoginPost(String url, IJSONSerializable request) throws YDServiceAuthenticationException {
+        String response = null;
+        try {
+            // Automatically Throws YDServiceAuthenticationException but will check for IOException and convert
+            response = HttpUtils.doJSONAuthenticationPost(url, request);
+            return response;
+        } catch (IOException e) {
+            throw new YDServiceAuthenticationException("Failed to authenticate using Mojang authentication service.", e);
+        }
+    }
+
     // performs a HTTP POST request and checks if response from the system is error-less
     private YDLoginResponse doCheckedLoginPost(String url, IJSONSerializable req) throws YDServiceAuthenticationException {
-        String jsonString = null;
-		try {
-			// Automatically Throws YDServiceAuthenticationException but will check for IOException and convert
-			jsonString = HttpUtils.doJSONAuthenticationPost(url, req);
-			
-		} catch (IOException e) {
-			throw new YDServiceAuthenticationException("Failed to authenticate using Mojang authentication service.", e);
-		}
-        
+        String jsonString = doLoginPost(url, req);
+
 		JSONObject jsonObject = (JSONObject)JSONValue.parse(jsonString);
         YDLoginResponse response = new YDLoginResponse(jsonObject);
         
@@ -142,8 +146,13 @@ public final class YDLoginService implements ILoginService {
     @Override
     public void logout(ISession session) throws Exception {
         YDLogoutRequest request = new YDLogoutRequest(session, clientToken);
-        doCheckedLoginPost(SESSION_LOGOUT_URL, request);
-        MCLauncherAPI.log.fine("Logout successful.");
+        String response = doLoginPost(SESSION_LOGOUT_URL, request);
+        if("".equals(response)) {
+            MCLauncherAPI.log.fine("Logout successful.");
+        } else {
+            MCLauncherAPI.log.fine("Unknown error occured during logout(mojang yggdrassil didn't return empty string).");
+        }
+
     }
 
 }
