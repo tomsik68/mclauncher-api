@@ -47,6 +47,9 @@ public final class YDProfileIO implements IProfileIO {
             MCLauncherAPI.log.fine("Existing profile storage file found. Loading profiles in case they would be overwritten.");
             jRoot = (JSONObject) JSONValue.parse(new FileInputStream(dest));
             authDb = (JSONObject) jRoot.get("authenticationDatabase");
+            if(authDB == null){
+                authDb = new JSONObject();
+            }
         }
 
         for (IProfile p : profiles) {
