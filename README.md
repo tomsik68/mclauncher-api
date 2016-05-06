@@ -1,6 +1,8 @@
 Tomsik68's MCLauncher-API
 =================
 
+[![Join the chat at https://gitter.im/tomsik68/mclauncher-api](https://badges.gitter.im/tomsik68/mclauncher-api.svg)](https://gitter.im/tomsik68/mclauncher-api?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 An API for custom minecraft launchers which is aimed to be easy to work with. 
 
 =================
