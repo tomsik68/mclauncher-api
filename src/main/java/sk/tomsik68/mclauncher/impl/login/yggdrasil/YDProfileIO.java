@@ -24,7 +24,9 @@ public final class YDProfileIO implements IProfileIO {
 
     @Override
     public IProfile[] read() throws Exception {
+        FileReader fileReader = new FileReader(dest);
         JSONObject root = (JSONObject) JSONValue.parse(new FileReader(dest));
+        fileReader.close();
 
         JSONObject authDatabase = (JSONObject) root.get("authenticationDatabase");
         IProfile[] result = new IProfile[authDatabase.size()];
