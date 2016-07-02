@@ -89,7 +89,7 @@ public final class YDAuthProfile implements IProfile, IJSONSerializable {
     @Override
     public String getSkinURL() {
         StringBuilder url = new StringBuilder(SKINS_ROOT);
-        url = url.append(getUUID()).append(".png");
+        url = url.append(getName()).append(".png");
         return url.toString();
     }
 
