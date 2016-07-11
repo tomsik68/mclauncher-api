@@ -27,7 +27,7 @@ final class MacintoshOS implements IOperatingSystem {
     public File getWorkingDirectory() {
         if (workDir != null)
             return workDir;
-        workDir = new File(System.getProperty("user.home"), "Library/Application Support/.minecraft");
+        workDir = new File(System.getProperty("user.home"), "Library/Application Support/minecraft");
         MCLauncherAPI.log.fine("Minecraft working directory: ".concat(workDir.getAbsolutePath()));
         return workDir;
     }
