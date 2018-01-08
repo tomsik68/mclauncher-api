@@ -53,8 +53,14 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         } else
             subst.setVariable("user_properties", "{}");
 
-        args = subst.substitute(args);
-        return args.split(" ");
+        String[] splitArgs = args.split(" ");
+
+        if (splitArgs.length > 0) {
+            for (int i = 0; i < splitArgs.length; ++i) {
+                splitArgs[i] = subst.substitute(splitArgs[i]);
+            }
+        }
+        return splitArgs;
     }
 
     @Override
