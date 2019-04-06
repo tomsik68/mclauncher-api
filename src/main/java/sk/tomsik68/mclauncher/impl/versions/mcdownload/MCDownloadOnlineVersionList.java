@@ -9,10 +9,14 @@ import sk.tomsik68.mclauncher.api.versions.LatestVersionInformation;
 import sk.tomsik68.mclauncher.impl.common.Observable;
 import sk.tomsik68.mclauncher.util.HttpUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 final class MCDownloadOnlineVersionList extends Observable<String> implements IVersionList{
 
-    private static final String JSONVERSION_LIST_URL = "http://s3.amazonaws.com/Minecraft.Download/versions/versions.json";
-    private static final String FULL_VERSION_URL_TEMPLATE = "http://s3.amazonaws.com/Minecraft.Download/versions/<VERSION>/<VERSION>.json";
+    private static final String JSONVERSION_LIST_URL = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
+
+    private Map<String, String> versionsToUrlMap;
 
     MCDownloadOnlineVersionList(){
     }
@@ -23,16 +27,24 @@ final class MCDownloadOnlineVersionList extends Observable<String> implements IV
         String jsonString = HttpUtils.httpGet(JSONVERSION_LIST_URL);
         JSONObject versionInformation = (JSONObject) JSONValue.parse(jsonString);
         JSONArray versions = (JSONArray) versionInformation.get("versions");
+
+        versionsToUrlMap = new HashMap<>();
         // and then, for each version...
         for (Object object : versions) {
             JSONObject versionObject = (JSONObject) object;
-            notifyObservers(versionObject.get("id").toString());
+            String id = versionObject.get("id").toString();
+            versionsToUrlMap.put(id, versionObject.get("url").toString());
+            notifyObservers(id);
         }
     }
 
     @Override
     public IVersion retrieveVersionInfo(String id) throws Exception{
-        String fullVersionJSONString = HttpUtils.httpGet(FULL_VERSION_URL_TEMPLATE.replace("<VERSION>", id));
+        if (null == versionsToUrlMap) {
+            startDownload();
+        }
+
+        String fullVersionJSONString = HttpUtils.httpGet(versionsToUrlMap.get(id));
         JSONObject fullVersionObject = (JSONObject) JSONValue.parse(fullVersionJSONString);
         // ,create a MCDownloadVersion based on it
         MCDownloadVersion version = new MCDownloadVersion(fullVersionObject);
