@@ -20,6 +20,8 @@ public class TestMCDownloadInstall {
 
         IVersion changed = null;
         try {
+            list.startDownload();
+
             changed = list.retrieveVersionInfo("1.8");
         } catch (Exception e) {
             e.printStackTrace();
