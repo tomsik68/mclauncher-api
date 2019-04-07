@@ -40,7 +40,8 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         if (json.containsKey("processArguments"))
             processArgs = json.get("processArguments").toString();
         minecraftArgs = json.get("minecraftArguments").toString();
-        minimumLauncherVersion = Integer.parseInt(json.get("minimumLauncherVersion").toString());
+        if (json.containsKey("minimumLauncherVersion"))
+            minimumLauncherVersion = Integer.parseInt(json.get("minimumLauncherVersion").toString());
         mainClass = json.get("mainClass").toString();
         if (json.containsKey("assets"))
             assets = json.get("assets").toString();
