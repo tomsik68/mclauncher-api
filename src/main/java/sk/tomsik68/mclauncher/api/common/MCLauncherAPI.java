@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * @author Tomsik68
  */
 public class MCLauncherAPI {
-    public static final int MC_LAUNCHER_VERSION = 15;
+    public static final int MC_LAUNCHER_VERSION = 18;
     public static Logger log = Logger.getLogger(MCLauncherAPI.class.getName());
 
     static {
