@@ -18,7 +18,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     private static final String DEFAULT_ASSETS_INDEX = "legacy";
 
     private String id, time, releaseTime, type, minecraftArgs, mainClass, jarVersion;
-    private int minimumLauncherVersion;
+    private Integer minimumLauncherVersion;
     private final JSONObject json;
     private String incompatibilityReason, processArgs, assets, inheritsFrom;
     private ArrayList<Rule> rules = new ArrayList<Rule>();
@@ -45,8 +45,6 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         mainClass = json.get("mainClass").toString();
         if (json.containsKey("assets"))
             assets = json.get("assets").toString();
-        else
-            assets = DEFAULT_ASSETS_INDEX;
         if (json.containsKey("rules")) {
             JSONArray rulesArray = (JSONArray) json.get("rules");
             for (Object o : rulesArray) {
@@ -157,6 +155,8 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     }
 
     String getAssetsIndexName() {
+        if (assets == null)
+            return DEFAULT_ASSETS_INDEX;
         return assets;
     }
 
@@ -174,6 +174,9 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
 
         if(minecraftArgs == null)
             minecraftArgs = parent.getMinecraftArgs();
+
+        if(minimumLauncherVersion == null)
+            minimumLauncherVersion = parent.getMinimumLauncherVersion();
 
         if(mainClass == null)
             mainClass = parent.getMainClass();
