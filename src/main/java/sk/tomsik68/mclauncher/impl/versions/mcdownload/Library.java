@@ -19,7 +19,7 @@ final class Library {
     private final StringSubstitutor libraryPathSubstitutor = new StringSubstitutor("${%s}");
     private final String name;
     private final HashMap<String, String> natives = new HashMap<String, String>();
-    private final ArrayList<Rule> rules = new ArrayList<Rule>();
+    private final RuleList rules;
     private LibraryExtractRules extractRules;
     private final static String LIBRARY_BASE_URL = "https://libraries.minecraft.net/";
     private String url = LIBRARY_BASE_URL;
@@ -35,12 +35,7 @@ final class Library {
                 natives.put(key, value);
             }
         }
-        if (json.containsKey("rules")) {
-            JSONArray rulz = (JSONArray) json.get("rules");
-            for (int i = 0; i < rulz.size(); ++i) {
-                rules.add(new Rule((JSONObject) rulz.get(i)));
-            }
-        }
+        rules = RuleList.fromJson((JSONArray) json.get("rules"));
         if (json.containsKey("extract")) {
             extractRules = new LibraryExtractRules((JSONObject) json.get("extract"));
         }
@@ -93,19 +88,11 @@ final class Library {
      * @return True if this library is compatible with the current operating system
      */
     boolean isCompatible() {
-        Action action = Action.DISALLOW;
-        for (Rule rule : rules) {
-            // rule may only change resulting action if it's effective...
-            if (rule.applies()) {
-                action = rule.getAction();
-                System.out.println("Rule: " + rule.toString());
-            }
-        }
         // the following condition is very important and can brackets can be ignored while reading(they're just to increase readability)
         // library is compatible if:
         //    (there are no rules) OR ((action is allow) AND (there are EITHER ((no natives) OR (natives for this platform are available))))
-        return rules.isEmpty()
-                || (action == Action.ALLOW && (!hasNatives() || natives.containsKey(Platform.getCurrentPlatform().getMinecraftName()) || natives.containsKey(Platform.wrapName(Platform.getCurrentPlatform().getMinecraftName())) ));
+        return rules.allows(Platform.getCurrentPlatform(), System.getProperty("os.version"))
+                && (!hasNatives() || natives.containsKey(Platform.getCurrentPlatform().getMinecraftName()) || natives.containsKey(Platform.wrapName(Platform.getCurrentPlatform().getMinecraftName())) );
     }
 
     /**

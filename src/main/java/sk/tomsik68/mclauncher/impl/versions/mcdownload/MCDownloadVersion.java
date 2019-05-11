@@ -21,7 +21,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     private Integer minimumLauncherVersion;
     private final JSONObject json;
     private String incompatibilityReason, processArgs, assets, inheritsFrom;
-    private ArrayList<Rule> rules = new ArrayList<Rule>();
+    private RuleList rules;
     private ArrayList<Library> libraries = new ArrayList<Library>();
 
     private boolean needsInheritance;
@@ -45,13 +45,8 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         mainClass = json.get("mainClass").toString();
         if (json.containsKey("assets"))
             assets = json.get("assets").toString();
-        if (json.containsKey("rules")) {
-            JSONArray rulesArray = (JSONArray) json.get("rules");
-            for (Object o : rulesArray) {
-                JSONObject jsonRule = (JSONObject) o;
-                rules.add(new Rule(jsonRule));
-            }
-        }
+        rules = RuleList.fromJson((JSONArray) json.get("rules"));
+
         if (json.containsKey("libraries")) {
             JSONArray libs = (JSONArray) json.get("libraries");
             for (int i = 0; i < libs.size(); ++i) {
@@ -141,12 +136,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
      * @return True if this version is compatible with our current operating system
      */
     public boolean isCompatible() {
-        Action action = null;
-        for (Rule rule : rules) {
-            if (rule.applies())
-                action = rule.getAction();
-        }
-        return rules.isEmpty() || action == Action.ALLOW;
+        return rules.allows(Platform.getCurrentPlatform(), System.getProperty("os.version"));
     }
 
     @Override
@@ -188,15 +178,12 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
             assets = parent.getAssetsIndexName();
 
         libraries.addAll(parent.getLibraries());
-        rules.addAll(parent.rules);
-
 
         if(jarVersion == null || jarVersion.isEmpty()){
             jarVersion = parent.getJarVersion();
         }
 
-        if(rules.isEmpty())
-            rules.addAll(parent.rules);
+        rules = rules.and(parent.rules);
 
         needsInheritance = false;
         MCLauncherAPI.log.finer("Inheriting version ".concat(id).concat(" finished."));
