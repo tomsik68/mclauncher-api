@@ -4,12 +4,17 @@ import net.minidev.json.JSONObject;
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
 import sk.tomsik68.mclauncher.impl.common.Platform;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 final class Rule {
     private final Action action;
-    private IOperatingSystem restrictedOs;
-    private String restrictedOsVersionPattern;
+    private final IOperatingSystem restrictedOs;
+    private final String restrictedOsVersionPattern;
+    private final Map<String, Boolean> features;
 
     public Rule(JSONObject json) {
         action = Action.valueOf(json.get("action").toString().toUpperCase());
@@ -18,6 +23,21 @@ final class Rule {
             restrictedOs = Platform.osByName(os.get("name").toString());
             if (json.containsKey("version"))
                 restrictedOsVersionPattern = os.get("version").toString();
+            else
+                restrictedOsVersionPattern = null;
+        } else {
+            restrictedOs = null;
+            restrictedOsVersionPattern = null;
+        }
+        if (json.containsKey("features")) {
+            JSONObject featuresMap = (JSONObject) json.get("features");
+            Map<String, Boolean> f = new HashMap<>();
+            for (Map.Entry<String, Object> entry : featuresMap.entrySet()) {
+                f.put(entry.getKey(), Boolean.valueOf(entry.getValue().toString()));
+            }
+            features = Collections.unmodifiableMap(f);
+        } else {
+            features = Collections.emptyMap();
         }
     }
 
@@ -31,6 +51,10 @@ final class Rule {
 
     public String getRestrictedOsVersionPattern() {
         return restrictedOsVersionPattern;
+    }
+
+    public Map<String, Boolean> getFeatures() {
+        return features;
     }
 
     @Override
@@ -49,7 +73,12 @@ final class Rule {
      *
      * @return True if this rule is effective, false otherwise
      */
-    public boolean applies() {
+    public boolean applies(IFeaturePredicate pred) {
+        // determine if features are satisfied
+        for (Map.Entry<String, Boolean> feature : features.entrySet()) {
+            pred.isFeatureSatisfied(feature.getKey(), feature.getValue());
+        }
+
         // if there's no OS specified, it applies to all OSs
         if (getRestrictedOs() == null) {
             return true;

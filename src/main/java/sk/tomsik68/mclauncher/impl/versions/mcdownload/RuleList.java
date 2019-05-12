@@ -30,11 +30,12 @@ final class RuleList {
         return new RuleList(rules);
     }
 
-    boolean allows(IOperatingSystem os, String version) {
+    boolean allows(IOperatingSystem os, String version, IFeaturePredicate featurePred) {
+        Objects.requireNonNull(featurePred);
         boolean result = true;
 
         for (Rule rule : rules) {
-            result &= !rule.applies() || rule.getAction() == Rule.Action.ALLOW;
+            result &= !rule.applies(featurePred) || rule.getAction() == Rule.Action.ALLOW;
         }
 
         return result;

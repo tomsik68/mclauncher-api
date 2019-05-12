@@ -7,7 +7,7 @@ import sk.tomsik68.mclauncher.api.json.IJSONSerializable;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;
 import sk.tomsik68.mclauncher.api.versions.IVersionLauncher;
-import sk.tomsik68.mclauncher.impl.versions.mcdownload.Rule.Action;
+import sk.tomsik68.mclauncher.impl.common.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +16,13 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     private static final MCDownloadVersionInstaller installer = new MCDownloadVersionInstaller();
     private static final IVersionLauncher launcher = new MCDownloadVersionLauncher();
     private static final String DEFAULT_ASSETS_INDEX = "legacy";
+    private ArgumentList jvmArgs;
+    private ArgumentList gameArgs;
 
-    private String id, time, releaseTime, type, minecraftArgs, mainClass, jarVersion;
+    private String id, time, releaseTime, type, mainClass, jarVersion;
     private Integer minimumLauncherVersion;
     private final JSONObject json;
-    private String incompatibilityReason, processArgs, assets, inheritsFrom;
+    private String incompatibilityReason, assets, inheritsFrom;
     private RuleList rules;
     private ArrayList<Library> libraries = new ArrayList<Library>();
 
@@ -37,9 +39,29 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         time = json.get("time").toString();
         releaseTime = json.get("releaseTime").toString();
         type = json.get("type").toString();
-        if (json.containsKey("processArguments"))
-            processArgs = json.get("processArguments").toString();
-        minecraftArgs = json.get("minecraftArguments").toString();
+
+        if (json.containsKey("processArguments")) {
+            jvmArgs = ArgumentList.fromString(json.get("processArguments").toString());
+        } else if(json.containsKey("arguments")) {
+            JSONObject arguments = (JSONObject) json.get("arguments");
+            JSONArray jvm = (JSONArray) arguments.get("jvm");
+            jvmArgs = ArgumentList.fromArray(jvm);
+        } else {
+            jvmArgs = ArgumentList.empty();
+        }
+
+        if (json.containsKey("minecraftArguments")) {
+            gameArgs = ArgumentList.fromString(json.get("minecraftArguments").toString());
+        } else if(json.containsKey("arguments")) {
+            JSONObject arguments = (JSONObject) json.get("arguments");
+
+            JSONArray game = (JSONArray) arguments.get("game");
+
+            gameArgs = ArgumentList.fromArray(game);
+        } else {
+            gameArgs = ArgumentList.empty();
+        }
+
         if (json.containsKey("minimumLauncherVersion"))
             minimumLauncherVersion = Integer.parseInt(json.get("minimumLauncherVersion").toString());
         mainClass = json.get("mainClass").toString();
@@ -94,12 +116,12 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         return type;
     }
 
-    String getProcessArgs() {
-        return processArgs;
+    ArgumentList getGameArgs() {
+        return gameArgs;
     }
 
-    String getMinecraftArgs() {
-        return minecraftArgs;
+    ArgumentList getJvmArgs() {
+        return jvmArgs;
     }
 
     int getMinimumLauncherVersion() {
@@ -136,7 +158,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
      * @return True if this version is compatible with our current operating system
      */
     public boolean isCompatible() {
-        return rules.allows(Platform.getCurrentPlatform(), System.getProperty("os.version"));
+        return rules.allows(Platform.getCurrentPlatform(), System.getProperty("os.version"), FeaturePreds.ALL);
     }
 
     @Override
@@ -162,8 +184,11 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
             throw new IllegalArgumentException("Wrong inheritance version passed!");
         }
 
-        if(minecraftArgs == null)
-            minecraftArgs = parent.getMinecraftArgs();
+        if(gameArgs.isEmpty())
+            gameArgs = parent.gameArgs;
+
+        if (jvmArgs.isEmpty())
+            jvmArgs = parent.jvmArgs;
 
         if(minimumLauncherVersion == null)
             minimumLauncherVersion = parent.getMinimumLauncherVersion();

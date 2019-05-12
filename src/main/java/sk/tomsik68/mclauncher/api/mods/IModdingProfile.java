@@ -47,7 +47,7 @@ public interface IModdingProfile {
      * @param minecraftArguments Array of minecraft arguments created by launcher
      * @return Array of string which is formatted in the same way as the input array. If you don't want to make any changes, return null or <code>minecraftArguments</code>
      */
-    public String[] changeMinecraftArguments(String[] minecraftArguments);
+    public List<String> changeMinecraftArguments(List<String> minecraftArguments);
 
     /**
      *

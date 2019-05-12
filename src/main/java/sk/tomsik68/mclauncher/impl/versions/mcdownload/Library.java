@@ -3,13 +3,10 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import sk.tomsik68.mclauncher.api.common.IOperatingSystem;
-import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.impl.common.Platform;
-import sk.tomsik68.mclauncher.impl.versions.mcdownload.Rule.Action;
 import sk.tomsik68.mclauncher.util.IExtractRules;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -91,7 +88,7 @@ final class Library {
         // the following condition is very important and can brackets can be ignored while reading(they're just to increase readability)
         // library is compatible if:
         //    (there are no rules) OR ((action is allow) AND (there are EITHER ((no natives) OR (natives for this platform are available))))
-        return rules.allows(Platform.getCurrentPlatform(), System.getProperty("os.version"))
+        return rules.allows(Platform.getCurrentPlatform(), System.getProperty("os.version"), FeaturePreds.ALL)
                 && (!hasNatives() || natives.containsKey(Platform.getCurrentPlatform().getMinecraftName()) || natives.containsKey(Platform.wrapName(Platform.getCurrentPlatform().getMinecraftName())) );
     }
 
