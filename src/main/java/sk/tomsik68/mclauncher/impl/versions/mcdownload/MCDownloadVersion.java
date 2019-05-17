@@ -20,6 +20,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     private ArgumentList gameArgs;
 
     private String id, time, releaseTime, type, mainClass, jarVersion;
+    private Artifact client, server;
     private Artifact assetIndex;
     private String assetsIndexName;
     private Integer minimumLauncherVersion;
@@ -77,6 +78,13 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
                 libraries.add(new Library((JSONObject) libs.get(i)));
             }
         }
+
+        if (json.containsKey("downloads")) {
+            JSONObject downloads = (JSONObject) json.get("downloads");
+            client = Artifact.fromJson((JSONObject) downloads.get("client"));
+            server = Artifact.fromJson((JSONObject) downloads.get("server"));
+        }
+
         if (json.containsKey("incompatibilityReason"))
             incompatibilityReason = json.get("incompatibilityReason").toString();
         if (json.containsKey("inheritsFrom")) {

@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 
 final class MCDownloadVersionInstaller implements IVersionInstaller {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
-    private static final String JAR_DOWNLOAD_URL = "https://s3.amazonaws.com/Minecraft.Download/versions/<VERSION>/<VERSION>.jar";
 
     public MCDownloadVersionInstaller(){
 
@@ -134,7 +133,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
             if(haveProgress)
                 progress.setStatus("Downloading Game Jar...");
             try {
-                FileUtils.downloadFileWithProgress(JAR_DOWNLOAD_URL.replace("<VERSION>", version.getId()), jarDest, progress);
+                FileUtils.downloadFileWithProgress(version.getClient().getUrl(), jarDest, progress);
             } catch (Exception e) {
                 e.printStackTrace();
             }
