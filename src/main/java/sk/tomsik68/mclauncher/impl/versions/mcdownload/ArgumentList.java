@@ -26,7 +26,10 @@ final class ArgumentList implements Iterable<Argument> {
     static ArgumentList fromArray(JSONArray array) {
         List<Argument> arguments = new ArrayList<>();
         for (Object a : array) {
-            arguments.add(Argument.fromJson((JSONObject) a));
+            if (a instanceof String)
+                arguments.add(Argument.fromString((String) a));
+            else if(a instanceof JSONObject)
+                arguments.add(Argument.fromJson((JSONObject) a));
         }
         return new ArgumentList(arguments);
     }
