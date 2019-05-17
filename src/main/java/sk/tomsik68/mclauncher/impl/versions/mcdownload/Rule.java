@@ -84,9 +84,12 @@ final class Rule {
      */
     public boolean applies(IFeaturePredicate pred) {
         // determine if features are satisfied
+        boolean satisfied = true;
         for (Map.Entry<String, Boolean> feature : features.entrySet()) {
-            pred.isFeatureSatisfied(feature.getKey(), feature.getValue());
+            satisfied &= pred.isFeatureSatisfied(feature.getKey(), feature.getValue());
         }
+        if (!satisfied)
+            return false;
 
         // if there's no OS specified, it applies to all OSs
         if (getRestrictedOs() == null) {

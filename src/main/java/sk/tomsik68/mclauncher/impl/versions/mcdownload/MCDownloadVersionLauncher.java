@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 final class MCDownloadVersionLauncher implements IVersionLauncher {
@@ -207,6 +208,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
             MCLauncherAPI.log.fine("Adding last parameters after the entire command");
         }
         MCLauncherAPI.log.fine("Launching command is now ready.");
+        MCLauncherAPI.log.fine(command.toString());
         return command;
     }
 }
