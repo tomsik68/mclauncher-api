@@ -39,3 +39,5 @@ Here's a list of people who supported the project so far:
 + mrzban
 + laci200270
 + SlipsWhitley
++ Safranil
++ mcNETDev
