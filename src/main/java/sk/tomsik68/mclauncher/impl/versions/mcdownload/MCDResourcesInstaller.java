@@ -31,21 +31,21 @@ final class MCDResourcesInstaller {
      */
     void installAssetsForVersion(MCDownloadVersion version, IProgressMonitor progress) throws Exception {
         // let's see which asset index is needed by this version
-        String index = version.getAssetsIndexName();
-        MCLauncherAPI.log.fine("Installing asset index ".concat(index));
-        File indexDest = new File(indexesDir, index + ".json");
-        String indexDownloadURL = RESOURCES_INDEX_URL + index + ".json";
+        Artifact index = version.getAssetIndex();
+        String indexName = version.getAssetsIndexName();
+        MCLauncherAPI.log.fine("Installing asset index ".concat(indexName));
+        File indexDest = new File(indexesDir, indexName + ".json");
         // download this asset index
         if (!indexDest.exists() || indexDest.length() == 0)
-            FileUtils.downloadFileWithProgress(indexDownloadURL, indexDest, progress);
+            FileUtils.downloadFileWithProgress(index.getUrl(), indexDest, progress);
         // parse it from JSON
         FileReader fileReader = new FileReader(indexDest);
         JSONObject jsonAssets = (JSONObject) JSONValue.parse(fileReader);
         fileReader.close();
-        AssetIndex assets = new AssetIndex(index, jsonAssets);
+        AssetIndex assets = new AssetIndex(indexName, jsonAssets);
         // and download individual assets inside it
         downloadAssetList(assets, progress);
-        MCLauncherAPI.log.fine("Finished installing asset index ".concat(index));
+        MCLauncherAPI.log.fine("Finished installing asset index ".concat(indexName));
     }
 
     File getAssetsDirectory(){ return assetsDir; }

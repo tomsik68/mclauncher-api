@@ -20,9 +20,11 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     private ArgumentList gameArgs;
 
     private String id, time, releaseTime, type, mainClass, jarVersion;
+    private Artifact assetIndex;
+    private String assetsIndexName;
     private Integer minimumLauncherVersion;
     private final JSONObject json;
-    private String incompatibilityReason, assets, inheritsFrom;
+    private String incompatibilityReason, inheritsFrom;
     private RuleList rules;
     private ArrayList<Library> libraries = new ArrayList<Library>();
 
@@ -39,6 +41,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         time = json.get("time").toString();
         releaseTime = json.get("releaseTime").toString();
         type = json.get("type").toString();
+        assetsIndexName = json.get("assets").toString();
 
         if (json.containsKey("processArguments")) {
             jvmArgs = ArgumentList.fromString(json.get("processArguments").toString());
@@ -65,8 +68,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         if (json.containsKey("minimumLauncherVersion"))
             minimumLauncherVersion = Integer.parseInt(json.get("minimumLauncherVersion").toString());
         mainClass = json.get("mainClass").toString();
-        if (json.containsKey("assets"))
-            assets = json.get("assets").toString();
+        assetIndex = Artifact.fromJson((JSONObject) json.get("assetIndex"));
         rules = RuleList.fromJson((JSONArray) json.get("rules"));
 
         if (json.containsKey("libraries")) {
@@ -166,12 +168,6 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         return json;
     }
 
-    String getAssetsIndexName() {
-        if (assets == null)
-            return DEFAULT_ASSETS_INDEX;
-        return assets;
-    }
-
     boolean needsInheritance(){ return needsInheritance; }
 
     String getJarVersion(){
@@ -199,8 +195,11 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         if(incompatibilityReason == null)
             incompatibilityReason = parent.getIncompatibilityReason();
 
-        if(assets == null)
-            assets = parent.getAssetsIndexName();
+        if (assetsIndexName == null)
+            assetsIndexName = parent.getAssetsIndexName();
+
+        if(assetIndex == null)
+            assetIndex = parent.getAssetIndex();
 
         libraries.addAll(parent.getLibraries());
 
@@ -212,5 +211,21 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
 
         needsInheritance = false;
         MCLauncherAPI.log.finer("Inheriting version ".concat(id).concat(" finished."));
+    }
+
+    Artifact getAssetIndex() {
+        return assetIndex;
+    }
+
+    public Artifact getClient() {
+        return client;
+    }
+
+    public Artifact getServer() {
+        return server;
+    }
+
+    public String getAssetsIndexName() {
+        return assetsIndexName;
     }
 }
