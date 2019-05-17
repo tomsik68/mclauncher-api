@@ -14,20 +14,29 @@ final class Rule {
     private final Action action;
     private final IOperatingSystem restrictedOs;
     private final String restrictedOsVersionPattern;
+    private final String architecture;
     private final Map<String, Boolean> features;
 
     public Rule(JSONObject json) {
         action = Action.valueOf(json.get("action").toString().toUpperCase());
         if (json.containsKey("os")) {
             JSONObject os = (JSONObject) json.get("os");
-            restrictedOs = Platform.osByName(os.get("name").toString());
-            if (json.containsKey("version"))
+            if (os.containsKey("name"))
+                restrictedOs = Platform.osByName(os.get("name").toString());
+            else
+                restrictedOs = null;
+            if (os.containsKey("arch"))
+                architecture = os.get("arch").toString().toUpperCase();
+            else
+                architecture = null;
+            if (os.containsKey("version"))
                 restrictedOsVersionPattern = os.get("version").toString();
             else
                 restrictedOsVersionPattern = null;
         } else {
             restrictedOs = null;
             restrictedOsVersionPattern = null;
+            architecture = null;
         }
         if (json.containsKey("features")) {
             JSONObject featuresMap = (JSONObject) json.get("features");
@@ -81,7 +90,7 @@ final class Rule {
 
         // if there's no OS specified, it applies to all OSs
         if (getRestrictedOs() == null) {
-            return true;
+            return architecture == null || System.getProperty("os.arch").equalsIgnoreCase(architecture);
         } else {
             // if our OS is the restricted OS
             if (getRestrictedOs() == Platform.getCurrentPlatform()) {
