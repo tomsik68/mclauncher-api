@@ -7,19 +7,21 @@ import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.util.IExtractRules;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a library that is needed to run minecraft.
  */
 final class Library {
     private final StringSubstitutor libraryPathSubstitutor = new StringSubstitutor("${%s}");
-    private final String name;
-    private final HashMap<String, String> natives = new HashMap<String, String>();
-    private final RuleList rules;
+    private String name;
+    private final Map<String, String> natives = new HashMap<String, String>();
+    private RuleList rules;
     private LibraryExtractRules extractRules;
-    private final static String LIBRARY_BASE_URL = "https://libraries.minecraft.net/";
-    private String url = LIBRARY_BASE_URL;
+    private Artifact artifact;
+    private Map<String, Artifact> classifiers = new HashMap<>();
 
     public Library(JSONObject json) {
         name = json.get("name").toString();
@@ -35,9 +37,17 @@ final class Library {
         rules = RuleList.fromJson((JSONArray) json.get("rules"));
         if (json.containsKey("extract")) {
             extractRules = new LibraryExtractRules((JSONObject) json.get("extract"));
+        } else {
+            extractRules = null;
         }
-        if (json.containsKey("url")) {
-            url = json.get("url").toString();
+        JSONObject downloads = (JSONObject) json.get("downloads");
+        artifact = Artifact.fromJson((JSONObject) downloads.get("artifact"));
+        if (downloads.containsKey("classifiers")) {
+            JSONObject cls = (JSONObject) downloads.get("classifiers");
+            assert cls != null;
+            for (Map.Entry<String, Object> entry : cls.entrySet()) {
+                classifiers.put(entry.getKey(), Artifact.fromJson((JSONObject)entry.getValue()));
+            }
         }
     }
 
@@ -50,10 +60,13 @@ final class Library {
      * @param os - IOperatingSystem to check
      * @return Name of library which holds natives for given OS
      */
-    public String getNatives(IOperatingSystem os) {
-        if (!natives.containsKey(os.getMinecraftName()))
-            return natives.get(Platform.wrapName(os.getMinecraftName())).replace("${arch}", System.getProperty("sun.arch.data.model"));
-        return natives.get(os.getMinecraftName()).replace("${arch}", os.getArchitecture());
+    public Artifact getNatives(IOperatingSystem os) {
+        String k = null;
+        if (natives.containsKey(os.getMinecraftName()))
+            k = natives.get(os.getMinecraftName()).replace("${arch}", os.getArchitecture());
+        else
+            k = natives.get(Platform.wrapName(os.getMinecraftName())).replace("${arch}", os.getArchitecture());
+        return classifiers.get(k);
     }
 
     /**
@@ -108,11 +121,7 @@ final class Library {
         return extractRules;
     }
 
-    /**
-     *
-     * @return String which contains URL where this library can be downloaded
-     */
-    public String getDownloadURL() {
-        return url.concat(getPath());
+    public Artifact getArtifact() {
+        return artifact;
     }
 }

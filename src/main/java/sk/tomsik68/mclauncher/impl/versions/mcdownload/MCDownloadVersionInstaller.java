@@ -10,9 +10,9 @@ import sk.tomsik68.mclauncher.api.versions.IVersionInstaller;
 import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.util.ExtractUtils;
 import sk.tomsik68.mclauncher.util.FileUtils;
+import sk.tomsik68.mclauncher.util.IExtractRules;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -65,21 +65,25 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
 
         log.fine("Version compatible");
         List<Library> toInstall = version.getLibraries();
-        List<Library> toExtract = new ArrayList<Library>();
+        List<ArchiveAndRules> nativesToExtract = new ArrayList<>();
         log.fine("Fetching libraries...");
         if(haveProgress)
             progress.setStatus("Fetching Libraries...");
-        
+
+        File nativesDir = new File(jarManager.getVersionFolder(version), "natives");
+
         log.fine("Platform: " + Platform.getCurrentPlatform().getDisplayName());
         // install all libraries that are needed
         for (Library lib : toInstall) {
             if (lib.isCompatible()) {
+                log.info("Checking " + lib.getName());
                 if (!libraryProvider.isInstalled(lib)) {
-                    log.finest("Installing " + lib.getName());
+                    log.info("Installing " + lib.getName());
                     if(haveProgress)
                         progress.setStatus("Installing " + lib.getName());
                     try {
-                        downloadLibrary(lib.getDownloadURL(), libraryProvider.getLibraryFile(lib), progress);
+                        log.info("Downloading library " + lib.getName());
+                        downloadLibrary(lib.getArtifact(), libraryProvider.getLibraryFile(lib), progress);
                     } catch (Exception e) {
                         e.printStackTrace();
                         log.finest("Failed to install " + lib.getName());
@@ -87,7 +91,10 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
                 }
                 // if library has natives, it needs to be extracted...
                 if (lib.hasNatives()) {
-                    toExtract.add(lib);
+                    Artifact natives = lib.getNatives(Platform.getCurrentPlatform());
+                    File dest = new File(libraryProvider.getLibraryFile(lib).getParentFile(), "natives.jar");
+                    downloadLibrary(natives, dest, progress);
+                    nativesToExtract.add(new ArchiveAndRules(dest, lib.getExtractRules()));
                 }
             } else {
                 log.finest(lib.getName() + " is not compatible.");
@@ -98,7 +105,6 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         if(haveProgress)
             progress.setStatus("Extracting natives...");
         
-        File nativesDir = new File(jarManager.getVersionFolder(version), "natives");
         // purge old natives if they are present
         if (nativesDir.exists()) {
             File[] contains = nativesDir.listFiles();
@@ -111,9 +117,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
             progress.setStatus("Extracting Libraries...");
         
         // extract the new natives
-        for (Library lib : toExtract) {
-            File libFile = libraryProvider.getLibraryFile(lib);
-            ExtractUtils.extractZipWithRules(libFile, nativesDir, lib.getExtractRules());
+        for (ArchiveAndRules ar : nativesToExtract) {
+            ExtractUtils.extractZipWithRules(ar.getArchive(), nativesDir, ar.getRules());
         }
 
         log.fine("Updating resources...");
@@ -147,13 +152,31 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         resInstaller.installAssetsForVersion(version, progress);
     }
 
-    private void downloadLibrary(String url, File dest, IProgressMonitor p) throws Exception {
-        FileUtils.downloadFileWithProgress(url, dest, p);
+    private void downloadLibrary(Artifact artifact, File dest, IProgressMonitor p) throws Exception {
+        FileUtils.downloadFileWithProgress(artifact.getUrl(), dest, p);
     }
 
     private void notifyListeners(IVersion version) {
         for (IVersionInstallListener listener : listeners) {
             listener.versionInstalled(version);
+        }
+    }
+
+    private static final class ArchiveAndRules {
+        private final File archive;
+        private final IExtractRules rules;
+
+        ArchiveAndRules(File archive, IExtractRules rules) {
+            this.archive = archive;
+            this.rules = rules;
+        }
+
+        public File getArchive() {
+            return archive;
+        }
+
+        public IExtractRules getRules() {
+            return rules;
         }
     }
 
