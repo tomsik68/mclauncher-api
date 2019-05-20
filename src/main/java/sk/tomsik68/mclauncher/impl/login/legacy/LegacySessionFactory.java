@@ -7,6 +7,7 @@ import sk.tomsik68.mclauncher.api.login.LoginException;
 /**
  * Creates LegacySession object using parameters array from login.minecraft.net
  */
+@Deprecated
 final class LegacySessionFactory {
 
     ISession createSession(String[] params) throws Exception {

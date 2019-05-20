@@ -6,6 +6,7 @@ import sk.tomsik68.mclauncher.api.login.ISession.Prop;
 
 import java.util.List;
 
+@Deprecated
 final class LegacySession implements ISession {
     private final String userName, sessionID, uuid, downloadTicket, lastVersion;
 

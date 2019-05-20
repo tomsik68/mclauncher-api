@@ -7,6 +7,7 @@ import sk.tomsik68.mclauncher.util.FileUtils;
 
 import java.io.*;
 
+@Deprecated
 public final class LegacyProfileIO implements IProfileIO {
     private final LegacyLoginEncryptionProcessor proc;
     private final File dest;

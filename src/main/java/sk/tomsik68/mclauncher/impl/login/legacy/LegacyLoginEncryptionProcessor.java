@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Random;
 
+@Deprecated
 final class LegacyLoginEncryptionProcessor {
     private static final int MODE_ENCRYPT = 1;
     private static final int MODE_DECRYPT = 2;
