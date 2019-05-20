@@ -1,5 +1,6 @@
 package sk.tomsik68.mclauncher.util;
 
+import sk.tomsik68.mclauncher.api.ui.DummyProgressMonitor;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 
 import java.io.*;
@@ -25,6 +26,8 @@ public final class FileUtils {
     }
 
     public static void downloadFileWithProgress(String url, File dest, IProgressMonitor progress) throws Exception {
+        if (progress == null)
+            progress = new DummyProgressMonitor();
         // System.out.println("Downloading "+url);
         String md5 = null;
         if (dest.exists()) {
@@ -47,8 +50,7 @@ public final class FileUtils {
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(dest));
 
         final int len = connection.getContentLength();
-        if (progress != null)
-            progress.setMax(len);
+        progress.setMax(len);
 
         int readBytes = 0;
         byte[] block;
@@ -58,8 +60,7 @@ public final class FileUtils {
             int readNow = in.read(block);
             if (readNow > 0)
                 out.write(block, 0, readNow);
-            if (progress != null)
-                progress.setProgress(readBytes);
+            progress.setProgress(readBytes);
             readBytes += readNow;
         }
         out.flush();

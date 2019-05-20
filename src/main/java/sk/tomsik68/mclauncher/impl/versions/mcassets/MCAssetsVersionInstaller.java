@@ -1,6 +1,7 @@
 package sk.tomsik68.mclauncher.impl.versions.mcassets;
 
 import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
+import sk.tomsik68.mclauncher.api.ui.DummyProgressMonitor;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstallListener;
@@ -37,6 +38,8 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
 
     @Override
     public void install(IVersion version, MinecraftInstance mc, IProgressMonitor progress) throws Exception {
+        if (progress == null)
+            progress = new DummyProgressMonitor();
         MCAJarManager jarManager = new MCAJarManager(mc);
         String url = getVersionURL(version.getId());
         // if the jar doesn't exist, download it

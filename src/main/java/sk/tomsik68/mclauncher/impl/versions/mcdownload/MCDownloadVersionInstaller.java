@@ -3,6 +3,7 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 import net.minidev.json.JSONStyle;
 import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
 import sk.tomsik68.mclauncher.api.common.mc.MinecraftInstance;
+import sk.tomsik68.mclauncher.api.ui.DummyProgressMonitor;
 import sk.tomsik68.mclauncher.api.ui.IProgressMonitor;
 import sk.tomsik68.mclauncher.api.versions.IVersion;
 import sk.tomsik68.mclauncher.api.versions.IVersionInstallListener;
@@ -31,8 +32,9 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
 
     @Override
     public void install(IVersion v, MinecraftInstance mc, IProgressMonitor progress) throws Exception {
+        if (progress == null)
+            progress = new DummyProgressMonitor();
         MCDownloadVersionList versionList = new MCDownloadVersionList(mc);
-        final boolean haveProgress = (progress != null);
 
         // create jar manager and library provider as we'll need them
         MCDJarManager jarManager = new MCDJarManager(mc);
@@ -67,8 +69,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         List<Library> toInstall = version.getLibraries();
         List<ArchiveAndRules> nativesToExtract = new ArrayList<>();
         log.fine("Fetching libraries...");
-        if(haveProgress)
-            progress.setStatus("Fetching Libraries...");
+        progress.setStatus("Fetching Libraries...");
 
         File nativesDir = new File(jarManager.getVersionFolder(version), "natives");
 
@@ -79,8 +80,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
                 log.info("Checking " + lib.getName());
                 if (!libraryProvider.isInstalled(lib)) {
                     log.info("Installing " + lib.getName());
-                    if(haveProgress)
-                        progress.setStatus("Installing " + lib.getName());
+                    progress.setStatus("Installing " + lib.getName());
                     try {
                         log.info("Downloading library " + lib.getName());
                         downloadLibrary(lib.getArtifact(), libraryProvider.getLibraryFile(lib), progress);
@@ -102,8 +102,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         }
 
         log.fine("Extracting natives...");
-        if(haveProgress)
-            progress.setStatus("Extracting natives...");
+        progress.setStatus("Extracting natives...");
         
         // purge old natives if they are present
         if (nativesDir.exists()) {
@@ -113,8 +112,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
             }
         }
         log.fine("Extracting libraries...");
-        if(haveProgress)
-            progress.setStatus("Extracting Libraries...");
+        progress.setStatus("Extracting Libraries...");
         
         // extract the new natives
         for (ArchiveAndRules ar : nativesToExtract) {
@@ -122,8 +120,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         }
 
         log.fine("Updating resources...");
-        if(haveProgress)
-            progress.setStatus("Updating Resource...");
+        progress.setStatus("Updating Resource...");
         updateResources(mc, version, progress);
         File jarDest = jarManager.getVersionJAR(version);
         File jsonDest = jarManager.getInfoFile(version);
@@ -135,8 +132,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
         // if this version uses its own jar
         if(version.getJarVersion().equals(version.getId())) {
             // download it
-            if(haveProgress)
-                progress.setStatus("Downloading Game Jar...");
+            progress.setStatus("Downloading Game Jar...");
             try {
                 FileUtils.downloadFileWithProgress(version.getClient().getUrl(), jarDest, progress);
             } catch (Exception e) {
