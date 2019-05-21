@@ -21,7 +21,7 @@ final class Rule {
         this.restrictedOs = restrictedOs;
         this.restrictedOsVersionPattern = restrictedOsVersionPattern;
         this.architecture = architecture;
-        this.features = features;
+        this.features = Collections.unmodifiableMap(features);
     }
 
     static Rule fromJson(JSONObject json) {

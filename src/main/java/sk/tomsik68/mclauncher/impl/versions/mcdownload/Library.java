@@ -7,6 +7,7 @@ import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.util.IExtractRules;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,11 +25,11 @@ final class Library {
 
     private Library(String name, Map<String, String> natives, RuleList rules, IExtractRules extractRules, Artifact artifact, Map<String, Artifact> classifiers) {
         this.name = name;
-        this.natives = natives;
+        this.natives = Collections.unmodifiableMap(natives);
         this.rules = rules;
         this.extractRules = extractRules;
         this.artifact = artifact;
-        this.classifiers = classifiers;
+        this.classifiers = Collections.unmodifiableMap(classifiers);
     }
 
     static Library fromJson(JSONObject json) {

@@ -2,6 +2,7 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 
 import net.minidev.json.JSONObject;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -13,7 +14,7 @@ final class AssetIndex {
 
     private AssetIndex(boolean virtual, String name, Set<Asset> objects) {
         this.virtual = virtual;
-        this.objects = new HashSet<>(objects);
+        this.objects = Collections.unmodifiableSet(objects);
         this.name = name;
     }
 
