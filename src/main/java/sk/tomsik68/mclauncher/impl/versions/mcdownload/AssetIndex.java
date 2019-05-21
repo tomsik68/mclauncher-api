@@ -2,24 +2,30 @@ package sk.tomsik68.mclauncher.impl.versions.mcdownload;
 
 import net.minidev.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 final class AssetIndex {
     private final boolean virtual;
-    private final Set<Asset> objects = new HashSet<Asset>();
+    private final Set<Asset> objects;
     private final String name;
 
-    AssetIndex(String name, JSONObject json) {
+    private AssetIndex(boolean virtual, String name, Set<Asset> objects) {
+        this.virtual = virtual;
+        this.objects = new HashSet<>(objects);
         this.name = name;
-        virtual = json.containsKey("virtual") && Boolean.parseBoolean(json.get("virtual").toString());
+    }
+
+    static AssetIndex fromJson(String name, JSONObject json) {
+        boolean virtual = json.containsKey("virtual") && Boolean.parseBoolean(json.get("virtual").toString());
         JSONObject objsObj = (JSONObject) json.get("objects");
+        Set<Asset> objects = new HashSet<>();
         for (Entry<String, Object> objectEntry : objsObj.entrySet()) {
-            objects.add(new Asset((JSONObject) objectEntry.getValue(), objectEntry.getKey()));
+            objects.add(Asset.fromJson((JSONObject) objectEntry.getValue(), objectEntry.getKey()));
         }
+
+        return new AssetIndex(virtual, name, objects);
     }
 
     Set<Asset> getAssets() {

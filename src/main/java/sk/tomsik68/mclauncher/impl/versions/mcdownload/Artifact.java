@@ -17,7 +17,7 @@ final class Artifact {
         this.totalSize = totalSize;
     }
 
-    public static Artifact fromJson(JSONObject json) {
+    static Artifact fromJson(JSONObject json) {
         Objects.requireNonNull(json);
         Long totalSize = null;
         if (json.containsKey("totalSize"))

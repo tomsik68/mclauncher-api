@@ -10,13 +10,12 @@ final class Argument {
     private final List<String> value;
     private final RuleList rules;
 
-    Argument(List<String> value, RuleList rules) {
+    private Argument(List<String> value, RuleList rules) {
         this.value = Collections.unmodifiableList(value);
         this.rules = rules;
     }
 
     static Argument fromJson(JSONObject json) {
-        // TODO
         RuleList rules = RuleList.fromJson((JSONArray) json.get("rules"));
         Object value = json.get("value");
         List<String> values = new ArrayList<>();

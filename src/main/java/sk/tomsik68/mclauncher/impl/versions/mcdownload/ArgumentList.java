@@ -11,7 +11,6 @@ final class ArgumentList implements Iterable<Argument> {
 
     private ArgumentList(List<Argument> arguments) {
         this.args = Collections.unmodifiableList(arguments);
-
     }
 
     static ArgumentList fromString(String s) {

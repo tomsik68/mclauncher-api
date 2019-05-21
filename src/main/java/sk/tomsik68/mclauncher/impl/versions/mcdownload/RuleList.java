@@ -13,7 +13,7 @@ final class RuleList {
     private final List<Rule> rules;
     private static final RuleList EMPTY = new RuleList(Collections.<Rule>emptyList());
 
-    RuleList(List<Rule> rules) {
+    private RuleList(List<Rule> rules) {
         Objects.requireNonNull(rules);
         this.rules = Collections.unmodifiableList(rules);
     }
@@ -24,7 +24,7 @@ final class RuleList {
 
         List<Rule> rules = new ArrayList<>();
         for (Object r : rulesArray) {
-            rules.add(new Rule((JSONObject) r));
+            rules.add(Rule.fromJson((JSONObject) r));
         }
 
         return new RuleList(rules);

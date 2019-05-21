@@ -55,7 +55,7 @@ final class MCDownloadLocalVersionList extends Observable<String> implements IVe
         }
         File jsonFile = new File(versionFolder, versionFolder.getName().concat(".json"));
         FileReader fileReader = new FileReader(jsonFile);
-        MCDownloadVersion result = new MCDownloadVersion((JSONObject) JSONValue.parse(fileReader));
+        MCDownloadVersion result = MCDownloadVersion.fromJson((JSONObject) JSONValue.parse(fileReader));
         fileReader.close();
         return result;
     }

@@ -7,7 +7,6 @@ import sk.tomsik68.mclauncher.impl.common.Platform;
 import sk.tomsik68.mclauncher.util.IExtractRules;
 import sk.tomsik68.mclauncher.util.StringSubstitutor;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,15 +15,30 @@ import java.util.Map;
  */
 final class Library {
     private final StringSubstitutor libraryPathSubstitutor = new StringSubstitutor("${%s}");
-    private String name;
-    private final Map<String, String> natives = new HashMap<String, String>();
-    private RuleList rules;
-    private LibraryExtractRules extractRules;
-    private Artifact artifact;
-    private Map<String, Artifact> classifiers = new HashMap<>();
+    private final String name;
+    private final Map<String, String> natives;
+    private final RuleList rules;
+    private final IExtractRules extractRules;
+    private final Artifact artifact;
+    private final Map<String, Artifact> classifiers;
 
-    public Library(JSONObject json) {
-        name = json.get("name").toString();
+    private Library(String name, Map<String, String> natives, RuleList rules, IExtractRules extractRules, Artifact artifact, Map<String, Artifact> classifiers) {
+        this.name = name;
+        this.natives = natives;
+        this.rules = rules;
+        this.extractRules = extractRules;
+        this.artifact = artifact;
+        this.classifiers = classifiers;
+    }
+
+    static Library fromJson(JSONObject json) {
+        String name = json.get("name").toString();
+        Map<String, String> natives = new HashMap<>();
+        Map<String, Artifact> classifiers = new HashMap<>();
+        RuleList rules;
+        Artifact artifact;
+        IExtractRules extractRules;
+
         if (json.containsKey("natives")) {
             JSONObject nativesObj = (JSONObject) json.get("natives");
             for (String nativeKey : nativesObj.keySet()) {
@@ -36,7 +50,7 @@ final class Library {
         }
         rules = RuleList.fromJson((JSONArray) json.get("rules"));
         if (json.containsKey("extract")) {
-            extractRules = new LibraryExtractRules((JSONObject) json.get("extract"));
+            extractRules = LibraryExtractRules.fromJson((JSONObject) json.get("extract"));
         } else {
             extractRules = null;
         }
@@ -49,6 +63,8 @@ final class Library {
                 classifiers.put(entry.getKey(), Artifact.fromJson((JSONObject)entry.getValue()));
             }
         }
+
+        return new Library(name, natives, rules, extractRules, artifact, classifiers);
     }
 
     public String getName() {

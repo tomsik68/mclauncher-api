@@ -12,10 +12,16 @@ final class Asset {
     private final String hash, key;
     private final int size;
 
-    Asset(JSONObject obj, String key) {
-        hash = obj.get("hash").toString();
-        size = (Integer) obj.get("size");
+    private Asset(String hash, int size, String key) {
+        this.hash = hash;
+        this.size = size;
         this.key = key;
+    }
+
+    static Asset fromJson(JSONObject json, String key) {
+        String hash = json.get("hash").toString();
+        int size = (Integer) json.get("size");
+        return new Asset(hash,size, key);
     }
 
     /**

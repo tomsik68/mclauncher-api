@@ -7,7 +7,6 @@ import sk.tomsik68.mclauncher.impl.common.Platform;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 final class Rule {
@@ -17,7 +16,20 @@ final class Rule {
     private final String architecture;
     private final Map<String, Boolean> features;
 
-    public Rule(JSONObject json) {
+    private Rule(Action action, IOperatingSystem restrictedOs, String restrictedOsVersionPattern, String architecture, Map<String, Boolean> features) {
+        this.action = action;
+        this.restrictedOs = restrictedOs;
+        this.restrictedOsVersionPattern = restrictedOsVersionPattern;
+        this.architecture = architecture;
+        this.features = features;
+    }
+
+    static Rule fromJson(JSONObject json) {
+        Action action;
+        IOperatingSystem restrictedOs;
+        String restrictedOsVersionPattern;
+        String architecture;
+        Map<String, Boolean> features;
         action = Action.valueOf(json.get("action").toString().toUpperCase());
         if (json.containsKey("os")) {
             JSONObject os = (JSONObject) json.get("os");
@@ -48,6 +60,8 @@ final class Rule {
         } else {
             features = Collections.emptyMap();
         }
+
+        return new Rule(action,restrictedOs,restrictedOsVersionPattern, architecture,features);
     }
 
     public Action getAction() {

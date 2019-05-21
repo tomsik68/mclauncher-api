@@ -27,12 +27,42 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     private final JSONObject json;
     private String incompatibilityReason, inheritsFrom;
     private RuleList rules;
-    private ArrayList<Library> libraries = new ArrayList<Library>();
+    private List<Library> libraries = new ArrayList<Library>();
 
     private boolean needsInheritance;
 
-    MCDownloadVersion(JSONObject json) {
+    private MCDownloadVersion(String id, String time, String releaseTime, String type, String mainClass, String jarVersion, Artifact client, Artifact server, Artifact assetIndex, String assetsIndexName, Integer minimumLauncherVersion, JSONObject json, String incompatibilityReason, String inheritsFrom, RuleList rules, List<Library> libraries) {
+        this.id = id;
+        this.time = time;
+        this.releaseTime = releaseTime;
+        this.type = type;
+        this.mainClass = mainClass;
+        this.jarVersion = jarVersion;
+        this.client = client;
+        this.server = server;
+        this.assetIndex = assetIndex;
+        this.assetsIndexName = assetsIndexName;
+        this.minimumLauncherVersion = minimumLauncherVersion;
         this.json = json;
+        this.incompatibilityReason = incompatibilityReason;
+        this.inheritsFrom = inheritsFrom;
+        this.rules = rules;
+        this.libraries = libraries;
+    }
+
+    static MCDownloadVersion fromJson(JSONObject json) {
+        ArgumentList jvmArgs;
+        ArgumentList gameArgs;
+        String id, time, releaseTime, type, mainClass, jarVersion;
+        Artifact client = null, server = null;
+        Artifact assetIndex;
+        String assetsIndexName;
+        Integer minimumLauncherVersion = null;
+        String incompatibilityReason = "", inheritsFrom = null;
+        RuleList rules;
+        List<Library> libraries = new ArrayList<Library>();
+        boolean needsInheritance;
+
         id = json.get("id").toString();
         if(json.containsKey("jar")) {
             jarVersion = json.get("jar").toString();
@@ -75,7 +105,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         if (json.containsKey("libraries")) {
             JSONArray libs = (JSONArray) json.get("libraries");
             for (int i = 0; i < libs.size(); ++i) {
-                libraries.add(new Library((JSONObject) libs.get(i)));
+                libraries.add(Library.fromJson((JSONObject) libs.get(i)));
             }
         }
 
@@ -92,6 +122,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
             needsInheritance = true;
         } else
             needsInheritance = false;
+        return new MCDownloadVersion(id,time,releaseTime,type,mainClass,jarVersion,client,server,assetIndex,assetsIndexName,minimumLauncherVersion,json,incompatibilityReason,inheritsFrom,rules,libraries);
     }
 
     @Override

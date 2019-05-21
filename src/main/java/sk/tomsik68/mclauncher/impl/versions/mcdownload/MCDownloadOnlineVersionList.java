@@ -47,7 +47,7 @@ final class MCDownloadOnlineVersionList extends Observable<String> implements IV
         String fullVersionJSONString = HttpUtils.httpGet(versionsToUrlMap.get(id));
         JSONObject fullVersionObject = (JSONObject) JSONValue.parse(fullVersionJSONString);
         // ,create a MCDownloadVersion based on it
-        MCDownloadVersion version = new MCDownloadVersion(fullVersionObject);
+        MCDownloadVersion version = MCDownloadVersion.fromJson(fullVersionObject);
         return version;
     }
 

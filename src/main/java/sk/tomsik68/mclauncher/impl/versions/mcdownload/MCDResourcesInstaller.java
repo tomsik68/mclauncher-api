@@ -42,7 +42,7 @@ final class MCDResourcesInstaller {
         FileReader fileReader = new FileReader(indexDest);
         JSONObject jsonAssets = (JSONObject) JSONValue.parse(fileReader);
         fileReader.close();
-        AssetIndex assets = new AssetIndex(indexName, jsonAssets);
+        AssetIndex assets = AssetIndex.fromJson(indexName, jsonAssets);
         // and download individual assets inside it
         downloadAssetList(assets, progress);
         MCLauncherAPI.log.fine("Finished installing asset index ".concat(indexName));
