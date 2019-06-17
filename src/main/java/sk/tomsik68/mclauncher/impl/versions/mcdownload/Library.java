@@ -56,7 +56,10 @@ final class Library {
             extractRules = null;
         }
         JSONObject downloads = (JSONObject) json.get("downloads");
-        artifact = Artifact.fromJson((JSONObject) downloads.get("artifact"));
+        if (downloads.containsKey("artifact"))
+            artifact = Artifact.fromJson((JSONObject) downloads.get("artifact"));
+        else
+            artifact = null;
         if (downloads.containsKey("classifiers")) {
             JSONObject cls = (JSONObject) downloads.get("classifiers");
             assert cls != null;

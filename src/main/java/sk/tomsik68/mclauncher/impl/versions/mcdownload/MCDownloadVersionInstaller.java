@@ -83,7 +83,8 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
                     progress.setStatus("Installing " + lib.getName());
                     try {
                         log.info("Downloading library " + lib.getName());
-                        downloadLibrary(lib.getArtifact(), libraryProvider.getLibraryFile(lib), progress);
+                        if (lib.getArtifact() != null)
+                            downloadLibrary(lib.getArtifact(), libraryProvider.getLibraryFile(lib), progress);
                     } catch (Exception e) {
                         e.printStackTrace();
                         log.finest("Failed to install " + lib.getName());
