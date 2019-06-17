@@ -10,18 +10,18 @@ public final class TestRuleParser {
     @Test
     public void parseRuleWithFeatures() {
         String r = "{ \"action\": \"allow\", \"features\": { \"has_custom_resolution\": true } }";
-        Rule rule = new Rule((JSONObject) JSONValue.parse(r));
+        Rule rule = Rule.fromJson((JSONObject) JSONValue.parse(r));
     }
 
     @Test
     public void parseRuleWithOS() {
         String r = "{\n" + "            \"action\": \"allow\",\n" + "            \"os\": {\n" + "              \"name\": \"osx\"\n" + "            }\n" + "          }\n";
-        Rule rule = new Rule((JSONObject) JSONValue.parse(r));
+        Rule rule = Rule.fromJson((JSONObject) JSONValue.parse(r));
     }
 
     @Test
     public void parseRuleWithArch() {
         String r = "{ \"action\": \"allow\", \"os\": { \"arch\": \"x86\" } }";
-        Rule rule = new Rule((JSONObject) JSONValue.parse(r));
+        Rule rule = Rule.fromJson((JSONObject) JSONValue.parse(r));
     }
 }
