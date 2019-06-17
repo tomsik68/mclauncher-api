@@ -57,6 +57,7 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
     static MCDownloadVersion fromJson(JSONObject json) {
         Builder builder = new Builder();
         builder.id = json.get("id").toString();
+        builder.json = json;
         if(json.containsKey("jar")) {
             builder.jarVersion = json.get("jar").toString();
         } else {
