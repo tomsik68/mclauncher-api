@@ -82,9 +82,10 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
                     log.info("Installing " + lib.getName());
                     progress.setStatus("Installing " + lib.getName());
                     try {
-                        log.info("Downloading library " + lib.getName());
                         if (lib.getArtifact() != null)
                             downloadLibrary(lib.getArtifact(), libraryProvider.getLibraryFile(lib), progress);
+                        else
+                            MCLauncherAPI.log.warning("Skipping library " + lib.getPath() + " as it doesn't supply any artifact");
                     } catch (Exception e) {
                         e.printStackTrace();
                         log.finest("Failed to install " + lib.getName());
@@ -150,6 +151,7 @@ final class MCDownloadVersionInstaller implements IVersionInstaller {
     }
 
     private void downloadLibrary(Artifact artifact, File dest, IProgressMonitor p) throws Exception {
+        MCLauncherAPI.log.info("Downloading library " + dest.getPath());
         FileUtils.downloadFileWithProgress(artifact.getUrl(), dest, p);
     }
 

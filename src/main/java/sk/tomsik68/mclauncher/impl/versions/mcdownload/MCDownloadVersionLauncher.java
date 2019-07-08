@@ -145,7 +145,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
             // each library has to be compatible, installed and allowed by modding profile
             if (lib.isCompatible() && (!moddingProfileSpecified || mods.isLibraryAllowed(lib.getName()))) {
                 if (!libraryProvider.isInstalled(lib)) {
-                    throw new FileNotFoundException("Library file wasn't found");
+                    throw new FileNotFoundException("Library file wasn't found: " + lib.getPath());
                 }
                 MCLauncherAPI.log.finest("Adding ".concat(lib.getName()));
                 librariesString = librariesString.append(libraryProvider.getLibraryFile(lib).getAbsolutePath()).append(
