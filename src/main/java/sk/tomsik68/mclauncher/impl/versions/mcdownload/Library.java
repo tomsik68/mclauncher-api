@@ -15,6 +15,7 @@ import java.util.Map;
  * Represents a library that is needed to run minecraft.
  */
 final class Library {
+    public static final String DEFAULT_LIBS_URL = "https://libraries.minecraft.net/";
     private final StringSubstitutor libraryPathSubstitutor = new StringSubstitutor("${%s}");
     private final String name;
     private final Map<String, String> natives;
@@ -63,7 +64,7 @@ final class Library {
             if (json.containsKey("url")) {
                 artifact = Artifact.fromUrl(json.get("url").toString());
             } else {
-                String url = "https://libraries.minecraft.net/" + nameToPath(name) + ".jar";
+                String url = DEFAULT_LIBS_URL + nameToPath(name) + ".jar";
                 artifact = Artifact.fromUrl(url);
             }
         }
