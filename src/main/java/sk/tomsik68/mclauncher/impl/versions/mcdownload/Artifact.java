@@ -25,6 +25,12 @@ final class Artifact {
         return new Artifact(json.get("url").toString(), json.get("sha1").toString(), Long.parseLong(json.get("size").toString()), totalSize);
     }
 
+    static Artifact fromUrl(String url) {
+        Objects.requireNonNull(url);
+
+        return new Artifact(url, "", 0, 0l);
+    }
+
     public String getUrl() {
         return url;
     }

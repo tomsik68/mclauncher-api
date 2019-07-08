@@ -55,12 +55,21 @@ final class Library {
         } else {
             extractRules = null;
         }
+
         JSONObject downloads = (JSONObject) json.get("downloads");
-        if (downloads.containsKey("artifact"))
+        if (downloads != null && downloads.containsKey("artifact")) {
             artifact = Artifact.fromJson((JSONObject) downloads.get("artifact"));
-        else
-            artifact = null;
-        if (downloads.containsKey("classifiers")) {
+        } else {
+            if (json.containsKey("url")) {
+                artifact = Artifact.fromUrl(json.get("url").toString());
+            } else {
+                String url = "https://libraries.minecraft.net/" + nameToPath(name) + ".jar";
+                artifact = Artifact.fromUrl(url);
+            }
+        }
+
+
+        if (downloads != null && downloads.containsKey("classifiers")) {
             JSONObject cls = (JSONObject) downloads.get("classifiers");
             assert cls != null;
             for (Map.Entry<String, Object> entry : cls.entrySet()) {
@@ -89,6 +98,17 @@ final class Library {
         return classifiers.get(k);
     }
 
+    private static String nameToPath(String name) {
+        StringBuilder result = new StringBuilder();
+        String[] split = name.split(":");
+
+        result = result.append(split[0].replace('.', '/'));// net/sf/jopt-simple
+        result = result.append('/').append(split[1]).append('/').append(split[2]).append('/'); // /jopt-simple/4.4/
+        result = result.append(split[1]).append('-').append(split[2]); // jopt-simple-4.4
+
+        return result.toString();
+    }
+
     /**
      * Returns relative path of library as string. Relative path is used in URLs, file paths.
      * You can read more about this on wiki...
@@ -96,12 +116,9 @@ final class Library {
      */
     public String getPath() {
         libraryPathSubstitutor.setVariable("arch", Platform.getCurrentPlatform().getArchitecture());
-        String[] split = name.split(":");
-        StringBuilder result = new StringBuilder();
 
-        result = result.append(split[0].replace('.', '/'));// net/sf/jopt-simple
-        result = result.append('/').append(split[1]).append('/').append(split[2]).append('/'); // /jopt-simple/4.4/
-        result = result.append(split[1]).append('-').append(split[2]); // jopt-simple-4.4
+        StringBuilder result = new StringBuilder(nameToPath(name));
+
         if (!natives.isEmpty()) {
             IOperatingSystem os = Platform.getCurrentPlatform();
             String osName = os.getMinecraftName();
