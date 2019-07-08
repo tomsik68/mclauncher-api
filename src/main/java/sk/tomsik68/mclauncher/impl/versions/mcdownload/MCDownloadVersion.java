@@ -66,7 +66,9 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         builder.time = json.get("time").toString();
         builder.releaseTime = json.get("releaseTime").toString();
         builder.type = json.get("type").toString();
-        builder.assetsIndexName = json.get("assets").toString();
+        if (json.containsKey("assets")) {
+            builder.assetsIndexName = json.get("assets").toString();
+        }
 
         if (json.containsKey("processArguments")) {
             builder.jvmArgs = ArgumentList.fromString(json.get("processArguments").toString());
@@ -93,7 +95,9 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         if (json.containsKey("minimumLauncherVersion"))
             builder.minimumLauncherVersion = Integer.parseInt(json.get("minimumLauncherVersion").toString());
         builder.mainClass = json.get("mainClass").toString();
-        builder.assetIndex = Artifact.fromJson((JSONObject) json.get("assetIndex"));
+        if (json.containsKey("assetIndex")) {
+            builder.assetIndex = Artifact.fromJson((JSONObject) json.get("assetIndex"));
+        }
         builder.rules = RuleList.fromJson((JSONArray) json.get("rules"));
 
         if (json.containsKey("libraries")) {
