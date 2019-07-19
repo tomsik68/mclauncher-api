@@ -33,15 +33,19 @@ final class RuleList {
     boolean allows(IOperatingSystem os, String version, IFeaturePredicate featurePred) {
         Objects.requireNonNull(featurePred);
 
-        if (rules.isEmpty())
+        if (rules.isEmpty()) {
             return true;
-
-        for (Rule rule : rules) {
-            if (rule.applies(featurePred))
-                return rule.getAction() == Rule.Action.ALLOW;
         }
 
-        return false;
+        boolean isAllowed = false;
+
+        for (Rule rule : rules) {
+            if (rule.applies(featurePred)) {
+                isAllowed = (rule.getAction() == Rule.Action.ALLOW);
+            }
+        }
+
+        return isAllowed;
 
     }
 
