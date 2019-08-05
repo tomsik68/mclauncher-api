@@ -38,7 +38,7 @@ final class Library {
         Map<String, String> natives = new HashMap<>();
         Map<String, Artifact> classifiers = new HashMap<>();
         RuleList rules;
-        Artifact artifact;
+        Artifact artifact = null;
         IExtractRules extractRules;
 
         if (json.containsKey("natives")) {
@@ -63,7 +63,7 @@ final class Library {
         } else {
             if (json.containsKey("url")) {
                 artifact = Artifact.fromUrl(json.get("url").toString());
-            } else {
+            } else if(downloads == null) {
                 String url = DEFAULT_LIBS_URL + nameToPath(name) + ".jar";
                 artifact = Artifact.fromUrl(url);
             }
