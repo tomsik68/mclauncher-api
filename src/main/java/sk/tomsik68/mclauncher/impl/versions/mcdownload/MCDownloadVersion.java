@@ -110,7 +110,9 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
         if (json.containsKey("downloads")) {
             JSONObject downloads = (JSONObject) json.get("downloads");
             builder.client = Artifact.fromJson((JSONObject) downloads.get("client"));
-            builder.server = Artifact.fromJson((JSONObject) downloads.get("server"));
+            // old_alpha versions do not provide server binaries
+            if (downloads.containsKey("server"))
+                builder.server = Artifact.fromJson((JSONObject) downloads.get("server"));
         }
 
         if (json.containsKey("incompatibilityReason"))
