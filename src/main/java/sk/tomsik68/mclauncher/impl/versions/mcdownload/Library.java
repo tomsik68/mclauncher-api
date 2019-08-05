@@ -61,10 +61,13 @@ final class Library {
         if (downloads != null && downloads.containsKey("artifact")) {
             artifact = Artifact.fromJson((JSONObject) downloads.get("artifact"));
         } else {
+            String rootUrl = DEFAULT_LIBS_URL;
             if (json.containsKey("url")) {
-                artifact = Artifact.fromUrl(json.get("url").toString());
-            } else if(downloads == null) {
-                String url = DEFAULT_LIBS_URL + nameToPath(name) + ".jar";
+                rootUrl = json.get("url").toString();
+            }
+
+            if(downloads == null) {
+                String url = rootUrl + nameToPath(name) + ".jar";
                 artifact = Artifact.fromUrl(url);
             }
         }
