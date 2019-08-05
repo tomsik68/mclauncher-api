@@ -143,7 +143,7 @@ final class MCDownloadVersionLauncher implements IVersionLauncher {
         //// now add library files
         for (Library lib : version.getLibraries()) {
             // each library has to be compatible, installed and allowed by modding profile
-            if (lib.isCompatible() && (!moddingProfileSpecified || mods.isLibraryAllowed(lib.getName()))) {
+            if (lib.getArtifact() != null && lib.isCompatible() && (!moddingProfileSpecified || mods.isLibraryAllowed(lib.getName()))) {
                 if (!libraryProvider.isInstalled(lib)) {
                     throw new FileNotFoundException("Library file wasn't found: " + lib.getPath());
                 }
