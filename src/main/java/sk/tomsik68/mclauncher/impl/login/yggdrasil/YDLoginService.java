@@ -22,11 +22,33 @@ import sk.tomsik68.mclauncher.util.HttpUtils;
 
 public final class YDLoginService implements ILoginService {
     public static UUID clientToken = UUID.randomUUID();
-    private static final String PASSWORD_LOGIN_URL = "https://authserver.mojang.com/authenticate";
-    private static final String SESSION_LOGIN_URL = "https://authserver.mojang.com/refresh";
-    private static final String SESSION_LOGOUT_URL = "https://authserver.mojang.com/invalidate";
+    private static String PASSWORD_LOGIN_URL = "https://authserver.mojang.com/authenticate";
+    private static String SESSION_LOGIN_URL = "https://authserver.mojang.com/refresh";
+    private static String SESSION_LOGOUT_URL = "https://authserver.mojang.com/invalidate";
 
     public YDLoginService() {
+    }
+    
+    /**
+     * Constructor for debug/custom auth url.
+     * If argument is null, use default value
+     *
+     * @param passwordLoginUrl url for pass login and password
+     * @param sessionLoginUrl url for login by session (or refresh)
+     * @param sessionLogoutUrl url for logout by session
+     */
+    public YDLoginService(@Nullable String passwordLoginUrl,
+                          @Nullable String sessionLoginUrl,
+                          @Nullable String sessionLogoutUrl) {
+        if (passwordLoginUrl != null) {
+            PASSWORD_LOGIN_URL = passwordLoginUrl;
+        }
+        if (sessionLoginUrl != null) {
+            SESSION_LOGIN_URL = sessionLoginUrl;
+        }
+        if (sessionLogoutUrl != null) {
+            SESSION_LOGOUT_URL = sessionLogoutUrl;
+        }
     }
 
     @Override
@@ -38,12 +60,12 @@ public final class YDLoginService implements ILoginService {
         }
         else if(profile instanceof YDAuthProfile) {
             response = doSessionLogin(profile);
-        
+
         } else {
             throw new IllegalArgumentException("YDLoginService can't deal with custom profile class: " + profile.getClass().getName());
-        
+
         }
-        
+
         MCLauncherAPI.log.fine("Login successful. Updating profile...");
         YDSession result = new YDSession(response);
         if(profile instanceof YDAuthProfile)
@@ -75,12 +97,12 @@ public final class YDLoginService implements ILoginService {
 
 		JSONObject jsonObject = (JSONObject)JSONValue.parse(jsonString);
         YDLoginResponse response = new YDLoginResponse(jsonObject);
-        
+
         if(response.getError() != null) {
             MCLauncherAPI.log.fine("Login response error. JSON STRING: '".concat(jsonString).concat("'"));
 			throw new YDServiceAuthenticationException("Authentication Failed: " + response.getMessage(),
 					new LoginException("Error ".concat(response.getError()).concat(" : ").concat(response.getMessage())));
-		
+
         }
         return response;
     }
