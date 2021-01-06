@@ -71,9 +71,8 @@ public final class FileUtils {
         createFileSafely(to);
         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(from));
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(to));
-        byte[] block;
+        byte[] block = new byte[8192];
         while (bis.available() > 0) {
-            block = new byte[8192];
             final int readNow = bis.read(block);
             bos.write(block, 0, readNow);
         }
