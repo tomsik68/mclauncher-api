@@ -61,6 +61,9 @@ public final class FileUtils {
                 out.write(block, 0, readNow);
             progress.setProgress(readBytes);
             readBytes += readNow;
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
         }
         out.flush();
         out.close();
