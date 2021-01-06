@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.UUID;
 
+import com.sun.istack.internal.NotNull;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.JSONValue;
@@ -22,33 +23,52 @@ import sk.tomsik68.mclauncher.util.HttpUtils;
 
 public final class YDLoginService implements ILoginService {
     public static UUID clientToken = UUID.randomUUID();
-    private static String PASSWORD_LOGIN_URL = "https://authserver.mojang.com/authenticate";
-    private static String SESSION_LOGIN_URL = "https://authserver.mojang.com/refresh";
-    private static String SESSION_LOGOUT_URL = "https://authserver.mojang.com/invalidate";
+    private final String PASSWORD_LOGIN_URL;
+    private final String SESSION_LOGIN_URL;
+    private final String SESSION_LOGOUT_URL;
 
+    /**
+     * Keep for back-capability
+     * Will be removed in the future!
+     *
+     * @deprecated use #mojang() static method please
+     */
+    @Deprecated
     public YDLoginService() {
+        this("https://authserver.mojang.com/");
     }
-    
+
+    /**
+     * Create instance YDLoginService with default Mojang auth server
+     *
+     * @return YDLoginService new instance
+     */
+    public static YDLoginService mojang() {
+        return new YDLoginService("https://authserver.mojang.com/");
+    }
+
+    /**
+     * Create instance YDLoginService with default Mojang auth server
+     * baseUrl + authenticate
+     * baseUrl + refresh
+     * baseUrl + invalidate
+     *
+     * @see YDLoginService#mojang() also
+     * @param baseUrl start url for auth path
+     * @return YDLoginService new instance
+     */
+    public static YDLoginService custom(@NotNull String baseUrl) {
+        return new YDLoginService(baseUrl);
+    }
+
     /**
      * Constructor for debug/custom auth url.
      * If argument is null, use default value
-     *
-     * @param passwordLoginUrl url for pass login and password
-     * @param sessionLoginUrl url for login by session (or refresh)
-     * @param sessionLogoutUrl url for logout by session
      */
-    public YDLoginService(@Nullable String passwordLoginUrl,
-                          @Nullable String sessionLoginUrl,
-                          @Nullable String sessionLogoutUrl) {
-        if (passwordLoginUrl != null) {
-            PASSWORD_LOGIN_URL = passwordLoginUrl;
-        }
-        if (sessionLoginUrl != null) {
-            SESSION_LOGIN_URL = sessionLoginUrl;
-        }
-        if (sessionLogoutUrl != null) {
-            SESSION_LOGOUT_URL = sessionLogoutUrl;
-        }
+    private YDLoginService(@NotNull String baseUrl) {
+        PASSWORD_LOGIN_URL = baseUrl + "authenticate";
+        SESSION_LOGIN_URL = baseUrl + "refresh";
+        SESSION_LOGOUT_URL = baseUrl + "invalidate";
     }
 
     @Override
