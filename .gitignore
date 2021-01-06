@@ -1,6 +1,7 @@
 /META-INF
 /minecraft.src
 *.txt
+*.zip
 /savetest
 /savetest-json
 /testmc/*
