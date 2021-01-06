@@ -53,15 +53,17 @@ public final class FileUtils {
         progress.setMax(len);
 
         int readBytes = 0;
-        byte[] block;
+        byte[] block = new byte[8192];
 
         while (readBytes < len) {
-            block = new byte[8192];
             int readNow = in.read(block);
             if (readNow > 0)
                 out.write(block, 0, readNow);
             progress.setProgress(readBytes);
             readBytes += readNow;
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
         }
         out.flush();
         out.close();
@@ -72,9 +74,8 @@ public final class FileUtils {
         createFileSafely(to);
         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(from));
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(to));
-        byte[] block;
+        byte[] block = new byte[8192];
         while (bis.available() > 0) {
-            block = new byte[8192];
             final int readNow = bis.read(block);
             bos.write(block, 0, readNow);
         }
