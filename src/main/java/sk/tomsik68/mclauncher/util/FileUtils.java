@@ -53,7 +53,7 @@ public final class FileUtils {
         progress.setMax(len);
 
         int readBytes = 0;
-        byte[] block = new byte[524_288]; // 524 KB
+        byte[] block = new byte[8192];
 
         while (readBytes < len) {
             int readNow = in.read(block);
