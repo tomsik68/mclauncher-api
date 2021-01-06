@@ -38,12 +38,12 @@ public final class YDLoginService implements ILoginService {
         }
         else if(profile instanceof YDAuthProfile) {
             response = doSessionLogin(profile);
-        
+
         } else {
             throw new IllegalArgumentException("YDLoginService can't deal with custom profile class: " + profile.getClass().getName());
-        
+
         }
-        
+
         MCLauncherAPI.log.fine("Login successful. Updating profile...");
         YDSession result = new YDSession(response);
         if(profile instanceof YDAuthProfile)
@@ -75,12 +75,13 @@ public final class YDLoginService implements ILoginService {
 
 		JSONObject jsonObject = (JSONObject)JSONValue.parse(jsonString);
         YDLoginResponse response = new YDLoginResponse(jsonObject);
-        
+
         if(response.getError() != null) {
             MCLauncherAPI.log.fine("Login response error. JSON STRING: '".concat(jsonString).concat("'"));
 			throw new YDServiceAuthenticationException("Authentication Failed: " + response.getMessage(),
-					new LoginException("Error ".concat(response.getError()).concat(" : ").concat(response.getMessage())));
-		
+					new LoginException("Error ".concat(response.getError()).concat(" : ").concat(response.getMessage())),
+                    response);
+
         }
         return response;
     }
