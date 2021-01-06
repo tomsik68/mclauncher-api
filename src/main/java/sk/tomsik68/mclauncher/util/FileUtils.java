@@ -53,10 +53,9 @@ public final class FileUtils {
         progress.setMax(len);
 
         int readBytes = 0;
-        byte[] block;
+        byte[] block = new byte[524_288]; // 524 KB
 
         while (readBytes < len) {
-            block = new byte[8192];
             int readNow = in.read(block);
             if (readNow > 0)
                 out.write(block, 0, readNow);
