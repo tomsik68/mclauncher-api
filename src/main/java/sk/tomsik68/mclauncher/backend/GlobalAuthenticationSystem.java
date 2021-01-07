@@ -43,7 +43,7 @@ public final class GlobalAuthenticationSystem {
     public static ISession login(String profileName) throws Exception {
         // initialise login service in the working directory
         File workingDirectory = Platform.getCurrentPlatform().getWorkingDirectory();
-        YDLoginService loginService = new YDLoginService();
+        YDLoginService loginService = YDLoginService.mojang();
         loginService.load(workingDirectory);
 
         // read profiles
@@ -82,7 +82,7 @@ public final class GlobalAuthenticationSystem {
     public static ISession doPasswordLogin(String username, String password) throws Exception {
         // initialise login service in the working directory
         File workingDirectory = Platform.getCurrentPlatform().getWorkingDirectory();
-        YDLoginService loginService = new YDLoginService();
+        YDLoginService loginService = YDLoginService.mojang();
         try {
             loginService.load(workingDirectory);
         } catch (FileNotFoundException ex) {
