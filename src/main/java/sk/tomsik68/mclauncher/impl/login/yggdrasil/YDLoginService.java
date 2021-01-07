@@ -91,7 +91,6 @@ public final class YDLoginService implements ILoginService {
         if(profile instanceof YDAuthProfile)
             ((YDAuthProfile)profile).update(result);
         return result;
-      
     }
 
     public IProfile createProfile(ISession session){
