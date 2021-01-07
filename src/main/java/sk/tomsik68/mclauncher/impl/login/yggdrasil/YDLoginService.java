@@ -23,9 +23,9 @@ import sk.tomsik68.mclauncher.util.HttpUtils;
 
 public final class YDLoginService implements ILoginService {
     public static UUID clientToken = UUID.randomUUID();
-    private final String PASSWORD_LOGIN_URL;
-    private final String SESSION_LOGIN_URL;
-    private final String SESSION_LOGOUT_URL;
+    private final String passwordLoginUrl;
+    private final String sessionLoginUrl;
+    private final String sessionLogoutUrl;
 
     /**
      * Keep for back-capability
@@ -66,9 +66,9 @@ public final class YDLoginService implements ILoginService {
      * If argument is null, use default value
      */
     private YDLoginService(@NotNull String baseUrl) {
-        PASSWORD_LOGIN_URL = baseUrl + "authenticate";
-        SESSION_LOGIN_URL = baseUrl + "refresh";
-        SESSION_LOGOUT_URL = baseUrl + "invalidate";
+        passwordLoginUrl = baseUrl + "authenticate";
+        sessionLoginUrl = baseUrl + "refresh";
+        sessionLogoutUrl = baseUrl + "invalidate";
     }
 
     @Override
@@ -131,7 +131,7 @@ public final class YDLoginService implements ILoginService {
         MCLauncherAPI.log.fine("Using session ID login");
         YDSessionLoginRequest request = new YDSessionLoginRequest(profile.getPassword(), clientToken.toString());
 
-        YDLoginResponse response = doCheckedLoginPost(SESSION_LOGIN_URL, request);
+        YDLoginResponse response = doCheckedLoginPost(sessionLoginUrl, request);
 
         return response;
     }
@@ -140,7 +140,7 @@ public final class YDLoginService implements ILoginService {
         MCLauncherAPI.log.fine("Using password-based login");
         YDPasswordLoginRequest request = new YDPasswordLoginRequest(profile.getName(), profile.getPassword(), clientToken.toString());
 
-        YDLoginResponse response = doCheckedLoginPost(PASSWORD_LOGIN_URL, request);
+        YDLoginResponse response = doCheckedLoginPost(passwordLoginUrl, request);
 
         return response;
     }
@@ -192,7 +192,7 @@ public final class YDLoginService implements ILoginService {
     @Override
     public void logout(ISession session) throws Exception {
         YDLogoutRequest request = new YDLogoutRequest(session, clientToken);
-        String response = doLoginPost(SESSION_LOGOUT_URL, request);
+        String response = doLoginPost(sessionLogoutUrl, request);
         if("".equals(response)) {
             MCLauncherAPI.log.fine("Logout successful.");
         } else {
