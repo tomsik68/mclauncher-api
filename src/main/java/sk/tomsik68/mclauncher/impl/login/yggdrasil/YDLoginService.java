@@ -91,6 +91,7 @@ public final class YDLoginService implements ILoginService {
         if(profile instanceof YDAuthProfile)
             ((YDAuthProfile)profile).update(result);
         return result;
+      
     }
 
     public IProfile createProfile(ISession session){
@@ -121,8 +122,8 @@ public final class YDLoginService implements ILoginService {
         if(response.getError() != null) {
             MCLauncherAPI.log.fine("Login response error. JSON STRING: '".concat(jsonString).concat("'"));
 			throw new YDServiceAuthenticationException("Authentication Failed: " + response.getMessage(),
-					new LoginException("Error ".concat(response.getError()).concat(" : ").concat(response.getMessage())));
-
+					new LoginException("Error ".concat(response.getError()).concat(" : ").concat(response.getMessage())),
+                    response);
         }
         return response;
     }
