@@ -1,6 +1,7 @@
 package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
-import com.sun.istack.internal.Nullable;
+
+import org.jetbrains.annotations.Nullable;
 
 public class YDServiceAuthenticationException extends Exception {
 	private Exception thrown;

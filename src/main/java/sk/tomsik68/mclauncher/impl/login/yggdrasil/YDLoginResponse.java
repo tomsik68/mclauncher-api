@@ -1,8 +1,8 @@
 package sk.tomsik68.mclauncher.impl.login.yggdrasil;
 
-import com.sun.istack.internal.Nullable;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
