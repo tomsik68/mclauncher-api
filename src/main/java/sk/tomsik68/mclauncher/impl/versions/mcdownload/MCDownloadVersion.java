@@ -221,11 +221,17 @@ final class MCDownloadVersion implements IVersion, IJSONSerializable {
             throw new IllegalArgumentException("Wrong inheritance version passed!");
         }
 
-        if(gameArgs.isEmpty())
+        if(gameArgs.isEmpty()) {
             gameArgs = parent.gameArgs;
+        } else {
+            gameArgs = gameArgs.plus(parent.gameArgs);
+        }
 
-        if (jvmArgs.isEmpty())
+        if (jvmArgs.isEmpty()) {
             jvmArgs = parent.jvmArgs;
+        } else {
+            jvmArgs = jvmArgs.plus(parent.jvmArgs);
+        }
 
         if(minimumLauncherVersion == null)
             minimumLauncherVersion = parent.getMinimumLauncherVersion();
