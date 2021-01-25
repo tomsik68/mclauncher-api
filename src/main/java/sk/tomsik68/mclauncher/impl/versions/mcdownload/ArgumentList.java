@@ -45,4 +45,10 @@ final class ArgumentList implements Iterable<Argument> {
     public Iterator<Argument> iterator() {
         return args.iterator();
     }
+
+    public ArgumentList plus(ArgumentList source) {
+        final List<Argument> newList = new ArrayList<>(this.args);
+        newList.addAll(source.args);
+        return new ArgumentList(newList);
+    }
 }
