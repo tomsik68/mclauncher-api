@@ -1,9 +1,6 @@
 package sk.tomsik68.mclauncher.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -53,7 +50,11 @@ public final class ExtractUtils {
             destFile.getParentFile().mkdirs();
             destFile.createNewFile();
             BufferedInputStream bis = new BufferedInputStream(zf.getInputStream(zipEntry));
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(dir, zipEntry.getName())));
+            final File zipEntryFile = new File(dir, zipEntry.getName());
+            if (!zipEntryFile.toPath().normalize().startsWith(dir.toPath().normalize())) {
+                throw new IOException("Bad zip entry");
+            }
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(zipEntryFile));
             long available = bis.available();
             long red = 0;
             byte[] block;
