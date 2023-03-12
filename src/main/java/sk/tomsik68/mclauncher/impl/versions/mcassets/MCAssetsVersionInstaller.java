@@ -19,8 +19,8 @@ import java.util.List;
 @Deprecated
 public final class MCAssetsVersionInstaller implements IVersionInstaller {
     private final ArrayList<IVersionInstallListener> listeners = new ArrayList<IVersionInstallListener>();
-    private static final String LWJGL_DOWNLOAD_URL = "http://kent.dl.sourceforge.net/project/java-game-lib/Official%20Releases/LWJGL%202.9.0/lwjgl-2.9.0.zip";
-    private static final String RESOURCES_DOWNLOAD_URL = "http://s3.amazonaws.com/MinecraftResources/";
+    private static final String LWJGL_DOWNLOAD_URL = "https://kent.dl.sourceforge.net/project/java-game-lib/Official%20Releases/LWJGL%202.9.0/lwjgl-2.9.0.zip";
+    private static final String RESOURCES_DOWNLOAD_URL = "https://s3.amazonaws.com/MinecraftResources/";
 
     public MCAssetsVersionInstaller() {
 
@@ -119,7 +119,7 @@ public final class MCAssetsVersionInstaller implements IVersionInstaller {
     }
 
     private String getVersionURL(String id) {
-        return "http://assets.minecraft.net/" + id + "/minecraft.jar";
+        return "https://assets.minecraft.net/" + id + "/minecraft.jar";
     }
 
     @Override

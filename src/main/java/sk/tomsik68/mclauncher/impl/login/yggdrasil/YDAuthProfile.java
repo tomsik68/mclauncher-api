@@ -13,7 +13,7 @@ public final class YDAuthProfile implements IProfile, IJSONSerializable {
     private String accessToken;
     private String profileName = "(Default)";
 
-    private final String SKINS_ROOT = "http://skins.minecraft.net/MinecraftSkins/";
+    private final String SKINS_ROOT = "https://skins.minecraft.net/MinecraftSkins/";
 
     public YDAuthProfile(String name, String displayName, String sessid, String uuid, String userId) {
         this.userName = name;

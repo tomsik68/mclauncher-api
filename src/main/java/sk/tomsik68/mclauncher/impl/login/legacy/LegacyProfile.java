@@ -9,7 +9,7 @@ public final class LegacyProfile implements IProfile {
     private String pass;
     private String name;
 
-    private final String SKINS_ROOT = "http://skins.minecraft.net/MinecraftSkins/";
+    private final String SKINS_ROOT = "https://skins.minecraft.net/MinecraftSkins/";
 
     public LegacyProfile(String username, String password) {
         name = username;
