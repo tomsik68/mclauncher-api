@@ -7,7 +7,7 @@ import sk.tomsik68.mclauncher.api.common.MCLauncherAPI;
  * Represents a single Asset. It may be a sound file, texture, language file etc.
  */
 final class Asset {
-    private static final String RESOURCES_URL = "http://resources.download.minecraft.net/";
+    private static final String RESOURCES_URL = "https://resources.download.minecraft.net/";
 
     private final String hash, key;
     private final int size;

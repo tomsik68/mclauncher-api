@@ -1,6 +1,5 @@
 package sk.tomsik68.mclauncher.impl.servers;
 
-import com.sun.corba.se.spi.activation.Server;
 import sk.tomsik68.mclauncher.api.servers.ServerInfo;
 
 import java.io.ByteArrayOutputStream;

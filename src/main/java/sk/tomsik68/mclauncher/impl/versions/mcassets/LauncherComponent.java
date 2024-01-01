@@ -64,7 +64,7 @@ final class LauncherComponent extends Applet implements AppletStub {
 
     public URL getDocumentBase() {
         try {
-            return new URL("http://www.minecraft.net/game/");
+            return new URL("https://www.minecraft.net/game/");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

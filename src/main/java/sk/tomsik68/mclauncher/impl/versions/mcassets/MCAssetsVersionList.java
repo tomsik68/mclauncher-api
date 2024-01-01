@@ -27,7 +27,7 @@ public final class MCAssetsVersionList extends Observable<String> implements IVe
 
     @Override
     public void startDownload() throws Exception {
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse("http://assets.minecraft.net/");
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse("https://assets.minecraft.net/");
         for (int i = 0; i < doc.getElementsByTagName("ListBucketResult").item(0).getChildNodes().getLength(); i++) {
             Node node = doc.getElementsByTagName("ListBucketResult").item(0).getChildNodes().item(i);
             if ((node != null) && ("Contents".equalsIgnoreCase(node.getNodeName())) && (node.getChildNodes().getLength() > 0))
